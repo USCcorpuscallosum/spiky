@@ -5,6 +5,7 @@
 
 class MusicAnalysis{
 public:
+    MusicAnalysis(string filename);
     float getVolume();
     float getPitch();
     float getBeat();
