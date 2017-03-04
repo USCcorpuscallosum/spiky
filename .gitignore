@@ -139,6 +139,15 @@ Desktop.ini
 #########################
 # miscellaneous
 #########################
+.gitignore_BACKUP_11176
+.gitignore_BACKUP_11640
+.gitignore_BASE_11176
+.gitignore_BASE_11640
+.gitignore_LOCAL_11176
+.gitignore_LOCAL_11640
+.gitignore_REMOTE_11176
+.gitignore_REMOTE_11640
+
 
 .mailmap
 /apps*/
