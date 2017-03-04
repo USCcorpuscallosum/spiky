@@ -1,0 +1,12 @@
+.vs
+AudioTerrainTransformer.VC.VC.opendb
+AudioTerrainTransformer.VC.db
+AudioTerrainTransformer.sln
+AudioTerrainTransformer.vcxproj
+AudioTerrainTransformer.vcxproj.filters
+AudioTerrainTransformer.vcxproj.user
+Terrain.cpp
+Terrain.h
+addons.make
+icon.rc
+obj
