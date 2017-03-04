@@ -9,7 +9,9 @@ public:
 	void changeColor();
 	void changeHeihgt();
 	void draw();
+    void getColor();
 private:
 	ofMesh mesh;
 	MusicAnalysis* musicAnalysis;
+    ofColor color;
 };
