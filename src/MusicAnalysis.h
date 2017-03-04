@@ -1,7 +1,7 @@
 #pragma once
-#include "ofMain.h"
 #ifndef MUSICANALYSIS_H
 #define MUSICANALYSIS_H
+#include "ofMain.h"
 
 class MusicAnalysis{
 public:

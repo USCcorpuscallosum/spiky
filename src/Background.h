@@ -4,10 +4,11 @@
 class Background
 {
 public:
-	Background(MusicAnalysis*);
+	Background(MusicAnalysis* musicAnalysis);
 	void changeBackground();
 private:
 	ofColor color;
 	ofImage backgroundImage;
 	MusicAnalysis* musicAnalysis;
+    Terrain* terrain;
 };
