@@ -1,22 +1,22 @@
 #include "Terrain.h"
 #include "ofMain.h"
 
-Terrain::Terrain(musicAnalysis*)
+void Terrain::Terrain(musicAnalysis*)
 {
 
 }
 
-Terrain::changeColor()
+void Terrain::changeColor()
 {
 
 }
 
-Terrain::changeHeihgt()
+void Terrain::changeHeihgt()
 {
 
 }
 
-Terrain::draw()
+void Terrain::draw()
 {
 
 }

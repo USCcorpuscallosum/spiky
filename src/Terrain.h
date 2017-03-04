@@ -6,9 +6,9 @@ class Terrain
 {
 public:
 	Terrain(musicAnalysis*);
-	changeColor();
-	changeHeihgt();
-	draw();
+	void changeColor();
+	void changeHeihgt();
+	void draw();
 private:
 	ofMesh mesh;
 	MusicAnalysis* musicAnalysis;
