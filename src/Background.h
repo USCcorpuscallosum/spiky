@@ -4,7 +4,7 @@
 class Background
 {
 public:
-	Background(musicAnalysis*);
+	Background(MusicAnalysis*);
 	void changeBackground();
 private:
 	ofColor color;
