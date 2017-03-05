@@ -10,7 +10,7 @@ class MusicAnalysis;
 class Background
 {
 public:
-	Background(MusicAnalysis*);
+	Background();
 	void changeBackground();
 
 private:

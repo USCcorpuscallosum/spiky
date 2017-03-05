@@ -1,7 +1,6 @@
 #include "Background.h"
 
-Background::Background(MusicAnalysis* analysis)
-	: musicAnalysis(analysis)
+Background::Background()
 {
     ofBackground(ofColor::lavender);
 }

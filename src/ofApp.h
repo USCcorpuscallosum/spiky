@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ofMain.h"
+#include "Background.h"
 
 class ofApp : public ofBaseApp {
 public:
@@ -20,4 +21,5 @@ public:
 	void dragEvent(ofDragInfo dragInfo);
 	void gotMessage(ofMessage msg);
 
+    Background background;
 };
