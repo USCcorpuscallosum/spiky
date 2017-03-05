@@ -5,7 +5,7 @@
 //--------------------------------------------------------------
 void ofApp::setup()
 {
-	songNames.push_back("song_1.wav");
+	songNames.push_back("382965__martysonic__sweet-angels-dance.wav");
 	
 	musicAnalysis.loadSongs(songNames);
 	terrain.setMusicAnalysis(&musicAnalysis);
