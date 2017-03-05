@@ -1,7 +1,11 @@
 #include "Background.h"
-#include "ofMain.h"
 
+<<<<<<< HEAD
 Background::Background(MusicAnalysis* musicAnalysis);
+=======
+Background::Background(MusicAnalysis* analysis)
+	: musicAnalysis(analysis)
+>>>>>>> origin/master
 {
     ofBackground(lavender);
 }
