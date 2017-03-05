@@ -23,6 +23,7 @@ private:
 	ofMesh mesh;
 	MusicAnalysis* musicAnalysis;
 	ofColor color;
+	float hue = -1, saturation, brightness;
 
 	vector<string> shaderNames;
 	vector<ofShader> shaders;

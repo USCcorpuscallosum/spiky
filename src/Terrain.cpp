@@ -68,8 +68,10 @@ void Terrain::initializeTerrain()
 void Terrain::changeAllColors()
 {
 	// Cycle colors
-	float hue, saturation, brightness;
-	color.getHsb(hue, saturation, brightness);
+	if (hue < 0)
+	{
+		color.getHsb(hue, saturation, brightness);
+	}
 	hue += ofGetLastFrameTime() * CYCLE_SPEED;
 	if (hue >= 256) hue -= 256;
 	color = ofColor::fromHsb(hue, saturation, brightness);
