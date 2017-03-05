@@ -33,6 +33,5 @@ float MusicAnalysis::getBeat()
 //returns volume based on range of pitches given
 float MusicAnalysis::getVolumeOfRange(float min, float max)
 {
-    
+	
 }
-

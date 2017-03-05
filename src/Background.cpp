@@ -1,7 +1,7 @@
 #include "Background.h"
-#include "ofMain.h"
 
-Background::Background(MusicAnalysis*);
+Background::Background(MusicAnalysis* analysis)
+	: musicAnalysis(analysis)
 {
 
 }
