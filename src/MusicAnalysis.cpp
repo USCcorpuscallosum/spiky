@@ -31,7 +31,7 @@ bool MusicAnalysis::getBeat()
 }
 
 //returns volume based on range of pitches given
-float MusicAnalysis::getVolumeOfRange(float min, float max)
+float MusicAnalysis::getVolumeOfRange(float min, float max, float* outMaxVolume)
 {
 	float* spectrum = ofSoundGetSpectrum(SAMPLING_BANDS);
 
@@ -41,6 +41,10 @@ float MusicAnalysis::getVolumeOfRange(float min, float max)
 	assert(startIndex < endIndex);
 	assert(startIndex >= 0 && startIndex < SAMPLING_BANDS);
 	assert(endIndex >= 0 && endIndex < SAMPLING_BANDS);
+
+	if (outMaxVolume) {
+		*outMaxVolume = endIndex - startIndex + 1.f;
+	}
 
 	// Iterate through the spectrum range and add up the volumes
 	float volume = 0;
