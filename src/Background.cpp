@@ -2,7 +2,6 @@
 
 Background::Background()
 {
-    ofBackground(ofColor::lavender);
 }
 
 void Background::changeBackground()

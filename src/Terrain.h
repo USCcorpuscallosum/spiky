@@ -17,6 +17,7 @@ public:
 	ofColor getColor();
 private:
 	ofMesh mesh;
+	ofShader shader;
 	MusicAnalysis* musicAnalysis;
 	ofColor color;
 

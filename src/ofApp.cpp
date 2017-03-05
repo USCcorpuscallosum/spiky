@@ -10,6 +10,7 @@ void ofApp::setup()
 	musicAnalysis.loadSongs(songNames);
 	terrain.setMusicAnalysis(&musicAnalysis);
 	terrain.initializeTerrain();
+	background.setTerrain(&terrain);
 
 	cam.setDistance(50);
 
@@ -26,6 +27,8 @@ void ofApp::update()
 //--------------------------------------------------------------
 void ofApp::draw()
 {
+	background.changeBackground();
+
 	cam.begin();
 	
 	ofPushMatrix();
@@ -43,9 +46,9 @@ void ofApp::keyPressed(int key)
 	{
 		musicAnalysis.togglePlay();
 	}
-	else if ('0' <= key <= '9')
+	else if ('0' <= key && key <= '9')
 	{
-		musicAnalysis.changeSong((int)key);
+		musicAnalysis.changeSong(static_cast<int>(key));
 	}
 }
 

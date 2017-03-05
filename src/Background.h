@@ -12,6 +12,7 @@ class Background
 public:
 	Background();
 	void changeBackground();
+	void setTerrain(Terrain* t) { terrain = t; }
 
 private:
 	ofColor color;

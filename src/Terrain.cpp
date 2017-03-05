@@ -6,6 +6,10 @@ Terrain::Terrain()
 	length = 100;
 	width = 100;
 	skip = 5;
+
+	color = ofColor_<float>(0.48, 0, 0.91);
+
+	shader.load("shaders/terrain");
 }
 
 Terrain::Terrain(float init_length, float init_width)
@@ -98,8 +102,9 @@ void Terrain::changeHeight()
 
 void Terrain::draw()
 {
-	//mesh.draw();
-	mesh.drawWireframe();
+	shader.begin();
+	mesh.draw();
+	shader.end();
 }
 
 ofColor Terrain::getColor()
