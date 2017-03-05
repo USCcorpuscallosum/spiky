@@ -59,9 +59,9 @@ void MusicAnalysis::loadSongs(vector<string> songs)
 {
 	for (int i = 0; i < songs.size(); i++)
 	{
-		ofSoundPlayer tmp;
-		tmp.load(songs[i]);
-		soundPlayer.push_back(&tmp);
+		ofSoundPlayer* tmp = new ofSoundPlayer();
+		tmp->load(songs[i]);
+		soundPlayer.push_back(tmp);
 		numOfSongs++;
 	}
 }
