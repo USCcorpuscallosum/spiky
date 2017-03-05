@@ -3,6 +3,7 @@
 #include "ofMain.h"
 #include "Terrain.h"
 #include "MusicAnalysis.h"
+#include "Background.h"
 
 class ofApp : public ofBaseApp {
 public:
@@ -25,4 +26,5 @@ public:
 	MusicAnalysis musicAnalysis;
 	Terrain terrain;
 	ofEasyCam cam;
+    Background background;
 };
