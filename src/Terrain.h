@@ -6,10 +6,11 @@
 class Terrain
 {
 public:
-	Terrain(MusicAnalysis*);
+	Terrain();
+	void setSound(MusicAnalysis*);
 	void initializeTerrain();
-	void changeColor();
-	void changeHeihgt();
+	void changeAllColors();
+	void changeHeight();
 	void draw();
     ofColor getColor();
 private:

@@ -5,19 +5,26 @@
 //--------------------------------------------------------------
 void ofApp::setup()
 {
-	MusicAnalysis musicAnalysis("music_1.wav");
+	musicAnalysis.setSound("sound_1.wav");
 	MusicAnalysis* ptr = &musicAnalysis;
-	Terrain terrain(ptr);
+	terrain.setSound(ptr);
+	terrain.initializeTerrain();
 }
 
 //--------------------------------------------------------------
-void ofApp::update(){
+void ofApp::update()
+{
 
 }
 
 //--------------------------------------------------------------
-void ofApp::draw(){
+void ofApp::draw()
+{
+	cam.begin();
+	
+	terrain.draw();
 
+	cam.end();
 }
 
 //--------------------------------------------------------------

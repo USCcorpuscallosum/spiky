@@ -1,6 +1,11 @@
 #include "MusicAnalysis.h"
 
-MusicAnalysis::MusicAnalysis(string filename)
+MusicAnalysis::MusicAnalysis()
+{
+
+}
+
+void MusicAnalysis::setSound(string filename)
 {
 	soundPlayer.load(filename);
 	soundPlayer.play();
