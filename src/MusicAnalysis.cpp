@@ -59,18 +59,11 @@ void MusicAnalysis::loadSongs(vector<string> songs)
 {
 	for (int i = 0; i < songs.size(); i++)
 	{
-		ofSoundPlayer tmp; songs[i];
+		ofSoundPlayer tmp;
 		tmp.load(songs[i]);
-		addSong(tmp);
+		soundPlayer.push_back(&tmp);
+		numOfSongs++;
 	}
-
-	numOfSongs++;
-}
-
-void MusicAnalysis::addSong(ofSoundPlayer sp)
-{
-	soundPlayer.push_back(sp);
-	numOfSongs++;
 }
 
 void MusicAnalysis::changeSong(int index)
@@ -78,7 +71,7 @@ void MusicAnalysis::changeSong(int index)
 	if (soundPlayer.size() != 0 && soundPlayer.size() > index && index >= 0)
 	{
 		currentSong->setPaused(true);
-		currentSong = &(soundPlayer[index]);
+		currentSong = soundPlayer[index];
 		currentSong->setPaused(false);
 	}
 }

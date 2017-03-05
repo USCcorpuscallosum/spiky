@@ -18,7 +18,7 @@ public:
 	const int SAMPLING_BANDS = 512;
 	
 private:
-	vector<ofSoundPlayer> soundPlayer;
+	vector<ofSoundPlayer*> soundPlayer;
 	float sampleRate;
 	ofSoundPlayer* currentSong;
 	int numOfSongs;
