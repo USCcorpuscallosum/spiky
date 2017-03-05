@@ -1,7 +1,9 @@
 #include "MusicAnalysis.h"
+#include <iostream>
 
 MusicAnalysis::MusicAnalysis()
 {
+	currentSong = NULL;
 	sampleRate = 44100;
 	isPlaying = false;
 
@@ -78,7 +80,13 @@ void MusicAnalysis::changeSong(int index)
 
 void MusicAnalysis::togglePlay()
 {
-	isPlaying = !isPlaying;
-	currentSong->setPaused(isPlaying);
+	if (soundPlayer.size() != 0)
+	{
+		if (currentSong == NULL) currentSong = soundPlayer[0];
+		
+		isPlaying = !isPlaying;
+		currentSong->setPaused(isPlaying);
+		if (isPlaying) currentSong->play();
+	}
 }
 

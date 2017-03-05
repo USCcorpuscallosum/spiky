@@ -6,7 +6,6 @@ class MusicAnalysis {
 public:
 	MusicAnalysis();
 	void togglePlay();
-	void addSong(ofSoundPlayer);
 	void changeSong(int);
 	void loadSongs(vector<string>);
 
