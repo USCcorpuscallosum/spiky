@@ -34,13 +34,13 @@ void Terrain::initializeTerrain()
 	{
 		for (int x = 0; x < width; x++)
 		{
-			mesh.addIndex(x + y*width);               // 0
-			mesh.addIndex((x + 1) + y*width);           // 1
-			mesh.addIndex(x + (y + 1)*width);           // 10
+			mesh.addIndex(x + y*width);              
+			mesh.addIndex((x + 1) + y*width);        
+			mesh.addIndex(x + (y + 1)*width);        
 
-			mesh.addIndex((x + 1) + y*width);           // 1
-			mesh.addIndex((x + 1) + (y + 1)*width);       // 11
-			mesh.addIndex(x + (y + 1)*width);           // 10
+			mesh.addIndex((x + 1) + y*width);        
+			mesh.addIndex((x + 1) + (y + 1)*width);  
+			mesh.addIndex(x + (y + 1)*width);        
 		}
 	}
 }
@@ -50,6 +50,8 @@ void Terrain::initializeTerrain()
 void Terrain::changeAllColors()
 {
 	//TODO: Implement this function
+	int volume = musicAnalysis->getVolume();
+
 }
 
 //Height changes based on frequency
