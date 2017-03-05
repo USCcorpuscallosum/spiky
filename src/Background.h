@@ -1,5 +1,7 @@
 #pragma once
 #include "ofMain.h"
+#include "MusicAnalysis.h"
+#include "Terrain.h"
 
 class Background
 {
