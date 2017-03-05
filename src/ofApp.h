@@ -5,6 +5,8 @@
 #include "MusicAnalysis.h"
 #include "Background.h"
 
+#include <vector>
+
 class ofApp : public ofBaseApp {
 public:
     void setup();
@@ -28,5 +30,6 @@ private:
     Terrain terrain;
     ofEasyCam cam;
     Background background;
+	vector<string> songNames;
 
 };

@@ -5,7 +5,9 @@
 //--------------------------------------------------------------
 void ofApp::setup()
 {
-	musicAnalysis.setSound("sound_1.wav");
+	songNames.push_back("song_1.wav");
+	
+	musicAnalysis.loadSongs(songNames);
 	terrain.setMusicAnalysis(&musicAnalysis);
 	terrain.initializeTerrain();
 
