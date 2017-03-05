@@ -72,9 +72,10 @@ void MusicAnalysis::changeSong(int index)
 {
 	if (soundPlayer.size() != 0 && soundPlayer.size() > index && index >= 0)
 	{
-		currentSong->setPaused(true);
+		if (currentSong) currentSong->setPaused(true);
 		currentSong = soundPlayer[index];
 		currentSong->setPaused(false);
+		currentSong->play();
 	}
 }
 

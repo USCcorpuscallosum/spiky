@@ -9,7 +9,13 @@ Terrain::Terrain()
 
 	color = ofColor_<float>(0.48, 0, 0.91);
 
-	shader.load("shaders/terrain");
+	shaderNames.push_back("shaders/terrain");
+	for (int i = 0; i < shaderNames.size(); i++)
+	{
+		shaders.push_back(ofShader());
+		shaders[i].load(shaderNames[i]);
+	}
+	activeShader = 0;
 }
 
 Terrain::Terrain(float init_length, float init_width)
@@ -102,9 +108,9 @@ void Terrain::changeHeight()
 
 void Terrain::draw()
 {
-	shader.begin();
+	shaders[activeShader].begin();
 	mesh.draw();
-	shader.end();
+	shaders[activeShader].end();
 }
 
 ofColor Terrain::getColor()

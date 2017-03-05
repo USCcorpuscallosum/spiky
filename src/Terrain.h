@@ -10,6 +10,7 @@ public:
 	Terrain(float init_length, float init_width);
 	Terrain(float init_length, float init_width, float init_skip);
 	void setMusicAnalysis(MusicAnalysis* analysis) { musicAnalysis = analysis; }
+	void setActiveShader(int index) { activeShader = index; }
 	void initializeTerrain();
 	void changeAllColors();
 	void changeHeight();
@@ -17,10 +18,12 @@ public:
 	ofColor getColor();
 private:
 	ofMesh mesh;
-	ofShader shader;
 	MusicAnalysis* musicAnalysis;
 	ofColor color;
 
+	vector<string> shaderNames;
+	vector<ofShader> shaders;
+	int activeShader;
 	float length;
 	float width;
 	float skip;
