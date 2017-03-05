@@ -15,6 +15,7 @@ void ofApp::setup()
 	musicAnalysis.togglePlay();
 	cam.setDistance(50);
 
+	ofSetBackgroundAuto(false); // don't clear the color buffer each frame
 	ofSetVerticalSync(true);
 	ofEnableDepthTest();
 }
@@ -29,6 +30,9 @@ void ofApp::update()
 //--------------------------------------------------------------
 void ofApp::draw()
 {
+	// Only clear the depth buffer each frame
+	glClear(GL_DEPTH_BUFFER_BIT);
+
 	background.draw();
 
 	cam.begin();
