@@ -50,16 +50,33 @@ void Terrain::changeAllColors()
 //Height changes based on frequency
 void Terrain::changeHeight()
 {
-	//Set all vertices based on pitch
-	const float SCALE = 0.05f;
-	const float HEIGHT = 5;
+	const float BASS_HEIGHT = 9.f;
+	const float BASS_SCALE = 0.05f; // smaller means larger regions
+	const ofVec2f BASS_SPEED(0.8f, 0.2f);
+	const float MID_HEIGHT = 4.f;
+	const float MID_SCALE = 0.4f;
+	const ofVec2f MID_SPEED(0.2f, -0.5f);
+
+	float time = ofGetElapsedTimef();
+
+	float bassMax;
+	float bass = musicAnalysis->getVolumeOfRange(0, 200, &bassMax);
+
+	float midMax;
+	float mid = musicAnalysis->getVolumeOfRange(300, 600, &midMax);
 
 	for (int y = 0; y < length; y++)
 	{
 		for (int x = 0; x < width; x++)
 		{
-			ofIndexType index = y * length + x;
-			float height = ofNoise(x * SCALE, y * SCALE) * musicAnalysis->getPitch() * HEIGHT;
+			int index = y * length + x;
+			ofVec2f position(x, y);
+
+			// Calculate the new height of each vertex from the audio
+			float height = 0;
+			height += ofNoise(position * BASS_SCALE + BASS_SPEED * time) * bass / bassMax * BASS_HEIGHT;
+			height += ofNoise(position * MID_SCALE  + MID_SPEED  * time) * mid  / midMax  * MID_HEIGHT;
+
 			mesh.setVertex(index, ofVec3f(x, y, height));
 		}
 	}

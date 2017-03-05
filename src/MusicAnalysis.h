@@ -13,7 +13,7 @@ public:
 	float getVolume();
 	float getPitch();
 	bool getBeat();
-	float getVolumeOfRange(float min, float max);
+	float getVolumeOfRange(float min, float max, float* outMaxVolume = nullptr);
 
 	const int SAMPLING_BANDS = 512;
 	

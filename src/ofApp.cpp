@@ -28,7 +28,10 @@ void ofApp::draw()
 {
 	cam.begin();
 	
+	ofPushMatrix();
+	ofTranslate(-50, -50, 0);
 	terrain.draw();
+	ofPopMatrix();
 
 	cam.end();
 }
