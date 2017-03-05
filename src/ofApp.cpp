@@ -34,8 +34,16 @@ void ofApp::draw()
 }
 
 //--------------------------------------------------------------
-void ofApp::keyPressed(int key) {
-
+void ofApp::keyPressed(int key) 
+{
+	if (key == 'p')
+	{
+		musicAnalysis.togglePlay();
+	}
+	else if ('0' <= key <= '9')
+	{
+		musicAnalysis.changeSong((int)key);
+	}
 }
 
 //--------------------------------------------------------------
