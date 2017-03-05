@@ -12,6 +12,7 @@ void ofApp::setup()
 	terrain.initializeTerrain();
 	background.setTerrain(&terrain);
 
+	musicAnalysis.togglePlay();
 	cam.setDistance(50);
 
 	ofSetVerticalSync(true);
