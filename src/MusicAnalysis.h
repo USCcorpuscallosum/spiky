@@ -5,19 +5,19 @@
 class MusicAnalysis {
 public:
 	MusicAnalysis();
-	void togglePlay();
+	void togglePlay();	// Pause the song
 	void changeSong(int);
-	void loadSongs(vector<string>);
+	void loadSongs(vector<string>);	// Load songs(songs' filenames) into soundPlayer
 
-	float getVolume();
-	float getPitch();
-	bool getBeat();
-	float getVolumeOfRange(float min, float max, float* outMaxVolume = nullptr);
+	float getVolume();	// Returns current volume
+	float getPitch();	// Returns current pitch (Hardcoded now)
+	bool getBeat();	// Returns current beat (Hardcoded now)
+	float getVolumeOfRange(float min, float max, float* outMaxVolume = nullptr);	// Sum the volume of sound in a certain range of frequency
 
-	const int SAMPLING_BANDS = 512;
+	const int SAMPLING_BANDS = 512; 
 	
 private:
-	vector<ofSoundPlayer*> soundPlayer;
+	vector<ofSoundPlayer*> soundPlayer;	// Store songs
 	float sampleRate;
 	ofSoundPlayer* currentSong;
 	int numOfSongs;
