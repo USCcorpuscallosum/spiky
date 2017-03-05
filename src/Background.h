@@ -13,14 +13,16 @@ class MusicAnalysis;
 class Background
 {
 public:
-	Background();	// Default constructor
-	void changeBackground();	// Change the color of the background
-	void setTerrain(Terrain* t) { terrain = t; }	// Set the foreground terrain
+	Background();
+	void draw();
+	void setTerrain(Terrain* t) { terrain = t; }
 
 private:
-	ofColor color;	// Background color
-	ofImage backgroundImage;	// Background image (not implemented yet)
-	MusicAnalysis* musicAnalysis;	// Pointer to the music controler
-	Terrain* terrain;	// Pointer to the terrain on the foreground
+	ofImage backgroundImage;
+	MusicAnalysis* musicAnalysis;
+	Terrain* terrain;
+
+	ofPlanePrimitive plane;
+	ofShader shader;
 
 };

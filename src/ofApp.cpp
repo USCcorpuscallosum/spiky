@@ -29,7 +29,7 @@ void ofApp::update()
 //--------------------------------------------------------------
 void ofApp::draw()
 {
-	background.changeBackground();
+	background.draw();
 
 	cam.begin();
 	

@@ -2,17 +2,20 @@
 
 Background::Background()
 {
+	shader.load("shaders/background/color");
+
+	// Create the quad that the shader will be applied on
+	plane.set(2, 2, 2, 2);
 }
 
-void Background::changeBackground()
+void Background::draw()
 {
-    //get the color of the terrain
-    ofColor terrain_color = terrain->getColor();
-    //create a new variable with the complement of the color
-    ofColor complement_terrain= terrain_color.invert();
-    //assign this complement to the current color variable of background
-    color=complement_terrain;
-    //draw the background with its color variable
-    ofBackground(color);
-    
+	shader.begin();
+	ofDisableDepthTest(); // treat this as the background, not another solid object
+
+	shader.setUniform4f("terrainColor", terrain->getColor());
+	plane.draw();
+
+	ofEnableDepthTest(); // reset
+	shader.end();
 }
