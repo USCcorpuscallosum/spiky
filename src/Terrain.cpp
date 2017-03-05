@@ -8,6 +8,20 @@ Terrain::Terrain()
 	skip = 5;
 }
 
+Terrain::Terrain(float init_length, float init_width)
+{
+	length = init_length;
+	width = init_width;
+}
+
+Terrain::Terrain(float init_length, float init_width, float init_skip)
+{
+	length = init_length;
+	width = init_width;
+	skip = init_skip;
+}
+
+
 //Sets up all the vertices for the mesh
 void Terrain::initializeTerrain()
 {
