@@ -48,7 +48,10 @@ void ofApp::keyPressed(int key)
 	}
 	else if ('0' <= key && key <= '9')
 	{
-		musicAnalysis.changeSong(static_cast<int>(key));
+		int index = key - '0';
+		if (index == 0) index = 10;
+		index--;
+		musicAnalysis.changeSong(index);
 	}
 }
 
