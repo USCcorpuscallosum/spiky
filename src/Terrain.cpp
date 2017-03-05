@@ -9,7 +9,8 @@ Terrain::Terrain()
 
 	color = ofColor_<float>(0.48, 0, 0.91);
 
-	shaderNames.push_back("shaders/terrain");
+	shaderNames.push_back("shaders/terrain/gradient1");
+
 	for (int i = 0; i < shaderNames.size(); i++)
 	{
 		shaders.push_back(ofShader());
@@ -66,9 +67,12 @@ void Terrain::initializeTerrain()
 //Give each index its specific color
 void Terrain::changeAllColors()
 {
-	//TODO: Implement this function
-	int volume = musicAnalysis->getVolume();
-
+	// Cycle colors
+	float hue, saturation, brightness;
+	color.getHsb(hue, saturation, brightness);
+	hue += ofGetLastFrameTime() * CYCLE_SPEED;
+	if (hue >= 256) hue -= 256;
+	color = ofColor::fromHsb(hue, saturation, brightness);
 }
 
 //Height changes based on frequency
@@ -109,11 +113,10 @@ void Terrain::changeHeight()
 void Terrain::draw()
 {
 	shaders[activeShader].begin();
+	shaders[activeShader].setUniform4f("primaryColor", color.r / 256.f, color.g / 256.f, color.b / 256.f, 1);
+	//ofColor secondaryColor = color + ofColor(50, 50, 50);
+	//shaders[activeShader].setUniform4f("secondaryColor", secondaryColor.r / 256.f, secondaryColor.g / 256.f, secondaryColor.b / 256.f, 1);
+
 	mesh.draw();
 	shaders[activeShader].end();
-}
-
-ofColor Terrain::getColor()
-{
-	return color;
 }

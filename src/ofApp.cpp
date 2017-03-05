@@ -22,6 +22,7 @@ void ofApp::setup()
 //--------------------------------------------------------------
 void ofApp::update()
 {
+	terrain.changeAllColors();
 	terrain.changeHeight();
 }
 
