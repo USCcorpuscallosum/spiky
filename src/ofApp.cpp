@@ -57,40 +57,7 @@ void ofApp::keyPressed(int key)
 	}
 }
 
-/*
-void ofApp::setup(){
-vidInput = ofPtr<ofQTKitGrabber>( new ofQTKitGrabber() );
-vidGrabber.setGrabber(vidInput);
-vidGrabber.initGrabber(1280, 720);
-vidRecorder.setFfmpegLocation(ofFilePath::getAbsolutePath("ASSETS/ffmpeg"));
-}
 
-void ofApp::update(){
-vidGrabber.update();
-if(vidGrabber.isFrameNew()){
-vidRecorder.addFrame(vidGrabber.getPixelsRef());
-}
-}
-
-void ofApp::startRecord() {
-
-bRecording = true;
-
-if(bRecording && !vidRecorder.isInitialized()) {
-
-vidRecorder.setup("your-file-name.mp4", vidGrabber.getWidth(), vidGrabber.getHeight(), 30, 44100, 2);
-
-}
-
-}
-//--------------------------------------------------------------
-void ofApp::stopRecord() {
-
-bRecording = false;
-
-vidRecorder.close();
-
-}*/
 
 //--------------------------------------------------------------
 void ofApp::keyReleased(int key) {

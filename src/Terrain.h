@@ -8,12 +8,12 @@ class Terrain
 public:
 	const float CYCLE_SPEED = 25;
 
-	Terrain(); // maybe need a constructor with length and width parameters. KP
+	Terrain();
 	Terrain(float init_length, float init_width);
 	Terrain(float init_length, float init_width, float init_skip);
 	void setMusicAnalysis(MusicAnalysis* analysis) { musicAnalysis = analysis; }
 	void setActiveShader(int index) { activeShader = index; }
-	void initializeTerrain();
+	void initializeTerrain();	// Add vertices to mesh
 	void changeAllColors();
 	void changeHeight();
 	void draw();

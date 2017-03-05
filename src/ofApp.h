@@ -34,11 +34,4 @@ private:
 
 };
 
-/*
-ofVideoGrabber      vidGrabber;
-ofxVideoRecorder    vidRecorder;
-bool bRecording;
-void startRecord();
-void stopRecord();
-*/
 
