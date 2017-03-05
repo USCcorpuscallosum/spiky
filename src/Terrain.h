@@ -7,16 +7,16 @@ class Terrain
 {
 public:
 	Terrain();
-	void setSound(MusicAnalysis*);
+	void setMusicAnalysis(MusicAnalysis* analysis) { musicAnalysis = analysis; }
 	void initializeTerrain();
 	void changeAllColors();
 	void changeHeight();
 	void draw();
-    ofColor getColor();
+	ofColor getColor();
 private:
 	ofMesh mesh;
 	MusicAnalysis* musicAnalysis;
-    ofColor color;
+	ofColor color;
 
 	float length;
 	float width;
