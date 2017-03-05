@@ -1,20 +1,19 @@
 #include "MusicAnalysis.h"
 
-void MusicAnalysis::setSound(string filename)
+MusicAnalysis::MusicAnalysis()
 {
-	soundPlayer.load(filename);
-	soundPlayer.play();
+	sampleRate = 44100;
+	isPlaying = false;
 
 	// Get the sample rate for the player
 	//shared_ptr<ofFmodSoundPlayer> fmodPlayer = std::static_pointer_cast<OF_SOUND_PLAYER_TYPE>(soundPlayer.getPlayer());
 	//sampleRate = fmodPlayer->internalFreq;
-	sampleRate = 44100;
 }
 
 //returns current volume
 float MusicAnalysis::getVolume()
 {
-	return soundPlayer.getVolume();
+	return currentSong->getVolume();
 }
 
 //returns current pitch
@@ -51,3 +50,38 @@ float MusicAnalysis::getVolumeOfRange(float min, float max)
 	}
 	return volume;
 }
+
+void MusicAnalysis::loadSongs(vector<string> songs)
+{
+	for (int i = 0; i < songs.size(); i++)
+	{
+		ofSoundPlayer tmp; songs[i];
+		tmp.load(songs[i]);
+		addSong(tmp);
+	}
+
+	numOfSongs++;
+}
+
+void MusicAnalysis::addSong(ofSoundPlayer sp)
+{
+	soundPlayer.push_back(sp);
+	numOfSongs++;
+}
+
+void MusicAnalysis::changeSong(int index)
+{
+	if (soundPlayer.size() != 0 && soundPlayer.size() > index && index >= 0)
+	{
+		currentSong->setPaused(true);
+		currentSong = &(soundPlayer[index]);
+		currentSong->setPaused(false);
+	}
+}
+
+void MusicAnalysis::togglePlay()
+{
+	isPlaying = !isPlaying;
+	currentSong->setPaused(isPlaying);
+}
+

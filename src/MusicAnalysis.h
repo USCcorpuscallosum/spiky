@@ -4,16 +4,23 @@
 
 class MusicAnalysis {
 public:
-	const int SAMPLING_BANDS = 512;
+	MusicAnalysis();
+	void togglePlay();
+	void addSong(ofSoundPlayer);
+	void changeSong(int);
+	void loadSongs(vector<string>);
 
-	void setSound(string);
 	float getVolume();
 	float getPitch();
 	bool getBeat();
 	float getVolumeOfRange(float min, float max);
 
+	const int SAMPLING_BANDS = 512;
 	
 private:
-	ofSoundPlayer soundPlayer;
+	vector<ofSoundPlayer> soundPlayer;
 	float sampleRate;
+	ofSoundPlayer* currentSong;
+	int numOfSongs;
+	bool isPlaying;
 };
