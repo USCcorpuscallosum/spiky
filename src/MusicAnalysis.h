@@ -1,19 +1,18 @@
 #pragma once
-#ifndef MUSICANALYSIS_H
-#define MUSICANALYSIS_H
+
 #include "ofMain.h"
 
-class MusicAnalysis{
+class MusicAnalysis {
 public:
-    MusicAnalysis(string filename);
-    float getVolume();
-    float* getPitch();
-    float getBeat();
-    float getVolumeOfRange(float min, float max);
-    
-private:
-    ofSoundPlayer sound_player;
-	int samplingBands;
-};
+	const int SAMPLING_BANDS = 512;
 
-#endif
+	MusicAnalysis(string filename);
+	float getVolume();
+	float getPitch();
+	bool getBeat();
+	float getVolumeOfRange(float min, float max);
+	
+private:
+	ofSoundPlayer soundPlayer;
+	float sampleRate;
+};

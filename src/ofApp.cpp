@@ -1,8 +1,13 @@
 #include "ofApp.h"
+#include "Terrain.h"
+#include "MusicAnalysis.h"
 
 //--------------------------------------------------------------
-void ofApp::setup(){
-
+void ofApp::setup()
+{
+	MusicAnalysis musicAnalysis("music_1.wav");
+	MusicAnalysis* ptr = &musicAnalysis;
+	Terrain terrain(ptr);
 }
 
 //--------------------------------------------------------------
