@@ -1,10 +1,5 @@
 #include "MusicAnalysis.h"
 
-MusicAnalysis::MusicAnalysis()
-{
-
-}
-
 void MusicAnalysis::setSound(string filename)
 {
 	soundPlayer.load(filename);
@@ -26,7 +21,7 @@ float MusicAnalysis::getVolume()
 float MusicAnalysis::getPitch()
 {
 	// TODO: implement
-	return 0;
+	return sinf(ofGetElapsedTimef());
 }
 
 //returns current beat

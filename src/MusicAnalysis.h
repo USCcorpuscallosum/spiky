@@ -6,7 +6,6 @@ class MusicAnalysis {
 public:
 	const int SAMPLING_BANDS = 512;
 
-	MusicAnalysis();
 	void setSound(string);
 	float getVolume();
 	float getPitch();

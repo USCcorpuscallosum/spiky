@@ -3,16 +3,9 @@
 
 Terrain::Terrain()
 {
-	mesh.setMode(OF_PRIMITIVE_POINTS);
-	
 	length = 100;
 	width = 100;
 	skip = 5;
-}
-
-void Terrain::setSound(MusicAnalysis* ma)
-{
-	musicAnalysis = ma;
 }
 
 //Sets up all the vertices for the mesh
@@ -30,9 +23,9 @@ void Terrain::initializeTerrain()
 	}
 
 	//Create indeces
-	for (int y = 0; y < length; y++)
+	for (int y = 0; y < length - 1; y++)
 	{
-		for (int x = 0; x < width; x++)
+		for (int x = 0; x < width - 1; x++)
 		{
 			mesh.addIndex(x + y*width);               // 0
 			mesh.addIndex((x + 1) + y*width);           // 1
@@ -56,11 +49,24 @@ void Terrain::changeAllColors()
 void Terrain::changeHeight()
 {
 	//Set all vertices based on pitch
+	const float SCALE = 0.05f;
+	const float HEIGHT = 5;
+
+	for (int y = 0; y < length; y++)
+	{
+		for (int x = 0; x < width; x++)
+		{
+			ofIndexType index = y * length + x;
+			float height = ofNoise(x * SCALE, y * SCALE) * musicAnalysis->getPitch() * HEIGHT;
+			mesh.setVertex(index, ofVec3f(x, y, height));
+		}
+	}
 }
 
 void Terrain::draw()
 {
-	mesh.draw();
+	//mesh.draw();
+	mesh.drawWireframe();
 }
 
 ofColor Terrain::getColor()
