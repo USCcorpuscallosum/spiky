@@ -19,7 +19,7 @@ public:
 	void draw();
 	void drawWithoutShader();
 	ofColor getColor() const { return color; }
-	virtual void calculateNewPosForIndex(int, int, int, float);
+	virtual void calculateNewPosForIndex(int, float);
 
 protected:
 	ofMesh mesh;
@@ -36,4 +36,6 @@ protected:
 	float skip;
 	float heightSpeed;
 	float heightAcceleration;
+
+	float randomPosScalar;
 };

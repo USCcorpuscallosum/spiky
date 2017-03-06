@@ -54,8 +54,3 @@ void Globe::initializeTerrain()
 		}
 	}
 }
-
-void Globe::calculateNewPosForIndex(int index, int x, int y, float newHeight)
-{
-
-}

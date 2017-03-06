@@ -37,6 +37,9 @@ void ofApp::update()
 {
 	terrain.changeAllColors();
 	terrain.changeHeight();
+
+	globe.changeAllColors();
+	//globe.changeHeight();
 }
 
 //--------------------------------------------------------------
@@ -52,7 +55,7 @@ void ofApp::draw()
 	ofPushMatrix();
 	ofTranslate(-50, -50, 0);
 	terrain.draw();
-	//globe.drawWithoutShader();
+	//globe.draw();
 	ofPopMatrix();
 
 	cam.end();

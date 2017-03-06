@@ -5,8 +5,7 @@
 
 Terrain::Terrain()
 {
-	//heightDeltaLimit = 1;
-	//heightDeltaMin = -1;
+	randomPosScalar = 3;
 	
 	length = 100;
 	width = 100;
@@ -48,7 +47,7 @@ void Terrain::initializeTerrain()
 		{
 			mesh.addVertex(ofPoint(x, y, 0));	// mesh index = x + y*width
 												// this replicates the pixel array within the camera bitmap...
-			mesh.addNormal(ofVec3f(0, 0, 1));
+			mesh.addNormal(ofVec3f(ofRandomf() / 5, ofRandomf() / 5, 1));
 			mesh.addColor(ofFloatColor(0, 0, 0));  // placeholder for colour data, we'll get this from the camera
 		}
 	}
@@ -103,6 +102,17 @@ void Terrain::changeHeight()
 	float midMax;
 	float mid = musicAnalysis->getVolumeOfRange(300, 600, &midMax);
 
+	/*for (int i = 0; i < mesh.getNumIndices(); i++)
+	{
+		ofVec2f position = mesh.getVertex(i);
+
+		float newOffset = 0;
+		newOffset += ofNoise(position * BASS_SCALE + BASS_SPEED * time) * bass / bassMax * BASS_HEIGHT;
+		newOffset += ofNoise(position * MID_SCALE + MID_SPEED  * time) * mid / midMax  * MID_HEIGHT;
+
+		calculateNewPosForIndex(i, newOffset);
+	}*/
+
 	for (int y = 0; y < length; y++)
 	{
 		for (int x = 0; x < width; x++)
@@ -115,21 +125,26 @@ void Terrain::changeHeight()
 			newOffset += ofNoise(position * BASS_SCALE + BASS_SPEED * time) * bass / bassMax * BASS_HEIGHT;
 			newOffset += ofNoise(position * MID_SCALE  + MID_SPEED  * time) * mid  / midMax  * MID_HEIGHT;
 
-			calculateNewPosForIndex(index, x, y, newOffset);
+			calculateNewPosForIndex(index, newOffset);
 		}
 	}
 }
 
-void Terrain::calculateNewPosForIndex(int index, int x, int y, float newHeight)
+void Terrain::calculateNewPosForIndex(int index, float newHeight)
 {
+	//Change the x, y, and z values of the base vert over time
+	ofVec3f randomVec = ofVec3f(ofRandomf() / 5, ofRandomf() / 5, ofRandomf()).normalize();
+	ofVec3f newBasePos = baseMesh.getVertex(index);
+	newBasePos += randomVec * ofGetLastFrameTime() * randomPosScalar;
+	baseMesh.setVertex(index, newBasePos);
+
+	//Change the depth in the direction of the normal vector
 	ofVec3f normalVec = mesh.getNormal(index).normalize();
-	//std::cout << normalVec.x << " " << normalVec.y << " " << normalVec.z << std::endl;
-	//mesh.setVertex(index, newPos);
 	ofVec3f baseVert = baseMesh.getVertex(index);
-	//ofVec3f newPos = baseVert + ofVec3f(0, 0, newHeight);
 	ofVec3f newPos = baseVert + newHeight * normalVec;
+
+	//Set the new position to that of the vertex
 	mesh.setVertex(index, newPos);
-	//mesh.setVertex(index, ofVec3f(x, y, newHeight));
 }
 
 void Terrain::draw()
