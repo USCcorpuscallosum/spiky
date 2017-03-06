@@ -5,7 +5,13 @@
 //--------------------------------------------------------------
 void ofApp::setup()
 {
-	songNames.push_back("382965__martysonic__sweet-angels-dance.wav");
+	songNames.push_back("bensound-dubstep.mp3");
+	songNames.push_back("bensound-cute.wav");
+	songNames.push_back("bensound-buddy.wav");
+	songNames.push_back("bensound-epic.wav");
+	songNames.push_back("bensound-happiness.wav");
+	songNames.push_back("bensound-littleidea.wav");
+	songNames.push_back("bensound-acousticbreeze.wav");
 	
 	musicAnalysis.loadSongs(songNames);
 	terrain.setMusicAnalysis(&musicAnalysis);
