@@ -2,6 +2,7 @@
 
 #include "ofMain.h"
 #include "Terrain.h"
+#include "Globe.h"
 #include "MusicAnalysis.h"
 #include "Background.h"
 
@@ -27,6 +28,7 @@ public:
 
 private:
 	MusicAnalysis musicAnalysis;
+	Globe globe;
 	Terrain terrain;
 	ofEasyCam cam;
 	Background background;

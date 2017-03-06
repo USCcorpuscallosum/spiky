@@ -14,13 +14,18 @@ void ofApp::setup()
 	songNames.push_back("bensound-acousticbreeze.wav");
 	
 	musicAnalysis.loadSongs(songNames);
+
+	globe.setMusicAnalysis(&musicAnalysis);
+	globe.initializeTerrain();
+
 	terrain.setMusicAnalysis(&musicAnalysis);
 	terrain.initializeTerrain();
+
 	background.setTerrain(&terrain);
 	background.setMusicAnalysis(&musicAnalysis);
 
 	musicAnalysis.togglePlay();
-	cam.setDistance(50);
+	cam.setDistance(500);
 
 	ofSetBackgroundAuto(false); // don't clear the color buffer each frame
 	ofSetVerticalSync(true);
@@ -47,6 +52,7 @@ void ofApp::draw()
 	ofPushMatrix();
 	ofTranslate(-50, -50, 0);
 	terrain.draw();
+	//globe.drawWithoutShader();
 	ofPopMatrix();
 
 	cam.end();

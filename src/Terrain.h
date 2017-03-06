@@ -13,14 +13,17 @@ public:
 	Terrain(float init_length, float init_width, float init_skip);
 	void setMusicAnalysis(MusicAnalysis* analysis) { musicAnalysis = analysis; }
 	void setActiveShader(int index) { activeShader = index; }
-	void initializeTerrain();	// Add vertices to mesh
+	virtual void initializeTerrain();	// Add vertices to mesh
 	void changeAllColors();
 	void changeHeight();
 	void draw();
+	void drawWithoutShader();
 	ofColor getColor() const { return color; }
+	virtual void calculateNewPosForIndex(int, int, int, float);
 
-private:
+protected:
 	ofMesh mesh;
+	ofMesh baseMesh;
 	MusicAnalysis* musicAnalysis;
 	ofColor color;
 	float hue = -1, saturation, brightness;
@@ -31,4 +34,6 @@ private:
 	float length;
 	float width;
 	float skip;
+	float heightSpeed;
+	float heightAcceleration;
 };

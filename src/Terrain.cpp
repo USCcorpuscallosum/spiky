@@ -1,8 +1,13 @@
 #include "Terrain.h"
 #include "ofMain.h"
 
+#include <iostream>
+
 Terrain::Terrain()
 {
+	//heightDeltaLimit = 1;
+	//heightDeltaMin = -1;
+	
 	length = 100;
 	width = 100;
 	skip = 5;
@@ -43,6 +48,7 @@ void Terrain::initializeTerrain()
 		{
 			mesh.addVertex(ofPoint(x, y, 0));	// mesh index = x + y*width
 												// this replicates the pixel array within the camera bitmap...
+			mesh.addNormal(ofVec3f(0, 0, 1));
 			mesh.addColor(ofFloatColor(0, 0, 0));  // placeholder for colour data, we'll get this from the camera
 		}
 	}
@@ -61,6 +67,8 @@ void Terrain::initializeTerrain()
 			mesh.addIndex(x + (y + 1)*width);        
 		}
 	}
+
+	baseMesh = mesh;
 }
 
 //Color changes based on volume
@@ -103,13 +111,25 @@ void Terrain::changeHeight()
 			ofVec2f position(x, y);
 
 			// Calculate the new height of each vertex from the audio
-			float height = 0;
-			height += ofNoise(position * BASS_SCALE + BASS_SPEED * time) * bass / bassMax * BASS_HEIGHT;
-			height += ofNoise(position * MID_SCALE  + MID_SPEED  * time) * mid  / midMax  * MID_HEIGHT;
+			float newOffset = 0;
+			newOffset += ofNoise(position * BASS_SCALE + BASS_SPEED * time) * bass / bassMax * BASS_HEIGHT;
+			newOffset += ofNoise(position * MID_SCALE  + MID_SPEED  * time) * mid  / midMax  * MID_HEIGHT;
 
-			mesh.setVertex(index, ofVec3f(x, y, height));
+			calculateNewPosForIndex(index, x, y, newOffset);
 		}
 	}
+}
+
+void Terrain::calculateNewPosForIndex(int index, int x, int y, float newHeight)
+{
+	ofVec3f normalVec = mesh.getNormal(index).normalize();
+	//std::cout << normalVec.x << " " << normalVec.y << " " << normalVec.z << std::endl;
+	//mesh.setVertex(index, newPos);
+	ofVec3f baseVert = baseMesh.getVertex(index);
+	//ofVec3f newPos = baseVert + ofVec3f(0, 0, newHeight);
+	ofVec3f newPos = baseVert + newHeight * normalVec;
+	mesh.setVertex(index, newPos);
+	//mesh.setVertex(index, ofVec3f(x, y, newHeight));
 }
 
 void Terrain::draw()
@@ -121,4 +141,9 @@ void Terrain::draw()
 
 	mesh.draw();
 	shaders[activeShader].end();
+}
+
+void Terrain::drawWithoutShader()
+{
+	mesh.draw();
 }
