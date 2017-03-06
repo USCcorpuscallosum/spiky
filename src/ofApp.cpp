@@ -11,6 +11,7 @@ void ofApp::setup()
 	terrain.setMusicAnalysis(&musicAnalysis);
 	terrain.initializeTerrain();
 	background.setTerrain(&terrain);
+	background.setMusicAnalysis(&musicAnalysis);
 
 	musicAnalysis.togglePlay();
 	cam.setDistance(50);

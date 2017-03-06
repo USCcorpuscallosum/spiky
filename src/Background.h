@@ -16,6 +16,7 @@ public:
 	Background();
 	void draw();
 	void setTerrain(Terrain* t) { terrain = t; }
+	void setMusicAnalysis(MusicAnalysis* analysis) { musicAnalysis = analysis; }
 
 private:
 	ofImage backgroundImage;
