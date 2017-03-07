@@ -6,12 +6,12 @@
 void ofApp::setup()
 {
 	songNames.push_back("bensound-dubstep.mp3");
-	songNames.push_back("bensound-cute.wav");
-	songNames.push_back("bensound-buddy.wav");
-	songNames.push_back("bensound-epic.wav");
-	songNames.push_back("bensound-happiness.wav");
-	songNames.push_back("bensound-littleidea.wav");
-	songNames.push_back("bensound-acousticbreeze.wav");
+	songNames.push_back("bensound-cute.mp3");
+	songNames.push_back("bensound-buddy.mp3");
+	songNames.push_back("bensound-epic.mp3");
+	songNames.push_back("bensound-happiness.mp3");
+	songNames.push_back("bensound-littleidea.mp3");
+	songNames.push_back("bensound-acousticbreeze.mp3");
 	
 	musicAnalysis.loadSongs(songNames);
 
@@ -25,7 +25,7 @@ void ofApp::setup()
 	background.setMusicAnalysis(&musicAnalysis);
 
 	musicAnalysis.togglePlay();
-	cam.setDistance(500);
+	cam.setDistance(150);
 
 	ofSetBackgroundAuto(false); // don't clear the color buffer each frame
 	ofSetVerticalSync(true);

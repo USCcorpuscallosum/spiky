@@ -2,10 +2,11 @@
 #include "ofMain.h"
 
 #include <iostream>
+#include <cmath>
 
 Terrain::Terrain()
 {
-	randomPosScalar = 3;
+	randomPosScalar = .2;
 	
 	length = 100;
 	width = 100;
@@ -135,7 +136,7 @@ void Terrain::calculateNewPosForIndex(int index, float newHeight)
 	//Change the x, y, and z values of the base vert over time
 	ofVec3f randomVec = ofVec3f(ofRandomf() / 5, ofRandomf() / 5, ofRandomf()).normalize();
 	ofVec3f newBasePos = baseMesh.getVertex(index);
-	newBasePos += randomVec * ofGetLastFrameTime() * randomPosScalar;
+	newBasePos += (randomVec * ofGetLastFrameTime() * randomPosScalar) + (newBasePos.z / 30000);
 	baseMesh.setVertex(index, newBasePos);
 
 	//Change the depth in the direction of the normal vector
