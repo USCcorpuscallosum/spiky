@@ -25,7 +25,7 @@ void ofApp::setup()
 	background.setMusicAnalysis(&musicAnalysis);
 
 	musicAnalysis.togglePlay();
-	cam.setDistance(150);
+	cam.setDistance(80);
 
 	ofSetBackgroundAuto(false); // don't clear the color buffer each frame
 	ofSetVerticalSync(true);
@@ -55,7 +55,8 @@ void ofApp::draw()
 	cam.begin();
 	
 	ofPushMatrix();
-	ofTranslate(-50, -50, 0);
+	ofRotateX(115);
+	ofTranslate(-50, -50, -10);
 	terrain.draw();
 	//globe.draw();
 	ofPopMatrix();

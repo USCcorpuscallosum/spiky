@@ -88,10 +88,10 @@ void Terrain::changeAllColors()
 //Height changes based on frequency
 void Terrain::changeHeight()
 {
-	const float BASS_HEIGHT = 9.f;
-	const float BASS_SCALE = 0.05f; // smaller means larger regions
-	const ofVec2f BASS_SPEED(0.8f, 0.2f);
-	const float MID_HEIGHT = 4.f;
+	const float BASS_HEIGHT = 10.f;
+	const float BASS_SCALE = 0.04f; // smaller means larger regions
+	const ofVec2f BASS_SPEED(0.5f, 0.2f);
+	const float MID_HEIGHT = 5.f;
 	const float MID_SCALE = 0.4f;
 	const ofVec2f MID_SPEED(0.2f, -0.5f);
 
