@@ -1,93 +1,113 @@
 #include "MusicAnalysis.h"
-#include <iostream>
 
 MusicAnalysis::MusicAnalysis()
 {
-	currentSong = NULL;
+	currentSong = nullptr;
+
+	// Set up the frequency ranges for processing
+	ranges.emplace(RANGE_SUBBASS, Range(0.0, 60.0));
+	ranges.emplace(RANGE_BASS, Range(60.0, 250.0));
+	ranges.emplace(RANGE_MID, Range(250.0, 2000.0));
+	ranges.emplace(RANGE_HIGHMID, Range(2000.0, 6000.0));
+	//ranges.emplace(RANGE_HIGH, Range(6000.0, 22000.0));
+
 	sampleRate = 44100;
-	isPlaying = false;
+	bufferSize = 1024; // 512 bins
+	smoothing = 0.4;
 
-	// Get the sample rate for the player
-	//shared_ptr<ofFmodSoundPlayer> fmodPlayer = std::static_pointer_cast<OF_SOUND_PLAYER_TYPE>(soundPlayer.getPlayer());
-	//sampleRate = fmodPlayer->internalFreq;
+	ofFmodExtendedSetBuffersize(bufferSize);
+	analyzer.setup(sampleRate, bufferSize, 1);
 }
 
-//returns current volume
-float MusicAnalysis::getVolume()
+MusicAnalysis::~MusicAnalysis()
 {
-	return currentSong->getVolume();
-}
-
-//returns current pitch
-float MusicAnalysis::getPitch()
-{
-	// TODO: implement
-	return sinf(ofGetElapsedTimef());
-}
-
-//returns current beat
-bool MusicAnalysis::getBeat()
-{
-	// TODO: implement
-	return false;
-}
-
-//returns volume based on range of pitches given
-float MusicAnalysis::getVolumeOfRange(float min, float max, float* outMaxVolume)
-{
-	float* spectrum = ofSoundGetSpectrum(SAMPLING_BANDS);
-
-	// Get the start and end positions in the spectrum
-	int startIndex = static_cast<int>(min / sampleRate * SAMPLING_BANDS);
-	int endIndex = static_cast<int>(max / sampleRate * SAMPLING_BANDS);
-	assert(startIndex < endIndex);
-	assert(startIndex >= 0 && startIndex < SAMPLING_BANDS);
-	assert(endIndex >= 0 && endIndex < SAMPLING_BANDS);
-
-	if (outMaxVolume) {
-		*outMaxVolume = endIndex - startIndex + 1.f;
-	}
-
-	// Iterate through the spectrum range and add up the volumes
-	float volume = 0;
-	for (int i = startIndex; i <= endIndex; i++)
+	for (size_t i = 0; i < soundPlayers.size(); i++)
 	{
-		volume += spectrum[i];
+		delete soundPlayers[i];
 	}
-	return volume;
+
+	analyzer.exit();
 }
 
 void MusicAnalysis::loadSongs(vector<string> songs)
 {
 	for (int i = 0; i < songs.size(); i++)
 	{
-		ofSoundPlayer* tmp = new ofSoundPlayer();
-		tmp->load(songs[i]);
-		soundPlayer.push_back(tmp);
-		numOfSongs++;
-	}
-}
-
-void MusicAnalysis::changeSong(int index)
-{
-	if (soundPlayer.size() != 0 && soundPlayer.size() > index && index >= 0)
-	{
-		if (currentSong) currentSong->setPaused(true);
-		currentSong = soundPlayer[index];
-		currentSong->setPaused(false);
-		currentSong->play();
+		auto player = new ofFmodSoundPlayerExtended;
+		player->load(songs[i]);
+		soundPlayers.emplace_back(player);
 	}
 }
 
 void MusicAnalysis::togglePlay()
 {
-	if (soundPlayer.size() != 0)
+	if (!soundPlayers.empty())
 	{
-		if (currentSong == NULL) currentSong = soundPlayer[0];
-		
-		isPlaying = !isPlaying;
-		currentSong->setPaused(isPlaying);
-		if (isPlaying) currentSong->play();
+		if (currentSong == nullptr)
+		{
+			currentSong = soundPlayers[0];
+			currentSong->play();
+		}
+		else
+		{
+			currentSong->setPaused(!currentSong->isPaused());
+		}
 	}
 }
 
+void MusicAnalysis::changeSong(int index)
+{
+	if (soundPlayers.size() != 0 && index >= 0 && soundPlayers.size() > index)
+	{
+		if (currentSong) currentSong->setPaused(true);
+		currentSong = soundPlayers[index];
+		if (!currentSong->isPlaying()) currentSong->play();
+		currentSong->setPaused(false);
+	}
+}
+
+void MusicAnalysis::update()
+{
+	// Get the current audio buffer
+	ofSoundBuffer &buffer = currentSong->getCurrentSoundBufferMono();
+	if (buffer.size() < bufferSize) buffer.resize(bufferSize); // make sure the buffer is not empty
+
+	// Run the actual analysis
+	analyzer.analyze(buffer);
+
+	// Get sound statistics
+	// TODO: optimize by setting analyzer->setActive(0, ALG, false) for unused algorithms
+	spectrum = analyzer.getValues(SPECTRUM, 0, smoothing);
+	rms = analyzer.getValue(RMS, 0, smoothing);
+	power = analyzer.getValue(POWER, 0, smoothing);
+	pitchFreq = analyzer.getValue(PITCH_FREQ, 0, smoothing);
+	hfc = analyzer.getValue(HFC, 0, smoothing);
+	strongDecay = analyzer.getValue(STRONG_DECAY, 0, smoothing);
+	strongDecayNorm = analyzer.getValue(STRONG_DECAY, 0, smoothing, true);
+	onBeat = analyzer.getOnsetValue(0);
+
+	// Update the Ranges using the frequency spectrum loudness
+	for (auto& pair : ranges)
+	{
+		getRangeVolume(pair.second, spectrum);
+	}
+}
+
+void MusicAnalysis::getRangeVolume(Range &range, vector<float> &spectrum)
+{
+	// Calculate the start and end bins in the spectrum
+	int startIndex = static_cast<int>(range.minFreq / sampleRate * spectrum.size());
+	int endIndex = static_cast<int>(range.maxFreq / sampleRate * spectrum.size());
+	assert(startIndex >= 0 && startIndex < spectrum.size());
+	assert(endIndex >= 0 && endIndex < spectrum.size());
+
+	// If each bin has a max volume of 1.0, the max total volume is the number of bins
+	range.maxVolume = endIndex - startIndex + 1.0;
+
+	// Iterate through the spectrum range and add up the volumes
+	range.volume = 0;
+	for (int i = startIndex; i <= endIndex; i++)
+	{
+		range.volume += ofMap(spectrum[i], DB_MIN, DB_MAX, 0.0, 1.0, true); // map dBs to 0..1 and clamp
+	}
+}

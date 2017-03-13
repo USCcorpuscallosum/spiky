@@ -35,6 +35,8 @@ void ofApp::setup()
 //--------------------------------------------------------------
 void ofApp::update()
 {
+	musicAnalysis.update();
+
 	terrain.changeAllColors();
 	terrain.changeHeight();
 
@@ -120,11 +122,11 @@ void ofApp::windowResized(int w, int h) {
 }
 
 //--------------------------------------------------------------
-void ofApp::gotMessage(ofMessage msg) {
+void ofApp::dragEvent(ofDragInfo dragInfo) { 
 
 }
 
 //--------------------------------------------------------------
-void ofApp::dragEvent(ofDragInfo dragInfo) { 
+void ofApp::gotMessage(ofMessage msg) {
 
 }

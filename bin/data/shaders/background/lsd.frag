@@ -2,7 +2,7 @@
 
 uniform vec4 terrainColor;
 uniform float time;
-uniform float bassVolume;
+uniform float volume;
 
 in vec2 outTexcoord;
 
@@ -45,23 +45,23 @@ const float DistanceMult = 0.7;
 const float NoiseSize = 20;
 const vec2 NoiseSpeed = vec2(0, -10);
 const float NoiseMult = 0.2;
-const float BassVolumeMult = 1.0;
+const float VolumeMult = 0.5;
 const int PosterizeSteps = 6;
 
 void main()
 {
-	// Invert the terrain color
-	vec3 color = vec3(1 - terrainColor.r, 1 - terrainColor.g, 1 - terrainColor.b);
-
-	// Alternate triadic color
-	vec3 color2 = rgb2hsv(color);
-	color2.x = fract(color2.x + 0.333);
+	// Get triadic colors
+	vec3 color = rgb2hsv(terrainColor.rgb);
+	vec3 color2 = color;
+	color.x = fract(color.x + 0.333);
+	color2.x = fract(color.x + 0.333);
+	color = hsv2rgb(color);
 	color2 = hsv2rgb(color2);
 
 	float t = distance(outTexcoord, vec2(0.5, 0.5)) * 2; // 0..1 from center to edge
 	t *= DistanceMult; // less emphasis on distance
 	t += noise(outTexcoord * NoiseSize + time * NoiseSpeed) * NoiseMult; // add random noise which moves 
-	t += bassVolume * BassVolumeMult;
+	t += volume * VolumeMult;
 
 	t = int(t * PosterizeSteps) / PosterizeSteps; // posterize
 

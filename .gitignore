@@ -140,16 +140,13 @@ Desktop.ini
 *.userprefs
 
 # Build results
-[Dd]ebug/
-[Dd]ebugPublic/
-[Rr]elease/
-[Rr]eleases/
-x64/
-x86/
-bld/
-[Bb]in/*
-[Oo]bj/
-[Ll]og/
+/[Dd]ebug/
+/[Rr]elease/
+/x64/
+/x86/
+/[Bb]in/
+/[Oo]bj/
+/[Ll]og/
 
 # Visual Studio 2015 cache/options directory
 .vs/
@@ -224,14 +221,4 @@ UpgradeLog*.XML
 UpgradeLog*.htm
 
 
-AudioTerrainTransformer.VC.VC.opendb
-AudioTerrainTransformer.VC.db
-AudioTerrainTransformer.sln
-AudioTerrainTransformer.vcxproj
-AudioTerrainTransformer.vcxproj.filters
-AudioTerrainTransformer.vcxproj.user
-Terrain.cpp
-Terrain.h
-addons.make
-icon.rc
 !bin/data

@@ -97,11 +97,8 @@ void Terrain::changeHeight()
 
 	float time = ofGetElapsedTimef();
 
-	float bassMax;
-	float bass = musicAnalysis->getVolumeOfRange(0, 200, &bassMax);
-
-	float midMax;
-	float mid = musicAnalysis->getVolumeOfRange(300, 600, &midMax);
+	auto& bass = musicAnalysis->getRange(MusicAnalysis::RANGE_BASS);
+	auto& mid = musicAnalysis->getRange(MusicAnalysis::RANGE_MID);
 
 	/*for (int i = 0; i < mesh.getNumIndices(); i++)
 	{
@@ -123,8 +120,8 @@ void Terrain::changeHeight()
 
 			// Calculate the new height of each vertex from the audio
 			float newOffset = 0;
-			newOffset += ofNoise(position * BASS_SCALE + BASS_SPEED * time) * bass / bassMax * BASS_HEIGHT;
-			newOffset += ofNoise(position * MID_SCALE  + MID_SPEED  * time) * mid  / midMax  * MID_HEIGHT;
+			newOffset += ofNoise(position * BASS_SCALE + BASS_SPEED * time) * bass.volume / bass.maxVolume * BASS_HEIGHT;
+			newOffset += ofNoise(position * MID_SCALE  + MID_SPEED  * time) * mid.volume  / mid.maxVolume  * MID_HEIGHT;
 
 			calculateNewPosForIndex(index, newOffset);
 		}

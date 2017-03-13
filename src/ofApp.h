@@ -35,5 +35,3 @@ private:
 	vector<string> songNames;
 
 };
-
-

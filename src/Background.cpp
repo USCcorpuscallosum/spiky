@@ -14,12 +14,11 @@ void Background::draw()
 	ofDisableDepthTest(); // treat this as the background, not another solid object
 	ofEnableAlphaBlending();
 
-	float volumeMax;
-	float volume = musicAnalysis->getVolumeOfRange(0, 1000, &volumeMax);
+	float volume = musicAnalysis->getDecayNormalized();
 
 	shader.setUniform4f("terrainColor", terrain->getColor());
 	shader.setUniform1f("time", ofGetElapsedTimef());
-	shader.setUniform1f("bassVolume", volume / volumeMax);
+	shader.setUniform1f("volume", volume);
 	plane.draw();
 
 	ofDisableAlphaBlending();
