@@ -5,6 +5,8 @@ Built with [OpenFrameworks](http://openframeworks.cc/). Uses [ofxAudioAnalyzer](
 ## Setup
 First, install [OpenFrameworks](http://openframeworks.cc/download/) and clone this repo inside your OF `apps/myApps` folder.
 
+Then, [download ofxAudioAnalyzer](https://github.com/leozimmerman/ofxAudioAnalyzer/archive/master.zip). Extract it, rename the folder to "ofxAudioAnalyzer", and copy it into your OF `addons` folder.
+
 On Windows, you don't have to install anything else! It should just build.
 
 On macOS, you need to install Essentia first. Follow the "Install dependencies" section of [this guide](https://github.com/leozimmerman/ofxAudioAnalyzer/blob/8ab2d0686beb6cb798e2f391738a271f7caac79f/essentia_compilation.md#install-dependencies).
