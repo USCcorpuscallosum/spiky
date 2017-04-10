@@ -11,6 +11,8 @@ void PlanetRing::update() {
 		mIsMeshDirty = false;
 	}
 
+	mMaterial.setDiffuseColor(mColorCycler.getColor());
+
 	// Copy spectrum to a texture for the shader to use
 	if (mAnalysis) {
 		mRanges = mAnalysis->getHPCP();
@@ -24,6 +26,9 @@ void PlanetRing::draw() {
 
 	auto& shader = mMaterial.getShader();
 	shader.setUniform1f("amplitude", mAmplitude);
+	shader.setUniform2f("ringSize", mRingSize);
+	shader.setUniform2f("scrollDirection", mScrollDirection);
+	shader.setUniform1f("fadeWidth", mFadeWidth);
 	shader.setUniform1i("bins", mRanges.size());
 	if (mSpectrumTex.isAllocated()) shader.setUniformTexture("spectrum", mSpectrumTex, 1); // 1-indexed
 
@@ -40,7 +45,6 @@ void PlanetRing::debugReload() {
 void PlanetRing::setupMaterial() {
 	mMaterial = ofCustomMaterial();
 	mMaterial.load("shaders/ring/ring");
-	mMaterial.setDiffuseColor(ofColor_<float>(0.91, 0, 0.48));
 	mMaterial.setShininess(127);
 	mMaterial.setSpecularColor(ofColor(255, 255, 255));
 }

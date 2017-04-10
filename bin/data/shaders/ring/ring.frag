@@ -2,17 +2,19 @@
 #pragma include "../util.glsl"
 
 uniform sampler2DRect spectrum;
+uniform vec2 ringSize;
+uniform vec2 scrollDirection;
+uniform float fadeWidth;
 
 in vec4 vWorldPosition;
 in float vFrequency;
 
 void main()
 {
-	const vec2 ringSize = vec2(10, 20);
-	const vec2 scrollDirection = vec2(0.5, -4.0);
-	const vec4 baseColor = vec4(0.1, 0.1, 1.0, 0.2);
-	const vec4 ringColor = vec4(0.4, 0.2, 1.0, 1.0);
-	const float fadeWidth = 0.2;
+//	const vec2 ringSize = vec2(10, 20);
+//	const vec2 scrollDirection = vec2(0.5, -3.0); // sideways, inward
+//	const float fadeWidth = 0.2;
+	const float baseAlpha = 0.2;
 	const float brightness = 1.5;
 
 	float vol = getVolume(vFrequency, spectrum);
@@ -23,7 +25,11 @@ void main()
 	float t = noise(mirroredUV * ringSize + scrollDirection * global_time);
 	t *= brightness;
 
-	vec4 emissive = mix(baseColor, ringColor, t);
+	vec3 emissiveColor = rgb2hsv(mat_diffuse.rgb);
+	emissiveColor.x = fract(emissiveColor.x + 0.333 * (1 - mirroredUV.y)); // go forward in the color spectrum outward on the ring
+	emissiveColor = hsv2rgb(emissiveColor);
+
+	vec4 emissive = vec4(emissiveColor, mix(baseAlpha, 1.0, t));
 
 	// Fade to edges
 	emissive.a *= min(

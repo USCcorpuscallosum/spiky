@@ -7,18 +7,13 @@ Globe::Globe()
 	mesh = modelLoader.getMesh(0);
 
 	material.load("shaders/globe/globe");
-	material.setDiffuseColor(ofColor_<float>(0.48, 0, 0.91));
 	material.setShininess(127);
 	material.setSpecularColor(ofColor(255, 255, 255));
 }
 
 void Globe::update()
 {
-	// Cycle colors
-	if (hue < 0) material.getDiffuseColor().getHsb(hue, saturation, brightness);
-	hue += ofGetLastFrameTime() * CYCLE_SPEED;
-	if (hue >= 1) hue -= 1; // cycle around
-	material.setDiffuseColor(ofColor_<float>::fromHsb(hue, saturation, brightness));
+	material.setDiffuseColor(colorCycler.getColor());
 
 	// Copy spectrum to a texture for the shader to use
 	if (analysis)
@@ -40,6 +35,7 @@ void Globe::draw()
 
 	auto& shader = material.getShader();
 	shader.setUniform1f("amplitude", amplitude);
+	shader.setUniform1f("colorHueRange", colorHueRange);
 	shader.setUniform1i("bins", ranges.size());
 	if (spectrumTex.isAllocated()) shader.setUniformTexture("spectrum", spectrumTex, 1); // 1-indexed
 

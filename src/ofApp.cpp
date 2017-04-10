@@ -19,29 +19,41 @@ void ofApp::setup()
 	light.setPosition(0, 0, 40);
 	light.setAttenuation(1, 0, 0);
 
+	// Setup background
+	background.setTerrain(&terrain);
+	background.setMusicAnalysis(&musicAnalysis);
+
+	// Setup terrain
+	terrain.setMusicAnalysis(&musicAnalysis);
+	terrain.initializeTerrain();
+
+	// Setup globe
+	globe.setMusicAnalysis(&musicAnalysis);
+	globe.setRadius(10);
+	auto& globeColor = globe.getColorCycler();
+	globeColor.mStartHue = 0.0;
+	globeColor.mEndHue = 1.0;
+	globeColor.mDuration = 10.0;
+
+	// Setup ring
+	ring.setMusicAnalysis(&musicAnalysis);
+	ring.setInnerRadius(12);
+	ring.setOuterRadius(25);
+	ring.setAmplitude(4);
+	auto& ringColor = ring.getColorCycler();
+	ringColor.mStartHue = 0.0;
+	ringColor.mEndHue = 1.0;
+	ringColor.mRepeat = ColorCycler::PingPong;
+	ringColor.mDuration = 3.0;
+
+	// Load music and play
 	songNames.push_back("bensound-dubstep.mp3");
-	songNames.push_back("04 Shape of You.mp3");
 	songNames.push_back("bensound-buddy.mp3");
 	songNames.push_back("bensound-epic.mp3");
 	songNames.push_back("bensound-happiness.mp3");
 	songNames.push_back("bensound-littleidea.mp3");
 	songNames.push_back("bensound-acousticbreeze.mp3");
 	musicAnalysis.loadSongs(songNames);
-
-	terrain.setMusicAnalysis(&musicAnalysis);
-	terrain.initializeTerrain();
-
-	globe.setMusicAnalysis(&musicAnalysis);
-	globe.setRadius(10);
-
-	ring.setInnerRadius(12);
-	ring.setOuterRadius(25);
-	ring.setAmplitude(4);
-	ring.setMusicAnalysis(&musicAnalysis);
-
-	background.setTerrain(&terrain);
-	background.setMusicAnalysis(&musicAnalysis);
-
 	musicAnalysis.togglePlay();
 }
 

@@ -2,6 +2,7 @@
 #pragma include "../util.glsl"
 
 uniform sampler2DRect spectrum;
+uniform float colorHueRange;
 
 in vec4 vWorldPosition;
 in float vFrequency;
@@ -9,7 +10,7 @@ in float vFrequency;
 void main()
 {
 	const float wireframeWidth = 0.03;
-	const float colorHueRange = 0.05;
+//	const float colorHueRange = 0.05;
 
 	float vol = getVolume(vFrequency, spectrum);
 
@@ -22,7 +23,7 @@ void main()
 //	}
 
 	vec3 secondary = rgb2hsv(mat_diffuse.rgb);
-	secondary.x = fract(secondary.x + log(vol) * colorHueRange);
+	secondary.x = fract(secondary.x + log(vol) * colorHueRange); // go forward on the color spectrum with the volume
 //	secondary.x = fract(secondary.x + vol * 0.333);
 	secondary = hsv2rgb(secondary);
 

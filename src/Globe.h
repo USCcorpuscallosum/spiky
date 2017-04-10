@@ -3,6 +3,7 @@
 #include <ofMain.h>
 #include <ofxAssimpModelLoader.h>
 #include "ofCustomMaterial.h"
+#include "ColorCycler.h"
 
 class Globe
 {
@@ -20,6 +21,7 @@ public:
 	float getAmplitude() { return amplitude; }
 	void setAmplitude(float amplitude_) { amplitude = amplitude_; }
 
+	ColorCycler& getColorCycler() { return colorCycler; }
 	void setMusicAnalysis(class MusicAnalysis* analysis_) { analysis = analysis_; }
 
 	const float CYCLE_SPEED = 0.1;
@@ -30,13 +32,15 @@ private:
 	float radius = 1;
 	ofVec3f center;
 	float amplitude = 1;
-	class MusicAnalysis* analysis = nullptr;
-	float hue = -1, saturation, brightness;
-	bool didSetVertFrequencies = false;
+	float colorHueRange = 0.05;
+	ColorCycler colorCycler;
 
 	ofxAssimpModelLoader modelLoader;
 	ofVboMesh mesh;
 	ofCustomMaterial material;
+	bool didSetVertFrequencies = false;
+
+	class MusicAnalysis* analysis = nullptr;
 	vector<float> ranges;
 	ofTexture spectrumTex;
 };
