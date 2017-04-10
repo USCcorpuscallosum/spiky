@@ -8,11 +8,13 @@
 class MusicAnalysis {
 public:
 	enum RangeType {
-		RANGE_SUBBASS,
+		//RANGE_SUBBASS,
 		RANGE_BASS,
 		RANGE_MID,
 		RANGE_HIGHMID,
-		RANGE_HIGH
+		RANGE_HIGH,
+
+		RANGE_MAX
 	};
 
 	struct Range {
@@ -43,6 +45,10 @@ public:
 	Range& getRange(RangeType type) { return ranges[type]; }
 	map<RangeType, Range>& getRanges() { return ranges; }
 
+	/** Get the frequency spectrum bins. Remapped to 0..1. */
+	const vector<float>& getSpectrum() const { return spectrum; }
+	/** Get harmonic pitch class profiles. Roughly represents tonality. */
+	const vector<float>& getHPCP() const { return hpcp; }
 	/** Get the general loudness (RMS power). */
 	float getVolume() const { return rms; }
 	/** Get the power means (another form of loudness). */
@@ -58,6 +64,8 @@ public:
 	/** Get whether there is currently a beat/onset. */
 	bool isOnBeat() const { return onBeat; }
 
+	ofxAudioAnalyzer& getAnalyzer() { return analyzer; }
+
 private:
 	void getRangeVolume(Range &range, vector<float> &spectrum);
 
@@ -70,6 +78,7 @@ private:
 
 	map<RangeType, Range> ranges;
 	vector<float> spectrum;
+	vector<float> hpcp;
 	float rms, power, pitchFreq, hfc, strongDecay;
 	float strongDecayNorm;
 	bool onBeat;

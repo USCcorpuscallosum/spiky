@@ -1,2 +1,3 @@
+ofxAssimpModelLoader
 ofxAudioAnalyzer
 ofxGui

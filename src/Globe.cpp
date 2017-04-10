@@ -1,56 +1,79 @@
-#include "ofMain.h"
 #include "Globe.h"
-#include <cmath>
+#include "MusicAnalysis.h"
 
-#define M_PI 3.14
-#define M_PI_2 1.57
-
-Globe::Globe() : Terrain() { radius = 100; }
-
-
-Globe::Globe(float init_length, float init_width, float r, ofVec3f cp)
-	: Terrain(init_length, init_width) { radius = r; centerPoint = cp; }
-
-Globe::Globe(float init_length, float init_width, float r, ofVec3f cp, float init_skip)
-		: Terrain(init_length, init_width, init_skip) {radius = r; centerPoint = cp;}
-
-
-
-void Globe::initializeTerrain()
+Globe::Globe()
 {
-	int rings = 50;
-	int sectors = 50;
-	
-	ofPrimitiveMode p;
-	mesh.setMode(OF_PRIMITIVE_TRIANGLE_FAN);
+	modelLoader.loadModel("Sphere5.obj");
+	mesh = modelLoader.getMesh(0);
 
-	float sphereCompleteness = 1; // 1.0 for whole sphere, 0.5 for hemisphere  
-	float const R = 1. / (float)(rings - 1) * sphereCompleteness;
-	float const S = 1. / (float)(sectors - 1);
-	int r, s;
+	material.load("shaders/globe/globe");
+	material.setDiffuseColor(ofColor_<float>(0.48, 0, 0.91));
+	material.setShininess(127);
+	material.setSpecularColor(ofColor(255, 255, 255));
+}
 
-	for (r = 0; r < rings; r++) 
+void Globe::update()
+{
+	// Cycle colors
+	if (hue < 0) material.getDiffuseColor().getHsb(hue, saturation, brightness);
+	hue += ofGetLastFrameTime() * CYCLE_SPEED;
+	if (hue >= 1) hue -= 1; // cycle around
+	material.setDiffuseColor(ofColor_<float>::fromHsb(hue, saturation, brightness));
+
+	// Copy spectrum to a texture for the shader to use
+	if (analysis)
 	{
-		for (s = 0; s < sectors; s++)
+		ranges = analysis->getHPCP();
+		spectrumTex.loadData(ranges.data(), ranges.size(), 1, GL_RED); // GL_RED is single value in red channel
+
+		if (!didSetVertFrequencies)
 		{
-			float const y = sin(-M_PI_2 + M_PI * r * R);
-			float const x = cos(2 * M_PI * s * S) * sin(M_PI * r * R);
-			float const z = sin(2 * M_PI * s * S) * sin(M_PI * r * R);
-			//mesh.addTexCoord(ofVec2f(s*S, r*R));
-			mesh.addVertex(ofVec3f(x * radius, y * radius, z * radius));
-			mesh.addNormal(ofVec3f(x, y, z));
+			calcVertexFrequencies();
+			didSetVertFrequencies = true;
 		}
 	}
+}
 
+void Globe::draw()
+{
+	material.begin();
 
-	for (r = 0; r < rings; r++) 
+	auto& shader = material.getShader();
+	shader.setUniform1f("amplitude", amplitude);
+	shader.setUniform1i("bins", ranges.size());
+	if (spectrumTex.isAllocated()) shader.setUniformTexture("spectrum", spectrumTex, 1); // 1-indexed
+
+	ofPushMatrix();
+	ofScale(radius, radius, radius);
+	ofTranslate(center);
+	mesh.draw();
+	ofPopMatrix();
+
+	material.end();
+}
+
+void Globe::debugReload()
+{
+	material = ofCustomMaterial();
+	material.load("shaders/globe/globe");
+	calcVertexFrequencies();
+	ofLogNotice("Globe") << "Reloaded shader";
+}
+
+/** Figure out the frequency to use for each vert in the range 0..1 */
+void Globe::calcVertexFrequencies()
+{
+	const float NOISE_SCALE = 200;
+
+	std::vector<float> vertFrequency(mesh.getNumVertices());
+	for (size_t i = 0; i < mesh.getNumVertices(); i++)
 	{
-		for (s = 0; s < sectors; s++) 
-		{
-			mesh.addIndex(r * sectors + s);
-			mesh.addIndex(r * sectors + (s + 1));
-			mesh.addIndex((r + 1) * sectors + (s + 1));
-			mesh.addIndex((r + 1) * sectors + s);
-		}
+		ofVec3f pos = mesh.getVertex(i);
+		vertFrequency[i] = ofNoise(pos * NOISE_SCALE) * ranges.size(); // needs to be between 0 and spectrum texture width
 	}
+
+	// Link the frequencies to the mesh
+	auto& shader = material.getShader();
+	GLint freqAttrib = shader.getAttributeLocation("frequency");
+	mesh.getVbo().setAttributeData(freqAttrib, vertFrequency.data(), 1, mesh.getNumVertices(), GL_STATIC_DRAW, sizeof(float));
 }

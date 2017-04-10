@@ -6,8 +6,6 @@
 class Terrain
 {
 public:
-	const float CYCLE_SPEED = 25;
-
 	Terrain();
 	Terrain(float init_length, float init_width);
 	Terrain(float init_length, float init_width, float init_skip);
@@ -20,6 +18,8 @@ public:
 	void drawWithoutShader();
 	ofColor getColor() const { return color; }
 	virtual void calculateNewPosForIndex(int, float);
+
+	const float CYCLE_SPEED = 25;
 
 protected:
 	ofMesh mesh;

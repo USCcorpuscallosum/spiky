@@ -102,28 +102,6 @@ Desktop.ini
 #########################
 # miscellaneous
 #########################
-.gitignore_BACKUP_11176
-.gitignore_BACKUP_11640
-.gitignore_BASE_11176
-.gitignore_BASE_11640
-.gitignore_LOCAL_11176
-.gitignore_LOCAL_11640
-.gitignore_REMOTE_11176
-.gitignore_REMOTE_11640
-
- bin/AudioTerrainTransformer_debug.exe
- bin/AudioTerrainTransformer_debug.exp
- bin/AudioTerrainTransformer_debug.lib
- bin/FreeImage.dll
- bin/Zlib.dll
- bin/assimp.dll
- bin/fmodex.dll
- bin/fmodexL.dll
- bin/freetype.dll
- bin/glut32.dll
- bin/libeay32.dll
- bin/ssleay32.dll
-
 
 .mailmap
 /apps*/
@@ -144,7 +122,7 @@ Desktop.ini
 /[Rr]elease/
 /x64/
 /x86/
-/[Bb]in/
+# /[Bb]in/
 /[Oo]bj/
 /[Ll]og/
 
@@ -221,4 +199,6 @@ UpgradeLog*.XML
 UpgradeLog*.htm
 
 
-!bin/data
+/bin/*
+!/bin/data/
+!/bin/data/*.obj

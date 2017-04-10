@@ -3,6 +3,7 @@
 #include "ofMain.h"
 #include "Terrain.h"
 #include "Globe.h"
+#include "PlanetRing.h"
 #include "MusicAnalysis.h"
 #include "Background.h"
 
@@ -27,10 +28,13 @@ public:
 	void gotMessage(ofMessage msg);
 
 private:
+	ofEasyCam cam;
+	ofLight light;
+
 	MusicAnalysis musicAnalysis;
 	Globe globe;
+	PlanetRing ring;
 	Terrain terrain;
-	ofEasyCam cam;
 	Background background;
 	vector<string> songNames;
 

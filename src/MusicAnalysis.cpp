@@ -5,11 +5,10 @@ MusicAnalysis::MusicAnalysis()
 	currentSong = nullptr;
 
 	// Set up the frequency ranges for processing
-	ranges.emplace(RANGE_SUBBASS, Range(0.0, 60.0));
-	ranges.emplace(RANGE_BASS, Range(60.0, 250.0));
-	ranges.emplace(RANGE_MID, Range(250.0, 2000.0));
-	ranges.emplace(RANGE_HIGHMID, Range(2000.0, 6000.0));
-	//ranges.emplace(RANGE_HIGH, Range(6000.0, 22000.0));
+	ranges.emplace(RANGE_BASS, Range(0.0, 200.0));
+	ranges.emplace(RANGE_MID, Range(200.0, 600.0));
+	ranges.emplace(RANGE_HIGHMID, Range(600.0, 6000.0));
+	ranges.emplace(RANGE_HIGH, Range(6000.0, 22000.0));
 
 	sampleRate = 44100;
 	bufferSize = 1024; // 512 bins
@@ -78,6 +77,7 @@ void MusicAnalysis::update()
 	// Get sound statistics
 	// TODO: optimize by setting analyzer->setActive(0, ALG, false) for unused algorithms
 	spectrum = analyzer.getValues(SPECTRUM, 0, smoothing);
+	hpcp = analyzer.getValues(HPCP, 0, CLAMP(smoothing * 2.0, 0, 1)); // more smoothing, these jump a lot
 	rms = analyzer.getValue(RMS, 0, smoothing);
 	power = analyzer.getValue(POWER, 0, smoothing);
 	pitchFreq = analyzer.getValue(PITCH_FREQ, 0, smoothing);
@@ -90,6 +90,12 @@ void MusicAnalysis::update()
 	for (auto& pair : ranges)
 	{
 		getRangeVolume(pair.second, spectrum);
+	}
+
+	// Remap the spectrum to 0..1
+	for (size_t i = 0; i < spectrum.size(); i++)
+	{
+		spectrum[i] = ofMap(spectrum[i], DB_MIN, DB_MAX, 0.0, 1.0, true); // map dBs to 0..1 and clamp
 	}
 }
 

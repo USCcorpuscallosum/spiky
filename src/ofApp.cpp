@@ -5,31 +5,44 @@
 //--------------------------------------------------------------
 void ofApp::setup()
 {
+	ofSetVerticalSync(true);
+	ofEnableDepthTest();
+	ofSetBackgroundAuto(false); // don't clear the color buffer each frame
+	ofSetSmoothLighting(true);
+	ofEnableAlphaBlending();
+
+	cam.setDistance(80);
+
+	light.setPointLight();
+	light.setDiffuseColor(ofColor(255, 255, 255));
+	light.setSpecularColor(light.getDiffuseColor());
+	light.setPosition(0, 0, 40);
+	light.setAttenuation(1, 0, 0);
+
 	songNames.push_back("bensound-dubstep.mp3");
-	songNames.push_back("bensound-cute.mp3");
+	songNames.push_back("04 Shape of You.mp3");
 	songNames.push_back("bensound-buddy.mp3");
 	songNames.push_back("bensound-epic.mp3");
 	songNames.push_back("bensound-happiness.mp3");
 	songNames.push_back("bensound-littleidea.mp3");
 	songNames.push_back("bensound-acousticbreeze.mp3");
-	
 	musicAnalysis.loadSongs(songNames);
-
-	globe.setMusicAnalysis(&musicAnalysis);
-	globe.initializeTerrain();
 
 	terrain.setMusicAnalysis(&musicAnalysis);
 	terrain.initializeTerrain();
+
+	globe.setMusicAnalysis(&musicAnalysis);
+	globe.setRadius(10);
+
+	ring.setInnerRadius(12);
+	ring.setOuterRadius(25);
+	ring.setAmplitude(4);
+	ring.setMusicAnalysis(&musicAnalysis);
 
 	background.setTerrain(&terrain);
 	background.setMusicAnalysis(&musicAnalysis);
 
 	musicAnalysis.togglePlay();
-	cam.setDistance(80);
-
-	ofSetBackgroundAuto(false); // don't clear the color buffer each frame
-	ofSetVerticalSync(true);
-	ofEnableDepthTest();
 }
 
 //--------------------------------------------------------------
@@ -40,8 +53,8 @@ void ofApp::update()
 	terrain.changeAllColors();
 	terrain.changeHeight();
 
-	globe.changeAllColors();
-	//globe.changeHeight();
+	globe.update();
+	ring.update();
 }
 
 //--------------------------------------------------------------
@@ -53,15 +66,28 @@ void ofApp::draw()
 	background.draw();
 
 	cam.begin();
+	ofEnableLighting();
+	light.enable();
+	
+//	light.draw();
 	
 	ofPushMatrix();
 	ofRotateX(115);
-	ofTranslate(-50, -50, -10);
+
+	ofPushMatrix();
+	ofTranslate(-50, -50, 10);
 	terrain.draw();
-	//globe.draw();
+	ofPopMatrix();
+
+	globe.draw();
+	ofPushMatrix();
+	ofRotateY(15);
+	ring.draw();
+	ofPopMatrix();
 	ofPopMatrix();
 
 	cam.end();
+	ofDisableLighting();
 }
 
 //--------------------------------------------------------------
@@ -78,9 +104,12 @@ void ofApp::keyPressed(int key)
 		index--;
 		musicAnalysis.changeSong(index);
 	}
+	else if (key == 'r')
+	{
+		globe.debugReload();
+		ring.debugReload();
+	}
 }
-
-
 
 //--------------------------------------------------------------
 void ofApp::keyReleased(int key) {

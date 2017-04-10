@@ -12,7 +12,6 @@ void Background::draw()
 {
 	shader.begin();
 	ofDisableDepthTest(); // treat this as the background, not another solid object
-	ofEnableAlphaBlending();
 
 	float volume = musicAnalysis->getDecayNormalized();
 
@@ -21,7 +20,6 @@ void Background::draw()
 	shader.setUniform1f("volume", volume);
 	plane.draw();
 
-	ofDisableAlphaBlending();
 	ofEnableDepthTest(); // reset
 	shader.end();
 }
