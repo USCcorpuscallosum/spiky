@@ -8,12 +8,12 @@
       <AdditionalDependencies>lib\ofxAudioAnalyzerWin\$(PlatformName)\ofxAudioAnalyzerWin.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>cp "lib\fftw-3.3.5\lib\$(PlatformName)\libfftw3f-3.dll" "$(ProjectDir)bin/"
-cp "lib\libav-11.3\lib\$(PlatformName)\*.dll" "$(ProjectDir)bin/"
+      <Command>copy "lib\fftw-3.3.5\lib\$(PlatformName)\libfftw3f-3.dll" "$(ProjectDir)bin/"
+copy "lib\libav-11.3\lib\$(PlatformName)\*.dll" "$(ProjectDir)bin/"
 robocopy "lib\libav-11.3\lib\$(PlatformName)" "$(ProjectDir)bin/" "*.dll"
-cp "lib\OpenAL\lib\$(PlatformName)\OpenAL32.dll" "$(ProjectDir)bin/"
-cp "lib\sndfile\lib\$(PlatformName)\libsndfile-1.dll" "$(ProjectDir)bin/"
-cp "lib\ofxAudioAnalyzerWin\$(PlatformName)\ofxAudioAnalyzerWin.dll" "$(ProjectDir)bin/"
+copy "lib\OpenAL\lib\$(PlatformName)\OpenAL32.dll" "$(ProjectDir)bin/"
+copy "lib\sndfile\lib\$(PlatformName)\libsndfile-1.dll" "$(ProjectDir)bin/"
+copy "lib\ofxAudioAnalyzerWin\$(PlatformName)\ofxAudioAnalyzerWin.dll" "$(ProjectDir)bin/"
 robocopy "$(OF_ROOT)/export/vs/$(Platform_Actual)/" "$(ProjectDir)bin/" "*.dll" /njs /njh /np /fp /bytes
 if errorlevel 1 exit 0 else exit %errorlevel%</Command>
     </PostBuildEvent>

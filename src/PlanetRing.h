@@ -13,11 +13,11 @@ public:
 	void debugReload();
 
 	float getInnerRadius() { return mInnerRadius; }
-	float setInnerRadius(float radius) { mInnerRadius = radius; mIsMeshDirty = true; }
+	void setInnerRadius(float radius) { mInnerRadius = radius; mIsMeshDirty = true; }
 	float getOuterRadius() { return mOuterRadius; }
-	float setOuterRadius(float radius) { mOuterRadius = radius; mIsMeshDirty = true; }
+	void setOuterRadius(float radius) { mOuterRadius = radius; mIsMeshDirty = true; }
 	float getAmplitude() { return mAmplitude; }
-	float setAmplitude(float amplitude) { mAmplitude = amplitude; mIsMeshDirty = true; }
+	void setAmplitude(float amplitude) { mAmplitude = amplitude; mIsMeshDirty = true; }
 
 	ColorCycler& getColorCycler() { return mColorCycler; }
 	void setMusicAnalysis(class MusicAnalysis* analysis) { mAnalysis = analysis; }
