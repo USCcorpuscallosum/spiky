@@ -34,7 +34,7 @@ void Globe::draw()
 	material.begin();
 
 	auto& shader = material.getShader();
-	shader.setUniform1f("amplitude", amplitude);
+	shader.setUniform1f("amplitude", amplitude / radius); // amplitude is relative to scale
 	shader.setUniform1f("colorHueRange", colorHueRange);
 	shader.setUniform1i("bins", ranges.size());
 	if (spectrumTex.isAllocated()) shader.setUniformTexture("spectrum", spectrumTex, 1); // 1-indexed

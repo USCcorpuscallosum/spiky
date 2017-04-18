@@ -11,8 +11,6 @@ void ofApp::setup()
 	ofSetSmoothLighting(true);
 	ofEnableAlphaBlending();
 
-	cam.setDistance(80);
-
 	light.setPointLight();
 	light.setDiffuseColor(ofColor(255, 255, 255));
 	light.setSpecularColor(light.getDiffuseColor());
@@ -21,22 +19,23 @@ void ofApp::setup()
 
 	// Setup background
 	background.setTerrain(&terrain);
-	background.setMusicAnalysis(&musicAnalysis);
+	background.setMusicAnalysis(&analysis);
 
 	// Setup terrain
-	terrain.setMusicAnalysis(&musicAnalysis);
+	terrain.setMusicAnalysis(&analysis);
 	terrain.initializeTerrain();
 
 	// Setup globe
-	globe.setMusicAnalysis(&musicAnalysis);
-	globe.setRadius(10);
+	globe.setMusicAnalysis(&analysis);
+	globe.setRadius(10.0);
+	globe.setAmplitude(5.0);
 	auto& globeColor = globe.getColorCycler();
 	globeColor.mStartHue = 0.0;
 	globeColor.mEndHue = 1.0;
 	globeColor.mDuration = 10.0;
 
 	// Setup ring
-	ring.setMusicAnalysis(&musicAnalysis);
+	ring.setMusicAnalysis(&analysis);
 	ring.setInnerRadius(12);
 	ring.setOuterRadius(25);
 	ring.setAmplitude(4);
@@ -53,14 +52,21 @@ void ofApp::setup()
 	songNames.push_back("bensound-happiness.mp3");
 	songNames.push_back("bensound-littleidea.mp3");
 	songNames.push_back("bensound-acousticbreeze.mp3");
-	musicAnalysis.loadSongs(songNames);
-	musicAnalysis.togglePlay();
+	analysis.loadSongs(songNames);
+	analysis.togglePlay();
 }
 
 //--------------------------------------------------------------
 void ofApp::update()
 {
-	musicAnalysis.update();
+	// Revolve camera
+	cam.setPosition(
+		cos(ofGetElapsedTimef() * revolveSpeed) * revolveDistance,
+		20,
+		sin(ofGetElapsedTimef() * revolveSpeed) * revolveDistance);
+	cam.lookAt(ofVec3f());
+
+	analysis.update();
 
 	terrain.changeAllColors();
 	terrain.changeHeight();
@@ -80,26 +86,29 @@ void ofApp::draw()
 	cam.begin();
 	ofEnableLighting();
 	light.enable();
-	
-//	light.draw();
-	
-	ofPushMatrix();
-	ofRotateX(115);
 
 	ofPushMatrix();
-	ofTranslate(-50, -50, 10);
-	terrain.draw();
+	{
+		ofTranslate(0, -20, 0);
+		terrain.draw();
+	}
 	ofPopMatrix();
 
-	globe.draw();
 	ofPushMatrix();
-	ofRotateY(15);
-	ring.draw();
-	ofPopMatrix();
+	{
+		globe.draw();
+		ofPushMatrix();
+		{
+			ofRotateY(ofGetElapsedTimef() * 25);
+			ofRotateZ(10);
+			ring.draw();
+		}
+		ofPopMatrix();
+	}
 	ofPopMatrix();
 
-	cam.end();
 	ofDisableLighting();
+	cam.end();
 }
 
 //--------------------------------------------------------------
@@ -107,14 +116,14 @@ void ofApp::keyPressed(int key)
 {
 	if (key == 'p')
 	{
-		musicAnalysis.togglePlay();
+		analysis.togglePlay();
 	}
 	else if ('0' <= key && key <= '9')
 	{
 		int index = key - '0';
 		if (index == 0) index = 10;
 		index--;
-		musicAnalysis.changeSong(index);
+		analysis.changeSong(index);
 	}
 	else if (key == 'r')
 	{

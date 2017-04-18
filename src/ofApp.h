@@ -28,14 +28,17 @@ public:
 	void gotMessage(ofMessage msg);
 
 private:
-	ofEasyCam cam;
+	ofCamera cam;
 	ofLight light;
 
-	MusicAnalysis musicAnalysis;
+	MusicAnalysis analysis;
 	Globe globe;
 	PlanetRing ring;
 	Terrain terrain;
 	Background background;
 	vector<string> songNames;
+
+	float revolveSpeed = 0.1;
+	float revolveDistance = 50.0;
 
 };
