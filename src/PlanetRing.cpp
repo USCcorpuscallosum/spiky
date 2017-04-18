@@ -58,16 +58,16 @@ void PlanetRing::buildMesh() {
 	for (int i = 0; i <= RESOLUTION; i++) {
 		// Inner vert
 		float x = mInnerRadius * cos(i * deltaAngle);
-		float y = mInnerRadius * sin(i * deltaAngle);
-		mMesh.addVertex(ofVec3f(x, y, 0));
-		mMesh.addNormal(ofVec3f(0.0, 0.0, -1.0));
+		float z = mInnerRadius * sin(i * deltaAngle);
+		mMesh.addVertex(ofVec3f(x, 0, z));
+		mMesh.addNormal(ofVec3f(0.0, 1.0, 0));
 		mMesh.addTexCoord(ofVec2f(static_cast<float>(i) / RESOLUTION, 0.0));
 
 		// Outer vert
 		x = mOuterRadius * cos(i * deltaAngle);
-		y = mOuterRadius * sin(i * deltaAngle);
-		mMesh.addVertex(ofVec3f(x, y, 0));
-		mMesh.addNormal(ofVec3f(0.0, 0.0, -1.0));
+		z = mOuterRadius * sin(i * deltaAngle);
+		mMesh.addVertex(ofVec3f(x, 0, z));
+		mMesh.addNormal(ofVec3f(0.0, 1.0, 0.0));
 		mMesh.addTexCoord(ofVec2f(static_cast<float>(i) / RESOLUTION, 1.0));
 
 		if (i < RESOLUTION) {

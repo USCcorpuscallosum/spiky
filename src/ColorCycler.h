@@ -13,9 +13,8 @@ public:
 			if (mRepeat == Loop) {
 				t = fmod(t, 1.0);
 			} else if (mRepeat == PingPong) {
-				float i;
-				t = modf(t, &i);
-				if (static_cast<int>(i) % 2 == 1) t = 1 - t;
+				if (static_cast<int>(t) % 2 == 0) t = fmod(t, 1.0);
+				else t = 1.0 - fmod(t, 1.0);
 			}
 			float hue = ofLerp(mStartHue, mEndHue, t);
 			mColor = ofColor_<float>::fromHsb(hue, mSaturation, mBrightness);

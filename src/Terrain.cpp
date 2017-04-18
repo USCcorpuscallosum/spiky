@@ -42,29 +42,29 @@ Terrain::Terrain(float init_length, float init_width, float init_skip)
 void Terrain::initializeTerrain()
 {
 	//Create vertices
-	for (int y = 0; y < length; y++) 
+	for (int z = 0; z < length; z++)
 	{
 		for (int x = 0; x<width; x++) 
 		{
-			mesh.addVertex(ofPoint(x, y, 0));	// mesh index = x + y*width
+			mesh.addVertex(ofPoint(x, 0, z));	// mesh index = x + z*width
 												// this replicates the pixel array within the camera bitmap...
-			mesh.addNormal(ofVec3f(ofRandomf() / 5, ofRandomf() / 5, 1));
+			mesh.addNormal(ofVec3f(ofRandomf() / 5, 1, ofRandomf() / 5));
 			mesh.addColor(ofFloatColor(0, 0, 0));  // placeholder for colour data, we'll get this from the camera
 		}
 	}
 
 	//Create indeces
-	for (int y = 0; y < length - 1; y++)
+	for (int z = 0; z < length - 1; z++)
 	{
 		for (int x = 0; x < width - 1; x++)
 		{
-			mesh.addIndex(x + y*width);              
-			mesh.addIndex((x + 1) + y*width);        
-			mesh.addIndex(x + (y + 1)*width);        
+			mesh.addIndex(x + z*width);
+			mesh.addIndex((x + 1) + z*width);
+			mesh.addIndex(x + (z + 1)*width);
 
-			mesh.addIndex((x + 1) + y*width);        
-			mesh.addIndex((x + 1) + (y + 1)*width);  
-			mesh.addIndex(x + (y + 1)*width);        
+			mesh.addIndex((x + 1) + z*width);
+			mesh.addIndex((x + 1) + (z + 1)*width);
+			mesh.addIndex(x + (z + 1)*width);
 		}
 	}
 
@@ -111,12 +111,12 @@ void Terrain::changeHeight()
 		calculateNewPosForIndex(i, newOffset);
 	}*/
 
-	for (int y = 0; y < length; y++)
+	for (int z = 0; z < length; z++)
 	{
 		for (int x = 0; x < width; x++)
 		{
-			int index = y * length + x;
-			ofVec2f position(x, y);
+			int index = z * length + x;
+			ofVec2f position(x, z);
 
 			// Calculate the new height of each vertex from the audio
 			float newOffset = 0;
@@ -131,9 +131,9 @@ void Terrain::changeHeight()
 void Terrain::calculateNewPosForIndex(int index, float newHeight)
 {
 	//Change the x, y, and z values of the base vert over time
-	ofVec3f randomVec = ofVec3f(ofRandomf() / 5, ofRandomf() / 5, ofRandomf()).normalize();
+	ofVec3f randomVec = ofVec3f(ofRandomf() / 5, ofRandomf(), ofRandomf() / 5).normalize();
 	ofVec3f newBasePos = baseMesh.getVertex(index);
-	newBasePos += (randomVec * ofGetLastFrameTime() * randomPosScalar) + (newBasePos.z / 30000);
+	newBasePos += (randomVec * ofGetLastFrameTime() * randomPosScalar) + (newBasePos.y / 30000);
 	baseMesh.setVertex(index, newBasePos);
 
 	//Change the depth in the direction of the normal vector
@@ -152,7 +152,10 @@ void Terrain::draw()
 	//ofColor secondaryColor = color + ofColor(50, 50, 50);
 	//shaders[activeShader].setUniform4f("secondaryColor", secondaryColor.r / 256.f, secondaryColor.g / 256.f, secondaryColor.b / 256.f, 1);
 
+	ofPushMatrix();
+	ofTranslate(-width * 0.5, 0, -length * 0.5);
 	mesh.draw();
+	ofPopMatrix();
 	shaders[activeShader].end();
 }
 
