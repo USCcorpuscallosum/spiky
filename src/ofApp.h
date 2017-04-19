@@ -38,7 +38,7 @@ private:
 	Background background;
 	vector<string> songNames;
 
-	float revolveSpeed = 0.1;
+	float revolveSpeed = -0.1;
 	float revolveDistance = 50.0;
 
 };

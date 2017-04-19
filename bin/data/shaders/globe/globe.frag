@@ -23,7 +23,7 @@ void main()
 //	}
 
 	vec3 secondary = rgb2hsv(mat_diffuse.rgb);
-	secondary.x = fract(secondary.x + log(vol) * colorHueRange); // go forward on the color spectrum with the volume
+	secondary.x = fract(secondary.x + log(vol + 0.001) * colorHueRange); // go forward on the color spectrum with the volume
 //	secondary.x = fract(secondary.x + vol * 0.333);
 	secondary = hsv2rgb(secondary);
 

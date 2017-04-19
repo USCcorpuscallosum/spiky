@@ -227,5 +227,5 @@ void areaLight(in lightData light, in vec3 N, in vec3 V, inout vec3 ambient, ino
 	vec4 localColor = vec4(ambient_ * ambientColor.rgb + diffuse_ * diffuseColor.rgb + specular_ * specularColor.rgb, diffuseColor.a) + emissiveColor; \
 	FRAG_COLOR = clamp( localColor, 0.0, 1.0 );
 
-#define MATERIAL_FRAG_MAIN_DEFAULT MATERIAL_FRAG_MAIN(mat_diffuse, mat_specular, mat_emissive, mat_ambient)
+#define MATERIAL_FRAG_MAIN_DEFAULT() MATERIAL_FRAG_MAIN(mat_diffuse, mat_specular, mat_emissive, mat_ambient)
 

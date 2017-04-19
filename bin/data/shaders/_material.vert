@@ -25,4 +25,4 @@ uniform mat4 normalMatrix;
 	outtexcoord = (textureMatrix*vec4(texcoord.x,texcoord.y,0,1)).xy; \
 	gl_Position = modelViewProjectionMatrix * position;
 
-#define MATERIAL_VERT_MAIN_DEFAULT MATERIAL_VERT_MAIN(position, normal, texcoord)
+#define MATERIAL_VERT_MAIN_DEFAULT() MATERIAL_VERT_MAIN(position, normal, texcoord)
