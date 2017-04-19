@@ -5,12 +5,11 @@
 #include "ofCustomMaterial.h"
 #include "ColorCycler.h"
 
-class Globe
-{
+class Globe : public ofNode {
 public:
 	Globe();
 	void update();
-	void draw();
+	void customDraw() override;
 
 	void debugReload();
 
@@ -43,4 +42,5 @@ private:
 	class MusicAnalysis* analysis = nullptr;
 	vector<float> ranges;
 	ofTexture spectrumTex;
+
 };

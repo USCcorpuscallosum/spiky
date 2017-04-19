@@ -21,7 +21,7 @@ void PlanetRing::update() {
 	}
 }
 
-void PlanetRing::draw() {
+void PlanetRing::customDraw() {
 	mMaterial.begin();
 
 	auto& shader = mMaterial.getShader();

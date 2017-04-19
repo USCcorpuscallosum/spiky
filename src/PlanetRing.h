@@ -4,11 +4,11 @@
 #include "ofCustomMaterial.h"
 #include "ColorCycler.h"
 
-class PlanetRing {
+class PlanetRing : public ofNode {
 public:
 	PlanetRing();
 	void update();
-	void draw();
+	void customDraw() override;
 	
 	void debugReload();
 

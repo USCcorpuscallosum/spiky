@@ -22,8 +22,8 @@ void ofApp::setup()
 	background.setMusicAnalysis(&analysis);
 
 	// Setup terrain
+	terrain.setPosition(ofVec3f(0, -20, 0));
 	terrain.setMusicAnalysis(&analysis);
-	terrain.initializeTerrain();
 
 	// Setup globe
 	globe.setMusicAnalysis(&analysis);
@@ -68,10 +68,9 @@ void ofApp::update()
 
 	analysis.update();
 
-	terrain.changeAllColors();
-	terrain.changeHeight();
-
+	terrain.update();
 	globe.update();
+	ring.setOrientation(ofVec3f(0, ofGetElapsedTimef() * 25.0, 10.0));
 	ring.update();
 }
 
@@ -87,25 +86,9 @@ void ofApp::draw()
 	ofEnableLighting();
 	light.enable();
 
-	ofPushMatrix();
-	{
-		ofTranslate(0, -20, 0);
-		terrain.draw();
-	}
-	ofPopMatrix();
-
-	ofPushMatrix();
-	{
-		globe.draw();
-		ofPushMatrix();
-		{
-			ofRotateY(ofGetElapsedTimef() * 25);
-			ofRotateZ(10);
-			ring.draw();
-		}
-		ofPopMatrix();
-	}
-	ofPopMatrix();
+	terrain.draw();
+	globe.draw();
+	ring.draw();
 
 	ofDisableLighting();
 	cam.end();

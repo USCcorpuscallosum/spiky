@@ -22,21 +22,29 @@ Terrain::Terrain()
 		shaders[i].load(shaderNames[i]);
 	}
 	activeShader = 0;
+
+	initializeTerrain();
 }
 
-Terrain::Terrain(float init_length, float init_width)
+void Terrain::update()
 {
-	length = init_length;
-	width = init_width;
+	changeAllColors();
+	changeHeight();
 }
 
-Terrain::Terrain(float init_length, float init_width, float init_skip)
+void Terrain::customDraw()
 {
-	length = init_length;
-	width = init_width;
-	skip = init_skip;
-}
+	shaders[activeShader].begin();
+	shaders[activeShader].setUniform4f("primaryColor", color.r / 256.f, color.g / 256.f, color.b / 256.f, 1);
+	//ofColor secondaryColor = color + ofColor(50, 50, 50);
+	//shaders[activeShader].setUniform4f("secondaryColor", secondaryColor.r / 256.f, secondaryColor.g / 256.f, secondaryColor.b / 256.f, 1);
 
+	ofPushMatrix();
+	ofTranslate(-width * 0.5, 0, -length * 0.5);
+	mesh.draw();
+	ofPopMatrix();
+	shaders[activeShader].end();
+}
 
 //Sets up all the vertices for the mesh
 void Terrain::initializeTerrain()
@@ -53,7 +61,7 @@ void Terrain::initializeTerrain()
 		}
 	}
 
-	//Create indeces
+	//Create indices
 	for (int z = 0; z < length - 1; z++)
 	{
 		for (int x = 0; x < width - 1; x++)
@@ -143,23 +151,4 @@ void Terrain::calculateNewPosForIndex(int index, float newHeight)
 
 	//Set the new position to that of the vertex
 	mesh.setVertex(index, newPos);
-}
-
-void Terrain::draw()
-{
-	shaders[activeShader].begin();
-	shaders[activeShader].setUniform4f("primaryColor", color.r / 256.f, color.g / 256.f, color.b / 256.f, 1);
-	//ofColor secondaryColor = color + ofColor(50, 50, 50);
-	//shaders[activeShader].setUniform4f("secondaryColor", secondaryColor.r / 256.f, secondaryColor.g / 256.f, secondaryColor.b / 256.f, 1);
-
-	ofPushMatrix();
-	ofTranslate(-width * 0.5, 0, -length * 0.5);
-	mesh.draw();
-	ofPopMatrix();
-	shaders[activeShader].end();
-}
-
-void Terrain::drawWithoutShader()
-{
-	mesh.draw();
 }

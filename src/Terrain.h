@@ -3,25 +3,27 @@
 #include "ofMain.h"
 #include "MusicAnalysis.h"
 
-class Terrain
+class Terrain : public ofNode
 {
 public:
 	Terrain();
-	Terrain(float init_length, float init_width);
-	Terrain(float init_length, float init_width, float init_skip);
+
+	void update();
+	void customDraw() override;
+
 	void setMusicAnalysis(MusicAnalysis* analysis) { musicAnalysis = analysis; }
 	void setActiveShader(int index) { activeShader = index; }
-	virtual void initializeTerrain();	// Add vertices to mesh
-	void changeAllColors();
-	void changeHeight();
-	void draw();
-	void drawWithoutShader();
 	ofColor getColor() const { return color; }
-	virtual void calculateNewPosForIndex(int, float);
 
 	const float CYCLE_SPEED = 25;
 
-protected:
+private:
+	void changeAllColors();
+	void changeHeight();
+	/** Add vertices to mesh */
+	void initializeTerrain();
+	void calculateNewPosForIndex(int index, float newHeight);
+
 	ofMesh mesh;
 	ofMesh baseMesh;
 	MusicAnalysis* musicAnalysis;
