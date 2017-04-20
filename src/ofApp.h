@@ -7,6 +7,7 @@
 #include "Flare.h"
 #include "MusicAnalysis.h"
 #include "Background.h"
+#include "Starfield.h"
 
 #include <vector>
 
@@ -43,6 +44,7 @@ private:
 	Flare flare;
 	Terrain terrain;
 	Background background;
+	Starfield starfield;
 	vector<string> songNames;
 
 	float cameraFovShrink = 2.0; // degrees

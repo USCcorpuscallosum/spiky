@@ -102,6 +102,7 @@ void ofApp::draw()
 	ofEnableLighting();
 	light.enable();
 
+	starfield.draw();
 	terrain.draw();
 	globe.draw();
 	flare.draw();

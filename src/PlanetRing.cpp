@@ -17,7 +17,7 @@ void PlanetRing::update() {
 	if (mAnalysis) {
 		mRanges = mAnalysis->getHPCP();
 		mRanges.emplace_back(mRanges[0]); // wrap
-		mSpectrumTex.loadData(mRanges.data(), mRanges.size(), 1, GL_RED); // GL_RED is single value in red channel
+		mSpectrumTex.loadData(mRanges.data(), static_cast<int>(mRanges.size()), 1, GL_RED); // GL_RED is single value in red channel
 	}
 }
 
@@ -29,7 +29,7 @@ void PlanetRing::customDraw() {
 	shader.setUniform2f("ringSize", mRingSize);
 	shader.setUniform2f("scrollDirection", mScrollDirection);
 	shader.setUniform1f("fadeWidth", mFadeWidth);
-	shader.setUniform1i("bins", mRanges.size());
+	shader.setUniform1i("bins", static_cast<int>(mRanges.size()));
 	if (mSpectrumTex.isAllocated()) shader.setUniformTexture("spectrum", mSpectrumTex, 1); // 1-indexed
 
 	mMesh.draw();
