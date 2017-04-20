@@ -31,7 +31,7 @@ void main()
 	t += noise(outTexcoord * NoiseSize + time * NoiseSpeed) * NoiseMult; // add random noise which moves 
 	t += volume * VolumeMult;
 
-	t = int(t * PosterizeSteps) / PosterizeSteps; // posterize
+	t = int(t * PosterizeSteps) / float(PosterizeSteps); // posterize
 
 	color = mix(color, color2, t); // lerp between the colors
 

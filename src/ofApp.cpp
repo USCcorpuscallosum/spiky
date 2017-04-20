@@ -2,14 +2,20 @@
 #include "Terrain.h"
 #include "MusicAnalysis.h"
 
+ofApp* ofApp::sInstance = nullptr;
+ofApp::ofApp() {
+	sInstance = this;
+}
+
 //--------------------------------------------------------------
 void ofApp::setup()
 {
 	ofSetVerticalSync(true);
 	ofEnableDepthTest();
-	ofSetBackgroundAuto(false); // don't clear the color buffer each frame
+//	ofSetBackgroundAuto(false); // don't clear the color buffer each frame
 	ofSetSmoothLighting(true);
-	ofEnableAlphaBlending();
+	ofEnableBlendMode(OF_BLENDMODE_ALPHA);
+//	ofEnableAntiAliasing();
 
 	light.setPointLight();
 	light.setDiffuseColor(ofColor(255, 255, 255));
@@ -45,6 +51,12 @@ void ofApp::setup()
 	ringColor.mRepeat = ColorCycler::PingPong;
 	ringColor.mDuration = 3.0;
 
+	// Setup flare
+	flare.setMusicAnalysis(&analysis);
+	flare.setInnerRadius(globe.getRadius());
+	flare.setOuterRadius(globe.getRadius() + 7.0);
+	flare.setOpacity(0.8);
+
 	// Load music and play
 	songNames.push_back("bensound-dubstep.mp3");
 	songNames.push_back("bensound-buddy.mp3");
@@ -59,7 +71,7 @@ void ofApp::setup()
 //--------------------------------------------------------------
 void ofApp::update()
 {
-	// Revolve camera
+	// Revolve camera around center
 	cam.setPosition(
 		cos(ofGetElapsedTimef() * revolveSpeed) * revolveDistance,
 		20,
@@ -72,13 +84,17 @@ void ofApp::update()
 	globe.update();
 	ring.setOrientation(ofVec3f(0, ofGetElapsedTimef() * 25.0, 10.0));
 	ring.update();
+	flare.update();
+
+	// Shrink the FOV for a zoom effect on beats
+	cam.setFov(60.0 - analysis.getDecayNormalized() * cameraFovShrink);
 }
 
 //--------------------------------------------------------------
 void ofApp::draw()
 {
 	// Only clear the depth buffer each frame
-	glClear(GL_DEPTH_BUFFER_BIT);
+//	glClear(GL_DEPTH_BUFFER_BIT);
 
 	background.draw();
 
@@ -88,6 +104,7 @@ void ofApp::draw()
 
 	terrain.draw();
 	globe.draw();
+	flare.draw();
 	ring.draw();
 
 	ofDisableLighting();
@@ -112,6 +129,7 @@ void ofApp::keyPressed(int key)
 	{
 		globe.debugReload();
 		ring.debugReload();
+		flare.debugReload();
 	}
 }
 

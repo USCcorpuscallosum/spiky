@@ -4,6 +4,7 @@
 #include "Terrain.h"
 #include "Globe.h"
 #include "PlanetRing.h"
+#include "Flare.h"
 #include "MusicAnalysis.h"
 #include "Background.h"
 
@@ -11,6 +12,7 @@
 
 class ofApp : public ofBaseApp {
 public:
+	ofApp();
 	void setup();
 	void update();
 	void draw();
@@ -27,6 +29,10 @@ public:
 	void dragEvent(ofDragInfo dragInfo);
 	void gotMessage(ofMessage msg);
 
+	ofCamera& getCamera() { return cam; }
+
+	static ofApp* getInstance() { return sInstance; }
+
 private:
 	ofCamera cam;
 	ofLight light;
@@ -34,11 +40,15 @@ private:
 	MusicAnalysis analysis;
 	Globe globe;
 	PlanetRing ring;
+	Flare flare;
 	Terrain terrain;
 	Background background;
 	vector<string> songNames;
 
+	float cameraFovShrink = 2.0; // degrees
 	float revolveSpeed = -0.1;
 	float revolveDistance = 50.0;
+
+	static ofApp* sInstance;
 
 };

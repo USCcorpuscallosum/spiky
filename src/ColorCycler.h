@@ -6,7 +6,7 @@ class ColorCycler {
 public:
 	enum RepeatType { Loop, PingPong };
 
-	ofColor getColor() {
+	ofFloatColor getColor() {
 		if (ofGetFrameNum() != mLastFrameNum) {
 			// Recalculate color
 			float t = ofGetElapsedTimef() / mDuration;
@@ -17,7 +17,7 @@ public:
 				else t = 1.0 - fmod(t, 1.0);
 			}
 			float hue = ofLerp(mStartHue, mEndHue, t);
-			mColor = ofColor_<float>::fromHsb(hue, mSaturation, mBrightness);
+			mColor = ofFloatColor::fromHsb(hue, mSaturation, mBrightness);
 			mLastFrameNum = ofGetFrameNum();
 		}
 
