@@ -23,6 +23,9 @@ void ofApp::setup()
 	light.setPosition(0, 0, 40);
 	light.setAttenuation(1, 0, 0);
 
+	font.load("Cabin-Regular.ttf", 14);
+	font.setLineHeight(14);
+
 	// Setup background
 	background.setTerrain(&terrain);
 	background.setMusicAnalysis(&analysis);
@@ -64,9 +67,14 @@ void ofApp::setup()
 	songNames.push_back("bensound-happiness.mp3");
 	songNames.push_back("bensound-littleidea.mp3");
 	songNames.push_back("bensound-acousticbreeze.mp3");
-	analysis.loadSongs(songNames);
+	soundPlayers.resize(songNames.size());
+	for (int i = 0; i < songNames.size(); i++) {
+		soundPlayers[i].load(songNames[i]);
+	}
+	recordPlayer.record(LINE_IN_DEVICE_ID);
 
-	analysis.play();
+	analysis.setPlayer(&soundPlayers[0]);
+	nowPlaying = "Playing: " + songNames[0];
 }
 
 //--------------------------------------------------------------
@@ -111,6 +119,26 @@ void ofApp::draw()
 
 	ofDisableLighting();
 	cam.end();
+
+	drawUI();
+}
+
+void ofApp::drawUI() {
+	ofDisableDepthTest();
+
+	// Draw now playing
+	const float MARGIN = 25, PADDING = 10;
+	ofSetColor(0, 0, 0, 64);
+	ofDrawRectangle(
+		MARGIN,
+		ofGetWindowHeight() - MARGIN - PADDING - font.getLineHeight() - PADDING,
+		PADDING + font.stringWidth(nowPlaying) + PADDING,
+		PADDING + font.getLineHeight() + PADDING);
+
+	ofSetColor(255);
+	font.drawString(nowPlaying, MARGIN + PADDING, ofGetWindowHeight() - MARGIN - PADDING - 2);
+
+	ofEnableDepthTest();
 }
 
 //--------------------------------------------------------------
@@ -129,10 +157,13 @@ void ofApp::keyPressed(int key)
 		// 1..9 = play song, 0 = play line in
 		int index = key - '0';
 		index--;
-		if (index >= 0)
-			analysis.setSong(index);
-		else
-			analysis.setDeviceId(LINE_IN_DEVICE_ID);
+		if (index >= 0 && index < soundPlayers.size()) {
+			analysis.setPlayer(&soundPlayers[index]);
+			nowPlaying = "Playing: " + songNames[index];
+		} else {
+			analysis.setPlayer(&recordPlayer);
+			nowPlaying = "Playing from phone";
+		}
 	}
 	else if (key == 'r')
 	{

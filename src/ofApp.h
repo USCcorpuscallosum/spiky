@@ -36,17 +36,24 @@ public:
 	const int LINE_IN_DEVICE_ID = 1;
 
 private:
+	void drawUI();
+
 	ofCamera cam;
 	ofLight light;
+	ofTrueTypeFont font;
 
+	vector<string> songNames;
+	vector<ofFmodSoundPlayerExtended> soundPlayers;
+	ofFmodSoundPlayerExtended recordPlayer;
 	MusicAnalysis analysis;
+	string nowPlaying;
+
 	Globe globe;
 	PlanetRing ring;
 	Flare flare;
 	Terrain terrain;
 	Background background;
 	Starfield starfield;
-	vector<string> songNames;
 
 	float cameraFovShrink = 2.0; // degrees
 	float revolveSpeed = -0.1;

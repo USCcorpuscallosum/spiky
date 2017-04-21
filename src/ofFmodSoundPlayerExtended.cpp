@@ -159,9 +159,9 @@ bool ofFmodSoundPlayerExtended::record(int deviceId) {
 	int numDrivers = 0;
 	result = FMOD_System_GetRecordNumDrivers(sys, &numDrivers);
 	if (result != FMOD_OK) {
-		ofLogError("ofFmodSoundPlayerExtended") << "record(): could not get drivers";
+		ofLogError("ofFmodSoundPlayerExtended") << "record(): Could not get drivers";
 	}
-	ofLogNotice("ofFmodSoundPlayerExtended") << "record(): found " << numDrivers << " drivers";
+	ofLogNotice("ofFmodSoundPlayerExtended") << "record(): Found " << numDrivers << " drivers";
 
 	if (numDrivers == 0) {
 		ofLogError("ofFmodSoundPlayerExtended") << "record(): No recording devices found/plugged in!";
@@ -174,9 +174,9 @@ bool ofFmodSoundPlayerExtended::record(int deviceId) {
 		char name[64];
 		result = FMOD_System_GetRecordDriverInfo(sys, i, name, sizeof(name), nullptr);
 		if (result == FMOD_OK) {
-			ofLogNotice("ofFmodSoundPlayerExtended") << "record(): driver " << i << ": " << name << (i == deviceId ? " *" : "");
+			ofLogNotice("ofFmodSoundPlayerExtended") << "record(): " << i << ": " << name << (i == deviceId ? " *" : "");
 		} else {
-			ofLogWarning("ofFmodSoundPlayerExtended") << "record(): could not get driver info for " << i;
+			ofLogWarning("ofFmodSoundPlayerExtended") << "record(): Could not get driver info for " << i;
 		}
 	}
 

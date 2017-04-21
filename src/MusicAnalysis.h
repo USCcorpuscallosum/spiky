@@ -35,14 +35,12 @@ public:
 
 	MusicAnalysis();
 	~MusicAnalysis();
-	void loadSongs(vector<string>);	// Load songs(songs' filenames) into soundPlayer
+
+	/** Switch to the specified player and start playing. */
+	void setPlayer(ofFmodSoundPlayerExtended* player);
 	void play();
 	void pause();
 	bool isPaused();
-	/** Switch to the specified song and start playing. */
-	void setSong(int index);
-	/** Switch to the specified device and start playing. */
-	void setDeviceId(int device);
 
 	void update();
 	Range& getRange(RangeType type) { return ranges[type]; }
@@ -69,16 +67,15 @@ public:
 
 	ofxAudioAnalyzer& getAnalyzer() { return analyzer; }
 
+	const int SAMPLE_RATE = 44100;
+	const int BUFFER_SIZE = 1024; // 512 bins
+
 private:
 	void getRangeVolume(Range &range, vector<float> &spectrum);
 
-	vector<ofFmodSoundPlayerExtended*> soundPlayers;
-	ofFmodSoundPlayerExtended recordPlayer;
-	ofFmodSoundPlayerExtended* currentSong;
-
+	ofFmodSoundPlayerExtended* currentPlayer = nullptr;
 	ofxAudioAnalyzer analyzer;
-	int sampleRate, bufferSize;
-	float smoothing = 0.0;
+	float smoothing = 0.4;
 
 	map<RangeType, Range> ranges;
 	vector<float> spectrum;
