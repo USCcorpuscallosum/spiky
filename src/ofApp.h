@@ -1,6 +1,7 @@
 #pragma once
 
-#include "ofMain.h"
+#include <ofMain.h>
+#include <vector>
 #include "Terrain.h"
 #include "Globe.h"
 #include "PlanetRing.h"
@@ -8,8 +9,6 @@
 #include "MusicAnalysis.h"
 #include "Background.h"
 #include "Starfield.h"
-
-#include <vector>
 
 class ofApp : public ofBaseApp {
 public:
@@ -33,6 +32,8 @@ public:
 	ofCamera& getCamera() { return cam; }
 
 	static ofApp* getInstance() { return sInstance; }
+
+	const int LINE_IN_DEVICE_ID = 1;
 
 private:
 	ofCamera cam;

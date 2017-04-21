@@ -65,7 +65,8 @@ void ofApp::setup()
 	songNames.push_back("bensound-littleidea.mp3");
 	songNames.push_back("bensound-acousticbreeze.mp3");
 	analysis.loadSongs(songNames);
-	analysis.togglePlay();
+
+	analysis.play();
 }
 
 //--------------------------------------------------------------
@@ -115,19 +116,27 @@ void ofApp::draw()
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key) 
 {
-	if (key == 'p')
+	if (key == ' ')
 	{
-		analysis.togglePlay();
+		// Toggle play
+		if (analysis.isPaused())
+			analysis.play();
+		else
+			analysis.pause();
 	}
 	else if ('0' <= key && key <= '9')
 	{
+		// 1..9 = play song, 0 = play line in
 		int index = key - '0';
-		if (index == 0) index = 10;
 		index--;
-		analysis.changeSong(index);
+		if (index >= 0)
+			analysis.setSong(index);
+		else
+			analysis.setDeviceId(LINE_IN_DEVICE_ID);
 	}
 	else if (key == 'r')
 	{
+		// Reload shaders and stuff
 		globe.debugReload();
 		ring.debugReload();
 		flare.debugReload();

@@ -1,7 +1,6 @@
 #include "MusicAnalysis.h"
 
-MusicAnalysis::MusicAnalysis()
-{
+MusicAnalysis::MusicAnalysis() {
 	currentSong = nullptr;
 
 	// Set up the frequency ranges for processing
@@ -18,55 +17,59 @@ MusicAnalysis::MusicAnalysis()
 	analyzer.setup(sampleRate, bufferSize, 1);
 }
 
-MusicAnalysis::~MusicAnalysis()
-{
-	for (size_t i = 0; i < soundPlayers.size(); i++)
-	{
+MusicAnalysis::~MusicAnalysis() {
+	for (size_t i = 0; i < soundPlayers.size(); i++) {
 		delete soundPlayers[i];
 	}
 
 	analyzer.exit();
 }
 
-void MusicAnalysis::loadSongs(vector<string> songs)
-{
-	for (int i = 0; i < songs.size(); i++)
-	{
+void MusicAnalysis::loadSongs(vector<string> songs) {
+	for (int i = 0; i < songs.size(); i++) {
 		auto player = new ofFmodSoundPlayerExtended;
 		player->load(songs[i]);
 		soundPlayers.emplace_back(player);
 	}
 }
 
-void MusicAnalysis::togglePlay()
-{
-	if (!soundPlayers.empty())
-	{
-		if (currentSong == nullptr)
-		{
-			currentSong = soundPlayers[0];
-			currentSong->play();
-		}
-		else
-		{
-			currentSong->setPaused(!currentSong->isPaused());
-		}
+void MusicAnalysis::play() {
+	if (!currentSong) currentSong = soundPlayers[0];
+
+	if (!currentSong->isPlaying()) currentSong->play();
+	currentSong->setPaused(false);
+}
+
+void MusicAnalysis::pause() {
+	if (currentSong) {
+		currentSong->setPaused(true);
 	}
 }
 
-void MusicAnalysis::changeSong(int index)
-{
-	if (soundPlayers.size() != 0 && index >= 0 && soundPlayers.size() > index)
-	{
-		if (currentSong) currentSong->setPaused(true);
+bool MusicAnalysis::isPaused() {
+	return currentSong && currentSong->isPaused();
+}
+
+void MusicAnalysis::setSong(int index) {
+	if (index >= 0 && index < soundPlayers.size()) {
+		pause();
+
 		currentSong = soundPlayers[index];
-		if (!currentSong->isPlaying()) currentSong->play();
-		currentSong->setPaused(false);
+		play();
 	}
 }
 
-void MusicAnalysis::update()
-{
+void MusicAnalysis::setDeviceId(int device) {
+	pause();
+
+	currentSong = &recordPlayer;
+	recordPlayer.record(device);
+	play();
+}
+
+void MusicAnalysis::update() {
+	if (!currentSong) return;
+
 	// Get the current audio buffer
 	ofSoundBuffer &buffer = currentSong->getCurrentSoundBufferMono();
 	if (buffer.size() < bufferSize) buffer.resize(bufferSize); // make sure the buffer is not empty
@@ -87,20 +90,17 @@ void MusicAnalysis::update()
 	onBeat = analyzer.getOnsetValue(0);
 
 	// Update the Ranges using the frequency spectrum loudness
-	for (auto& pair : ranges)
-	{
+	for (auto& pair : ranges) {
 		getRangeVolume(pair.second, spectrum);
 	}
 
 	// Remap the spectrum to 0..1
-	for (size_t i = 0; i < spectrum.size(); i++)
-	{
+	for (size_t i = 0; i < spectrum.size(); i++) {
 		spectrum[i] = ofMap(spectrum[i], DB_MIN, DB_MAX, 0.0, 1.0, true); // map dBs to 0..1 and clamp
 	}
 }
 
-void MusicAnalysis::getRangeVolume(Range &range, vector<float> &spectrum)
-{
+void MusicAnalysis::getRangeVolume(Range &range, vector<float> &spectrum) {
 	// Calculate the start and end bins in the spectrum
 	int startIndex = static_cast<int>(range.minFreq / sampleRate * spectrum.size());
 	int endIndex = static_cast<int>(range.maxFreq / sampleRate * spectrum.size());
@@ -112,8 +112,7 @@ void MusicAnalysis::getRangeVolume(Range &range, vector<float> &spectrum)
 
 	// Iterate through the spectrum range and add up the volumes
 	range.volume = 0;
-	for (int i = startIndex; i <= endIndex; i++)
-	{
+	for (int i = startIndex; i <= endIndex; i++) {
 		range.volume += ofMap(spectrum[i], DB_MIN, DB_MAX, 0.0, 1.0, true); // map dBs to 0..1 and clamp
 	}
 }

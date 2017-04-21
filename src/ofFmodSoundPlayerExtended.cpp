@@ -101,7 +101,7 @@ void ofFmodSoundPlayerExtended::closeFmod(){
 }
 
 //------------------------------------------------------------
-bool ofFmodSoundPlayerExtended::load(string fileName, bool stream){
+bool ofFmodSoundPlayerExtended::load(string fileName, bool stream /*= false*/){
 
 	fileName = ofToDataPath(fileName);
 
@@ -130,18 +130,108 @@ bool ofFmodSoundPlayerExtended::load(string fileName, bool stream){
 	int fmodFlags =  FMOD_SOFTWARE;
 	if(stream)fmodFlags |= FMOD_CREATESTREAM;
 
-	result = FMOD_System_CreateSound(sys, fileName.c_str(),  fmodFlags, nullptr, &sound);
+	result = FMOD_System_CreateSound(sys, fileName.c_str(), fmodFlags, nullptr, &sound);
 
 	if (result != FMOD_OK){
 		bLoadedOk = false;
-		ofLogError("ofFmodSoundPlayerExtended") << "loadSound(): could not load \"" << fileName << "\"";
+		ofLogError("ofFmodSoundPlayerExtended") << "load(): could not load \"" << fileName << "\"";
 	} else {
 		bLoadedOk = true;
 		FMOD_Sound_GetLength(sound, &length, FMOD_TIMEUNIT_PCM);
 		isStreaming = stream;
+		isRecording = false;
 	}
 
 	return bLoadedOk;
+}
+
+bool ofFmodSoundPlayerExtended::record(int deviceId) {
+	bMultiPlay = false;
+
+	// [1] init fmod, if necessary
+	initializeFmod();
+
+	// [2] try to unload any previously loaded sounds
+	// & prevent user-created memory leaks
+	// if they call "loadSound" repeatedly, for example
+	unload();
+
+	int numDrivers = 0;
+	result = FMOD_System_GetRecordNumDrivers(sys, &numDrivers);
+	if (result != FMOD_OK) {
+		ofLogError("ofFmodSoundPlayerExtended") << "record(): could not get drivers";
+	}
+	ofLogNotice("ofFmodSoundPlayerExtended") << "record(): found " << numDrivers << " drivers";
+
+	if (numDrivers == 0) {
+		ofLogError("ofFmodSoundPlayerExtended") << "record(): No recording devices found/plugged in!";
+		bLoadedOk = false;
+		return false;
+	}
+
+	// List drivers
+	for (int i = 0; i < numDrivers; i++) {
+		char name[64];
+		result = FMOD_System_GetRecordDriverInfo(sys, i, name, sizeof(name), nullptr);
+		if (result == FMOD_OK) {
+			ofLogNotice("ofFmodSoundPlayerExtended") << "record(): driver " << i << ": " << name << (i == deviceId ? " *" : "");
+		} else {
+			ofLogWarning("ofFmodSoundPlayerExtended") << "record(): could not get driver info for " << i;
+		}
+	}
+
+	const int LATENCY_MS = 50; // Some devices will require higher latency to avoid glitches
+	const int DRIFT_MS = 1;
+	int nativeRate = internalFreq;
+	int nativeChannels = 2;
+	unsigned int driftThreshold = (nativeRate * DRIFT_MS) / 1000; // The point where we start compensating for drift
+	unsigned int desiredLatency = (nativeRate * LATENCY_MS) / 1000; // User specified latency
+	unsigned int adjustedLatency = desiredLatency; // User specified latency adjusted for driver update granularity
+	int actualLatency = desiredLatency;
+
+	// Create user sound to record into, then start recording.
+	FMOD_CREATESOUNDEXINFO exinfo = {0};
+	exinfo.cbsize           = sizeof(FMOD_CREATESOUNDEXINFO);
+	exinfo.numchannels      = nativeChannels;
+	exinfo.format           = FMOD_SOUND_FORMAT_PCM16;
+	exinfo.defaultfrequency = nativeRate;
+	exinfo.length           = nativeRate * sizeof(short) * nativeChannels; // 1 second buffer, size here doesn't change latency
+
+	result = FMOD_System_CreateSound(sys, 0, FMOD_SOFTWARE | FMOD_LOOP_NORMAL | FMOD_OPENUSER, &exinfo, &sound);
+	if (result != FMOD_OK) {
+		ofLogError("ofFmodSoundPlayerExtended") << "record(): Could not create sound for device " << deviceId;
+		bLoadedOk = false;
+		return false;
+	}
+
+	result = FMOD_System_RecordStart(sys, deviceId, sound, true);
+	if (result != FMOD_OK) {
+		ofLogError("ofFmodSoundPlayerExtended") << "record(): Could not record device " << deviceId;
+		bLoadedOk = false;
+		return false;
+	} else {
+		bLoadedOk = true;
+		FMOD_Sound_GetLength(sound, &length, FMOD_TIMEUNIT_PCM);
+		isStreaming = true;
+		isRecording = true;
+	}
+
+	return bLoadedOk;
+}
+
+vector<string> ofFmodSoundPlayerExtended::getRecordingDeviceNames() {
+	vector<string> names;
+
+	int numDrivers = 0;
+	FMOD_RESULT result = FMOD_System_GetRecordNumDrivers(sys, &numDrivers);
+
+	for (int i = 0; i < numDrivers; i++) {
+		char name[64];
+		result = FMOD_System_GetRecordDriverInfo(sys, i, name, sizeof(name), nullptr);
+		names.emplace_back(name);
+	}
+
+	return names;
 }
 
 //------------------------------------------------------------
@@ -332,10 +422,10 @@ void ofFmodSoundPlayerExtended::play(){
 	FMOD_System_PlaySound(sys, FMOD_CHANNEL_FREE, sound, bPaused, &channel);
 
 	FMOD_Channel_GetFrequency(channel, &internalFreq);
-	FMOD_Channel_SetVolume(channel,volume);
+	FMOD_Channel_SetVolume(channel, volume);
 	setPan(pan);
 	FMOD_Channel_SetFrequency(channel, internalFreq * speed);
-	FMOD_Channel_SetMode(channel,  (bLoop == true) ? FMOD_LOOP_NORMAL : FMOD_LOOP_OFF);
+	FMOD_Channel_SetMode(channel, (bLoop || isRecording) ? FMOD_LOOP_NORMAL : FMOD_LOOP_OFF);
 
 	// Update sound buffers
 	soundBuffer.setSampleRate(static_cast<unsigned int>(internalFreq * speed));

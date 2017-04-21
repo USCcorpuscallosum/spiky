@@ -25,6 +25,7 @@ public:
 	virtual ~ofFmodSoundPlayerExtended();
 
 	bool load(string fileName, bool stream = false);
+	bool record(int deviceId);
 	void unload();
 	void play();
 	void stop();
@@ -53,8 +54,11 @@ public:
 
 	static void initializeFmod();
 	static void closeFmod();
+	static vector<string> getRecordingDeviceNames();
 
+private:
 	bool isStreaming;
+	bool isRecording;
 	bool bMultiPlay;
 	bool bLoop;
 	bool bLoadedOk;
