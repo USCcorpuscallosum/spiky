@@ -120,19 +120,19 @@ void ofCustomMaterial::initShaders(ofGLProgrammableRenderer & renderer) {
 		string vertex2DHeader = renderer.defaultVertexShaderHeader(GL_TEXTURE_2D);
 		string fragment2DHeader = renderer.defaultFragmentShaderHeader(GL_TEXTURE_2D);
 		shaderLights = ofLightsData().size();
-		shaderNoTexture.setupShaderFromSource(GL_VERTEX_SHADER,vertexSource(vertex2DHeader,shaderLights,false),vertexShaderDirectoryPath);
-		shaderNoTexture.setupShaderFromSource(GL_FRAGMENT_SHADER,fragmentSource(fragment2DHeader,shaderLights,false),fragmentShaderDirectoryPath);
+		shaderNoTexture.setupShaderFromSource(GL_VERTEX_SHADER,vertexSource(vertex2DHeader,static_cast<int>(shaderLights),false),vertexShaderDirectoryPath);
+		shaderNoTexture.setupShaderFromSource(GL_FRAGMENT_SHADER,fragmentSource(fragment2DHeader,static_cast<int>(shaderLights),false),fragmentShaderDirectoryPath);
 		shaderNoTexture.bindDefaults();
 		shaderNoTexture.linkProgram();
 
-		shaderTexture2D.setupShaderFromSource(GL_VERTEX_SHADER,vertexSource(vertex2DHeader,shaderLights,true),vertexShaderDirectoryPath);
-		shaderTexture2D.setupShaderFromSource(GL_FRAGMENT_SHADER,fragmentSource(fragment2DHeader,shaderLights,true),fragmentShaderDirectoryPath);
+		shaderTexture2D.setupShaderFromSource(GL_VERTEX_SHADER,vertexSource(vertex2DHeader,static_cast<int>(shaderLights),true),vertexShaderDirectoryPath);
+		shaderTexture2D.setupShaderFromSource(GL_FRAGMENT_SHADER,fragmentSource(fragment2DHeader,static_cast<int>(shaderLights),true),fragmentShaderDirectoryPath);
 		shaderTexture2D.bindDefaults();
 		shaderTexture2D.linkProgram();
 
 #ifndef TARGET_OPENGLES
-		shaderTextureRect.setupShaderFromSource(GL_VERTEX_SHADER,vertexSource(vertexRectHeader,shaderLights,true),vertexShaderDirectoryPath);
-		shaderTextureRect.setupShaderFromSource(GL_FRAGMENT_SHADER,fragmentSource(fragmentRectHeader,shaderLights,true),fragmentShaderDirectoryPath);
+		shaderTextureRect.setupShaderFromSource(GL_VERTEX_SHADER,vertexSource(vertexRectHeader,static_cast<int>(shaderLights),true),vertexShaderDirectoryPath);
+		shaderTextureRect.setupShaderFromSource(GL_FRAGMENT_SHADER,fragmentSource(fragmentRectHeader,static_cast<int>(shaderLights),true),fragmentShaderDirectoryPath);
 		shaderTextureRect.bindDefaults();
 		shaderTextureRect.linkProgram();
 #endif
