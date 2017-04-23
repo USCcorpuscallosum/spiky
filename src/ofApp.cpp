@@ -10,6 +10,11 @@ ofApp::ofApp() {
 //--------------------------------------------------------------
 void ofApp::setup()
 {
+	//Setup Galaxy
+	std::cout << "HERE" << std::endl;
+	std::cout << "HERE" << std::endl;
+
+	
 	ofSetVerticalSync(true);
 	ofEnableDepthTest();
 //	ofSetBackgroundAuto(false); // don't clear the color buffer each frame
@@ -78,16 +83,21 @@ void ofApp::setup()
 
 	analysis.setPlayer(&soundPlayers[0]);
 	nowPlaying = "Playing: " + songNames[0];
+
+	galaxy.initialize(4, .7, 6, 5, &analysis);
 }
 
 //--------------------------------------------------------------
 void ofApp::update()
 {
+	//Start Camera
+	cam.begin();
+	
 	// Revolve camera around center
-	cam.setPosition(
+	/*cam.setPosition(
 		cos(ofGetElapsedTimef() * revolveSpeed) * revolveDistance,
 		20,
-		sin(ofGetElapsedTimef() * revolveSpeed) * revolveDistance);
+		sin(ofGetElapsedTimef() * revolveSpeed) * revolveDistance);*/
 	cam.lookAt(ofVec3f());
 
 	analysis.update();
@@ -101,6 +111,9 @@ void ofApp::update()
 
 	// Shrink the FOV for a zoom effect on beats
 	cam.setFov(60.0 - analysis.getDecayNormalized() * cameraFovShrink);
+
+	//End camera
+	cam.end();
 }
 
 //--------------------------------------------------------------
@@ -109,17 +122,21 @@ void ofApp::draw()
 	// Only clear the depth buffer each frame
 //	glClear(GL_DEPTH_BUFFER_BIT);
 
-	background.draw();
 
 	cam.begin();
+	//background.draw();
+
 	ofEnableLighting();
 	light.enable();
 
 	starfield.draw();
 	terrain.draw();
-	globe.draw();
-	flare.draw();
-	ring.draw();
+	//globe.draw();
+	//flare.draw();
+	//ring.draw();
+
+	//Update galaxy
+	galaxy.mainUpdate();
 
 	ofDisableLighting();
 	cam.end();

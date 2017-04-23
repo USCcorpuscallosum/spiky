@@ -25,13 +25,15 @@ public:
 
 	const float CYCLE_SPEED = 0.1;
 
+	class MusicAnalysis* analysis = nullptr;
+
 private:
 	void setupMaterial();
 	void calcVertexFrequencies();
 
 	float radius = 1;
 	ofVec3f center;
-	float amplitude = 1;
+	float amplitude = 10;
 	float colorHueRange = 0.05;
 	ColorCycler colorCycler;
 
@@ -40,7 +42,6 @@ private:
 	ofCustomMaterial material;
 	bool didSetVertFrequencies = false;
 
-	class MusicAnalysis* analysis = nullptr;
 	vector<float> ranges;
 	ofTexture spectrumTex;
 

@@ -1,11 +1,12 @@
 #pragma once
 #include "Globe.h"
+#include "PlanetRing.h"
 #include <vector>
 
 class Orbital : public Globe
 {
 public:
-	Orbital(Orbital* p, int l, int ml, float rs, float rotS, float ss);
+	Orbital(Orbital* p, int l, int ml, float rs, float rotS, float ss, MusicAnalysis* ma);
 	void mainUpdate();
 	void setOrbitalPos();
 	void createOrbitals();
@@ -21,6 +22,8 @@ private:
 	float rotRadius;
 	float angle;
 	float speed;
+
+	PlanetRing ring;
 
 	int numOfChildren;
 	vector<Orbital*> children;

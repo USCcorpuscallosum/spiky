@@ -9,6 +9,7 @@
 #include "MusicAnalysis.h"
 #include "Background.h"
 #include "Starfield.h"
+#include "Galaxy.h"
 
 class ofApp : public ofBaseApp {
 public:
@@ -38,7 +39,7 @@ public:
 private:
 	void drawUI();
 
-	ofCamera cam;
+	ofEasyCam cam;
 	ofLight light;
 	ofTrueTypeFont font;
 
@@ -60,5 +61,9 @@ private:
 	float revolveDistance = 50.0;
 
 	static ofApp* sInstance;
+
+	Galaxy galaxy;
+
+	//ofEasyCam myCam;
 
 };

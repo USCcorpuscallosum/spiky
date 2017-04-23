@@ -1,13 +1,16 @@
 #pragma once
 #include "Orbital.h"
+#include "MusicAnalysis.h"
 
 class Galaxy : public ofNode
 {
 public:
-	Galaxy(int ml, float rs, float rotS, float ss);
+	Galaxy();
+	void initialize(int ml, float rs, float rotS, float ss, MusicAnalysis* ma);
 	void mainUpdate();
 private:
 	int numOfOrbitals = 5;
-	float spawnRange = 100;
+	float spawnRange = 70;
 	vector<Orbital*> orbitals;
+	MusicAnalysis* analysis;
 };
