@@ -70,6 +70,12 @@
     <ClCompile Include="src\PlanetRing.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\Flare.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Starfield.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">
@@ -630,6 +636,12 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="src\PlanetRing.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Flare.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Starfield.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
