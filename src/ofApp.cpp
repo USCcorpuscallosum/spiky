@@ -24,11 +24,14 @@ void ofApp::setup()
 	light.setAttenuation(1, 0, 0);
 
 	font.load("Cabin-Regular.ttf", 14);
-	font.setLineHeight(14);
+	font.setLineHeight(14); 
 
 	// Setup background
 	background.setTerrain(&terrain);
 	background.setMusicAnalysis(&analysis);
+
+	// Setup starfield
+	starfield.setMusicAnalysis(&analysis);
 
 	// Setup terrain
 	terrain.setPosition(ofVec3f(0, -20, 0));
@@ -89,6 +92,7 @@ void ofApp::update()
 
 	analysis.update();
 
+	starfield.update();
 	terrain.update();
 	globe.update();
 	ring.setOrientation(ofVec3f(0, ofGetElapsedTimef() * 25.0, 10.0));
@@ -160,7 +164,7 @@ void ofApp::keyPressed(int key)
 		if (index >= 0 && index < soundPlayers.size()) {
 			analysis.setPlayer(&soundPlayers[index]);
 			nowPlaying = "Playing: " + songNames[index];
-		} else {
+		} else if (index < 0) {
 			analysis.setPlayer(&recordPlayer);
 			nowPlaying = "Playing from phone";
 		}

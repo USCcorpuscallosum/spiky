@@ -26,6 +26,7 @@ public:
 	const float CYCLE_SPEED = 0.1;
 
 private:
+	void setupMaterial();
 	void calcVertexFrequencies();
 
 	float radius = 1;

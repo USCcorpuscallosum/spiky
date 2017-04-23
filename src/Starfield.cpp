@@ -1,4 +1,5 @@
 #include "Starfield.h"
+#include "MusicAnalysis.h"
 
 Starfield::Starfield() {
 	buildMesh();
@@ -9,7 +10,10 @@ void Starfield::update() {
 
 void Starfield::customDraw() {
 	ofSetColor(255);
-	mMesh.drawWireframe();
+	if (mAnalysis->getDecayNormalized() > mLightThreshold)
+		mMesh.draw(); // fill
+	else
+		mMesh.drawWireframe();
 }
 
 static ofVec3f randomInsideUnitSphere() {

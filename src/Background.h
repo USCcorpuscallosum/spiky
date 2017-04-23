@@ -1,29 +1,29 @@
 #pragma once
 
-#include "ofMain.h"
-#include "MusicAnalysis.h"
-#include "Terrain.h"
-
-class Terrain;
-class MusicAnalysis;
+#include <ofMain.h>
+#include "ofCustomMaterial.h"
 
 /*
   Control backgroud color based on information from the music and the terrain
 */
-class Background
-{
+class Background {
 public:
 	Background();
+	void update();
 	void draw();
-	void setTerrain(Terrain* t) { terrain = t; }
-	void setMusicAnalysis(MusicAnalysis* analysis) { musicAnalysis = analysis; }
+
+	void debugReload();
+
+	void setTerrain(class Terrain* terrain) { mTerrain = terrain; }
+	void setMusicAnalysis(class MusicAnalysis* analysis) { mAnalysis = analysis; }
 
 private:
-	ofImage backgroundImage;
-	MusicAnalysis* musicAnalysis;
-	Terrain* terrain;
+	void setupMaterial();
 
-	ofPlanePrimitive plane;
-	ofShader shader;
+	ofPlanePrimitive mPlane;
+	ofShader mShader;
+
+	class Terrain* mTerrain;
+	class MusicAnalysis* mAnalysis;
 
 };

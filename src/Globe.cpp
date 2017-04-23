@@ -5,9 +5,7 @@ Globe::Globe() {
 	modelLoader.loadModel("Sphere5.obj");
 	mesh = modelLoader.getMesh(0);
 
-	material.load("shaders/globe/globe");
-	material.setShininess(127);
-	material.setSpecularColor(ofColor(255, 255, 255));
+	setupMaterial();
 }
 
 void Globe::update() {
@@ -44,10 +42,16 @@ void Globe::customDraw() {
 }
 
 void Globe::debugReload() {
-	material = ofCustomMaterial();
-	material.load("shaders/globe/globe");
+	setupMaterial();
 	calcVertexFrequencies();
 	ofLogNotice("Globe") << "Reloaded shader";
+}
+
+void Globe::setupMaterial() {
+	material = ofCustomMaterial();
+	material.load("shaders/globe/globe");
+	material.setShininess(127);
+	material.setSpecularColor(ofColor(255, 255, 255));
 }
 
 /** Figure out the frequency to use for each vert in the range 0..1 */
