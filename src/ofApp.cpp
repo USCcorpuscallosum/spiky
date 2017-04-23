@@ -27,7 +27,6 @@ void ofApp::setup()
 	font.setLineHeight(14); 
 
 	// Setup background
-	background.setTerrain(&terrain);
 	background.setMusicAnalysis(&analysis);
 
 	// Setup starfield
@@ -172,6 +171,8 @@ void ofApp::keyPressed(int key)
 	else if (key == 'r')
 	{
 		// Reload shaders and stuff
+		background.debugReload();
+		terrain.debugReload();
 		globe.debugReload();
 		ring.debugReload();
 		flare.debugReload();

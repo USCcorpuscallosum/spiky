@@ -1,7 +1,8 @@
 #pragma once
 
 #include "ofMain.h"
-#include "MusicAnalysis.h"
+#include "ofCustomMaterial.h"
+#include "ColorCycler.h"
 
 class Terrain : public ofNode
 {
@@ -11,28 +12,26 @@ public:
 	void update();
 	void customDraw() override;
 
-	void setMusicAnalysis(MusicAnalysis* analysis) { musicAnalysis = analysis; }
-	void setActiveShader(int index) { activeShader = index; }
-	ofColor getColor() const { return color; }
+	void debugReload();
+
+	void setMusicAnalysis(class MusicAnalysis* analysis) { musicAnalysis = analysis; }
 
 	const float CYCLE_SPEED = 25;
 
 private:
-	void changeAllColors();
-	void changeHeight();
+	void setupMaterial();
 	/** Add vertices to mesh */
 	void initializeTerrain();
+	void updateHeight();
 	void calculateNewPosForIndex(int index, float newHeight);
 
 	ofMesh mesh;
 	ofMesh baseMesh;
-	MusicAnalysis* musicAnalysis;
-	ofColor color;
-	float hue = -1, saturation, brightness;
+	class MusicAnalysis* musicAnalysis;
+	ColorCycler colorCycler;
 
-	vector<string> shaderNames;
-	vector<ofShader> shaders;
-	int activeShader;
+	ofCustomMaterial material;
+
 	float length;
 	float width;
 	float skip;

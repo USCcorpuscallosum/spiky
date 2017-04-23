@@ -1,13 +1,12 @@
-#version 150
+#pragma include "../_material.vert"
 
-uniform mat4 modelViewProjectionMatrix;
-
-in vec4 position;
-
-out vec4 worldPosition;
+out vec4 vWorldPosition;
+out vec4 vColor;
 
 void main()
 {
-	gl_Position = modelViewProjectionMatrix * position;
-	worldPosition = position;
+	vWorldPosition = position;
+	vColor = color;
+
+	MATERIAL_VERT_MAIN_DEFAULT()
 }
