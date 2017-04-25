@@ -43,16 +43,31 @@ void Orbital::mainUpdate()
 	update();
 	draw();
 
+	ring.setPosition(getPosition());
 	ring.setOrientation(ofVec3f(0, ofGetElapsedTimef() * 25.0, 10.0));
 	ring.update();
-
-	ofPushMatrix();
-	ofTranslate(getPosition());
-	ring.customDraw();
-	ofPopMatrix();
+	ring.draw();
 
 	for (int i = 0; i < children.size(); i++)
 	{
+		ofPath p;
+		p.setCircleResolution(42);
+		p.setFilled(false);
+		p.setStrokeWidth(1);
+
+		// Build orbit path
+		float radius = children[i]->getPosition().distance(getPosition());
+		p.moveTo(ofPoint(radius, 0));
+		p.circle(ofPoint(), radius);
+
+		// Draw path
+		ofPushMatrix();
+		ofTranslate(getPosition());
+		ofRotateX(90);
+		ofSetColor(255);
+		p.draw();
+		ofPopMatrix();
+
 		children[i]->mainUpdate();
 	}
 }
