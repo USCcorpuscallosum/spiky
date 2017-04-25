@@ -2,14 +2,12 @@
 #include <cmath>
 #include <iostream>
 
-Orbital::Orbital(Orbital* p, int l, int ml, float rs, float rotS, float ss, MusicAnalysis* ma)
+Orbital::Orbital(Orbital* parent, int level, int maxLevel, float radiusScalar, float rotationScalar, float speedScalar, MusicAnalysis* analysis)
 {
-	//std::cout << "In Orbital Constructor" << std::endl;
-
-	setMusicAnalysis(ma);
+	setMusicAnalysis(analysis);
 
 	// Setup ring
-	ring.setMusicAnalysis(ma);
+	ring.setMusicAnalysis(analysis);
 	ring.setAmplitude(2);
 	auto& ringColor = ring.getColorCycler();
 	ringColor.mStartHue = 0.0;
@@ -18,15 +16,15 @@ Orbital::Orbital(Orbital* p, int l, int ml, float rs, float rotS, float ss, Musi
 	ringColor.mDuration = 3.0;
 	
 	ring.setInnerRadius(getRadius() + .1);
-	ring.setOuterRadius(ring.getInnerRadius() + ((float)1 / l) * 5);
+	ring.setOuterRadius(ring.getInnerRadius() + ((float)1 / level) * 5);
 
-	parent = p;
-	level = l;
-	maxLevel = ml;
+	this->parent = parent;
+	this->level = level;
+	this->maxLevel = maxLevel;
 
-	radiusScale = rs;
-	rotationScale = rotS;
-	speedScale = ss;
+	radiusScale = radiusScalar;
+	rotationScale = rotationScalar;
+	speedScale = speedScalar;
 
 	angle = ofRandom(0, 360);
 	numOfChildren = floor(ofRandom(2, 2));
@@ -37,7 +35,6 @@ Orbital::Orbital(Orbital* p, int l, int ml, float rs, float rotS, float ss, Musi
 	speed = (1 / levelMultiplier) * speedScale * ofRandom(.8f, 1.2f);
 	
 	if (level < maxLevel) createOrbitals();
-	//std::cout << "Ending Orbital Constructor" << std::endl;
 }
 
 void Orbital::mainUpdate()
@@ -54,8 +51,6 @@ void Orbital::mainUpdate()
 	ring.customDraw();
 	ofPopMatrix();
 
-	//std::cout << "MY Position" << getPosition() << std::endl;
-
 	for (int i = 0; i < children.size(); i++)
 	{
 		children[i]->mainUpdate();
@@ -64,7 +59,6 @@ void Orbital::mainUpdate()
 
 void Orbital::setOrbitalPos()
 {
-	
 	if (parent != NULL)
 	{
 		ofVec3f parentPos = parent->getPosition();
@@ -74,7 +68,6 @@ void Orbital::setOrbitalPos()
 		float y = cos(ofDegToRad(angle));
 		ofVec3f turnVec = ofVec3f(x, 0, y);
 
-		//std::cout << "SIN" << sin(ofDegToRad(angle)) << std::endl;
 		ofVec3f offset = rotRadius * turnVec;
 		//ofVec3f offset(50, 50, 0);
 		ofVec3f newPos = parentPos + offset;

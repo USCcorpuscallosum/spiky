@@ -6,10 +6,11 @@
 class Orbital : public Globe
 {
 public:
-	Orbital(Orbital* p, int l, int ml, float rs, float rotS, float ss, MusicAnalysis* ma);
+	Orbital(Orbital* parent, int level, int maxLevel, float radiusScalar, float rotationScalar, float speedScalar, MusicAnalysis* analysis);
 	void mainUpdate();
 	void setOrbitalPos();
 	void createOrbitals();
+
 private:
 	Orbital* parent;
 	int level;

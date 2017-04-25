@@ -10,11 +10,6 @@ ofApp::ofApp() {
 //--------------------------------------------------------------
 void ofApp::setup()
 {
-	//Setup Galaxy
-	std::cout << "HERE" << std::endl;
-	std::cout << "HERE" << std::endl;
-
-	
 	ofSetVerticalSync(true);
 	ofEnableDepthTest();
 //	ofSetBackgroundAuto(false); // don't clear the color buffer each frame
@@ -120,7 +115,6 @@ void ofApp::draw()
 {
 	// Only clear the depth buffer each frame
 //	glClear(GL_DEPTH_BUFFER_BIT);
-
 
 	cam.begin();
 	background.draw();
