@@ -84,7 +84,7 @@ void ofApp::setup()
 	analysis.setPlayer(&soundPlayers[0]);
 	nowPlaying = "Playing: " + songNames[0];
 
-	galaxy.initialize(4, 1.2, 8, 10, &analysis);
+	galaxy.initialize(2, 1.2, 8, 10, &analysis);
 }
 
 //--------------------------------------------------------------

@@ -74,7 +74,7 @@ void Orbital::setOrbitalPos()
 		float y = cos(ofDegToRad(angle));
 		ofVec3f turnVec = ofVec3f(x, 0, y);
 
-		std::cout << "SIN" << sin(ofDegToRad(angle)) << std::endl;
+		//std::cout << "SIN" << sin(ofDegToRad(angle)) << std::endl;
 		ofVec3f offset = rotRadius * turnVec;
 		//ofVec3f offset(50, 50, 0);
 		ofVec3f newPos = parentPos + offset;
