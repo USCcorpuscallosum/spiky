@@ -14,7 +14,6 @@ public:
 
 	void debugReload();
 
-	void setTerrain(class Terrain* terrain) { mTerrain = terrain; }
 	void setMusicAnalysis(class MusicAnalysis* analysis) { mAnalysis = analysis; }
 
 private:
@@ -23,7 +22,6 @@ private:
 	ofPlanePrimitive mPlane;
 	ofShader mShader;
 
-	class Terrain* mTerrain;
 	class MusicAnalysis* mAnalysis;
 
 };

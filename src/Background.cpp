@@ -1,6 +1,5 @@
 #include "Background.h"
 #include "MusicAnalysis.h"
-#include "Terrain.h"
 
 Background::Background() {
 	setupMaterial();
@@ -18,7 +17,7 @@ void Background::draw() {
 
 	float volume = mAnalysis->getDecayNormalized();
 
-	mShader.setUniform4f("terrainColor", mTerrain->getColor());
+	mShader.setUniform4f("terrainColor", ofColor(0, 40, 110)); // TODO: change from constant color
 	mShader.setUniform1f("time", ofGetElapsedTimef());
 	mShader.setUniform1f("volume", volume);
 	mPlane.draw();
@@ -34,5 +33,5 @@ void Background::debugReload() {
 
 void Background::setupMaterial() {
 	mShader = ofShader();
-	mShader.load("shaders/background/lsd");
+	mShader.load("shaders/background/color");
 }

@@ -1,49 +1,49 @@
 #include "Terrain.h"
-#include "ofMain.h"
-
+#include <ofMain.h>
 #include <iostream>
 #include <cmath>
+#include "MusicAnalysis.h"
 
 Terrain::Terrain()
 {
 	randomPosScalar = .2;
 	
-	length = 100;
 	width = 100;
+	length = 100;
 	skip = 5;
 
-	color = ofColor_<float>(0.48, 0, 0.91);
+	colorCycler.mDuration = CYCLE_SPEED;
 
-	shaderNames.push_back("shaders/terrain/gradient1");
-
-	for (int i = 0; i < shaderNames.size(); i++)
-	{
-		shaders.push_back(ofShader());
-		shaders[i].load(shaderNames[i]);
-	}
-	activeShader = 0;
-
+	setupMaterial();
 	initializeTerrain();
 }
 
 void Terrain::update()
 {
-	changeAllColors();
-	changeHeight();
+	material.setDiffuseColor(colorCycler.getColor());
+
+	updateHeight();
 }
 
 void Terrain::customDraw()
 {
-	shaders[activeShader].begin();
-	shaders[activeShader].setUniform4f("primaryColor", color.r / 256.f, color.g / 256.f, color.b / 256.f, 1);
-	//ofColor secondaryColor = color + ofColor(50, 50, 50);
-	//shaders[activeShader].setUniform4f("secondaryColor", secondaryColor.r / 256.f, secondaryColor.g / 256.f, secondaryColor.b / 256.f, 1);
+	material.begin();
 
-	ofPushMatrix();
-	ofTranslate(-width * 0.5, 0, -length * 0.5);
 	mesh.draw();
-	ofPopMatrix();
-	shaders[activeShader].end();
+
+	material.end();
+}
+
+void Terrain::debugReload()
+{
+	setupMaterial();
+	ofLogNotice("Terrain") << "Reloaded shader";
+}
+
+void Terrain::setupMaterial()
+{
+	material = ofCustomMaterial();
+	material.load("shaders/terrain/gradient1");
 }
 
 //Sets up all the vertices for the mesh
@@ -54,10 +54,9 @@ void Terrain::initializeTerrain()
 	{
 		for (int x = 0; x<width; x++) 
 		{
-			mesh.addVertex(ofPoint(x, 0, z));	// mesh index = x + z*width
-												// this replicates the pixel array within the camera bitmap...
+			mesh.addVertex(ofPoint(x - width * 0.5, 0, z - length * 0.5)); // mesh index = x + z*width
 			mesh.addNormal(ofVec3f(ofRandomf() / 5, 1, ofRandomf() / 5));
-			mesh.addColor(ofFloatColor(0, 0, 0));  // placeholder for colour data, we'll get this from the camera
+			mesh.addColor(ofFloatColor(0, ofRandom(0.7, 1.0), ofRandom(0.5, 1.0))); // pass in HSB
 		}
 	}
 
@@ -79,22 +78,8 @@ void Terrain::initializeTerrain()
 	baseMesh = mesh;
 }
 
-//Color changes based on volume
-//Give each index its specific color
-void Terrain::changeAllColors()
-{
-	// Cycle colors
-	if (hue < 0)
-	{
-		color.getHsb(hue, saturation, brightness);
-	}
-	hue += ofGetLastFrameTime() * CYCLE_SPEED;
-	if (hue >= 256) hue -= 256;
-	color = ofColor::fromHsb(hue, saturation, brightness);
-}
-
 //Height changes based on frequency
-void Terrain::changeHeight()
+void Terrain::updateHeight()
 {
 	const float BASS_HEIGHT = 10.f;
 	const float BASS_SCALE = 0.04f; // smaller means larger regions
