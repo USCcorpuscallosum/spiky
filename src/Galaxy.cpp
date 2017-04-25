@@ -19,7 +19,7 @@ void Galaxy::initialize(int ml, float rs, float rotS, float ss, MusicAnalysis* m
 		orb->setMusicAnalysis(ma);
 
 		float x = ofRandom(-spawnRange / 2, spawnRange / 2);
-		float y = ofRandom(-spawnRange / 2, spawnRange / 2);
+		float y = ofRandom(2, spawnRange / 2);
 		float z = ofRandom(-spawnRange / 2, spawnRange / 2);
 		ofVec3f myPosition(x, y, z);
 
