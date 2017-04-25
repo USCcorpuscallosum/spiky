@@ -4,21 +4,21 @@
 
 Orbital::Orbital(Orbital* p, int l, int ml, float rs, float rotS, float ss, MusicAnalysis* ma)
 {
-	std::cout << "In Orbital Constructor" << std::endl;
+	//std::cout << "In Orbital Constructor" << std::endl;
 
 	setMusicAnalysis(ma);
 
 	// Setup ring
 	ring.setMusicAnalysis(ma);
-	ring.setInnerRadius(12);
-	ring.setOuterRadius(25);
-	ring.setAmplitude(4);
+	ring.setAmplitude(2);
 	auto& ringColor = ring.getColorCycler();
 	ringColor.mStartHue = 0.0;
 	ringColor.mEndHue = 1.0;
 	ringColor.mRepeat = ColorCycler::PingPong;
 	ringColor.mDuration = 3.0;
-
+	
+	ring.setInnerRadius(getRadius() + .1);
+	ring.setOuterRadius(ring.getInnerRadius() + ((float)1 / l) * 5);
 
 	parent = p;
 	level = l;
@@ -29,7 +29,7 @@ Orbital::Orbital(Orbital* p, int l, int ml, float rs, float rotS, float ss, Musi
 	speedScale = ss;
 
 	angle = ofRandom(0, 360);
-	numOfChildren = floor(ofRandom(1, 1));
+	numOfChildren = floor(ofRandom(2, 2));
 
 	float levelMultiplier = pow(maxLevel + 1 - level, 2);
 	setRadius(levelMultiplier * radiusScale * ofRandom(.8f, 1.2f) * .5);
@@ -37,7 +37,7 @@ Orbital::Orbital(Orbital* p, int l, int ml, float rs, float rotS, float ss, Musi
 	speed = (1 / levelMultiplier) * speedScale * ofRandom(.8f, 1.2f);
 	
 	if (level < maxLevel) createOrbitals();
-	std::cout << "Ending Orbital Constructor" << std::endl;
+	//std::cout << "Ending Orbital Constructor" << std::endl;
 }
 
 void Orbital::mainUpdate()
@@ -49,7 +49,12 @@ void Orbital::mainUpdate()
 	ring.setOrientation(ofVec3f(0, ofGetElapsedTimef() * 25.0, 10.0));
 	ring.update();
 
-	std::cout << "MY Position" << getPosition() << std::endl;
+	ofPushMatrix();
+	ofTranslate(getPosition());
+	ring.customDraw();
+	ofPopMatrix();
+
+	//std::cout << "MY Position" << getPosition() << std::endl;
 
 	for (int i = 0; i < children.size(); i++)
 	{

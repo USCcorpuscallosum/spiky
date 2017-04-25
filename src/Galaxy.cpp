@@ -3,18 +3,18 @@
 
 Galaxy::Galaxy()
 {
-	std::cout << "Creating Galaxy" << std::endl;
+	//std::cout << "Creating Galaxy" << std::endl;
 }
 
 void Galaxy::initialize(int ml, float rs, float rotS, float ss, MusicAnalysis* ma)
 {
-	std::cout << "Initializing Galaxy" << std::endl;
+	//std::cout << "Initializing Galaxy" << std::endl;
 
 	for (int i = 0; i < numOfOrbitals; i++)
 	{
-		std::cout << "In Creation Loop" << std::endl;
-		Orbital* orb = new Orbital(NULL, 0, ml, rs, rotS, ss, ma);
-		std::cout << "Created Orbital" << std::endl;
+		//std::cout << "In Creation Loop" << std::endl;
+		Orbital* orb = new Orbital(NULL, 0, ml, rs, rotS + 2, ss + 2, ma);
+		//std::cout << "Created Orbital" << std::endl;
 
 		orb->setMusicAnalysis(ma);
 
@@ -27,7 +27,7 @@ void Galaxy::initialize(int ml, float rs, float rotS, float ss, MusicAnalysis* m
 		orb->setPosition(myPos);
 		orbitals.push_back(orb);
 
-		std::cout << myPos << std::endl;
+		//std::cout << myPos << std::endl;
 	}
 }
 

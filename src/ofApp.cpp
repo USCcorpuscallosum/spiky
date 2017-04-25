@@ -84,7 +84,7 @@ void ofApp::setup()
 	analysis.setPlayer(&soundPlayers[0]);
 	nowPlaying = "Playing: " + songNames[0];
 
-	galaxy.initialize(4, .7, 6, 5, &analysis);
+	galaxy.initialize(4, 1.2, 8, 10, &analysis);
 }
 
 //--------------------------------------------------------------
@@ -94,10 +94,10 @@ void ofApp::update()
 	cam.begin();
 	
 	// Revolve camera around center
-	/*cam.setPosition(
+	cam.setPosition(
 		cos(ofGetElapsedTimef() * revolveSpeed) * revolveDistance,
-		20,
-		sin(ofGetElapsedTimef() * revolveSpeed) * revolveDistance);*/
+		25,
+		sin(ofGetElapsedTimef() * revolveSpeed) * revolveDistance);
 	cam.lookAt(ofVec3f());
 
 	analysis.update();
@@ -124,16 +124,16 @@ void ofApp::draw()
 
 
 	cam.begin();
-	//background.draw();
+	background.draw();
 
 	ofEnableLighting();
 	light.enable();
 
 	starfield.draw();
 	terrain.draw();
-	//globe.draw();
-	//flare.draw();
-	//ring.draw();
+	globe.draw();
+	flare.draw();
+	ring.draw();
 
 	//Update galaxy
 	galaxy.mainUpdate();

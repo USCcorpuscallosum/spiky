@@ -39,7 +39,7 @@ public:
 private:
 	void drawUI();
 
-	ofEasyCam cam;
+	ofCamera cam;
 	ofLight light;
 	ofTrueTypeFont font;
 
@@ -57,8 +57,8 @@ private:
 	Starfield starfield;
 
 	float cameraFovShrink = 2.0; // degrees
-	float revolveSpeed = -0.1;
-	float revolveDistance = 50.0;
+	float revolveSpeed = -0.15;
+	float revolveDistance = 70.0;
 
 	static ofApp* sInstance;
 

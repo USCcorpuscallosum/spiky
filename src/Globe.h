@@ -31,9 +31,9 @@ private:
 	void setupMaterial();
 	void calcVertexFrequencies();
 
-	float radius = 1;
+	float radius = .8;
 	ofVec3f center;
-	float amplitude = 10;
+	float amplitude = 1.5;
 	float colorHueRange = 0.05;
 	ColorCycler colorCycler;
 
