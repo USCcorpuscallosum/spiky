@@ -9,6 +9,7 @@ in vec4 vColor;
 
 const float FadeWidth = 0.5; // multiple of edgeDistance
 const float WireframeWidth = 0.03;
+const float ElevationWidth = 0.15;
 
 void main()
 {
@@ -39,6 +40,12 @@ void main()
 		// LSD RAINBOW!!! 🌈
 		color = vec3(vWorldPosition.y * 0.1, 1, 1);
 		color = hsv2rgb(color);
+	}
+
+	// Add topographic map lines
+	if (fract(vColor.x) > 0.01 && fract(vColor.x) < ElevationWidth)
+	{
+		color = mix(color, vec3(1), 0.4);
 	}
 
 	// Inverse color on wireframe

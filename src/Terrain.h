@@ -8,6 +8,7 @@ class Terrain : public ofNode
 {
 public:
 	Terrain();
+	~Terrain();
 
 	void update();
 	void customDraw() override;
@@ -18,6 +19,9 @@ public:
 	void setMusicAnalysis(class MusicAnalysis* analysis) { musicAnalysis = analysis; }
 
 	const float CYCLE_SPEED = 25;
+	const int ELEVATION_STEPS = 10;
+	const int ELEVATION_MAX = 12;
+	const int ELEVATION_MIN = -8;
 
 private:
 	void setupMaterial();
@@ -30,6 +34,8 @@ private:
 	ofMesh baseMesh;
 	class MusicAnalysis* musicAnalysis;
 	ColorCycler colorCycler;
+
+	class Map* map = nullptr;
 
 	ofCustomMaterial material;
 	int mode = 0;

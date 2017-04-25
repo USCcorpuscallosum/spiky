@@ -4,7 +4,7 @@
 
 Galaxy::~Galaxy()
 {
-	for (size_t i = 0; i < orbitals.size(); i++)
+	for (int i = orbitals.size() - 1; i >= 0; i--)
 	{
 		delete orbitals[i];
 	}

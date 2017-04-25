@@ -1,6 +1,7 @@
 #include "Terrain.h"
 #include <ofMain.h>
 #include "MusicAnalysis.h"
+#include "MapGenerator/Map.h"
 
 Terrain::Terrain()
 {
@@ -13,7 +14,15 @@ Terrain::Terrain()
 	colorCycler.mDuration = CYCLE_SPEED;
 
 	setupMaterial();
+
+	map = new Map(100, 100, 4, ofGetUnixTime());
+	map->Generate();
 	initializeTerrain();
+}
+
+Terrain::~Terrain()
+{
+	delete map;
 }
 
 void Terrain::update()
@@ -56,9 +65,15 @@ void Terrain::initializeTerrain()
 	{
 		for (int x = 0; x<width; x++) 
 		{
-			mesh.addVertex(ofPoint((x - width * 0.5) * skip, 0, (z - length * 0.5) * skip)); // mesh index = x + z*width
+			float elevation = map->GetCenterAt(Vec2(x, z))->elevation;
+			mesh.addVertex(ofPoint(
+				(x - width * 0.5) * skip,
+				elevation * (ELEVATION_MAX - ELEVATION_MIN) + ELEVATION_MIN,
+				(z - length * 0.5) * skip)); // mesh index = x + z*width
+
 			mesh.addNormal(ofVec3f(ofRandomf() / 5, 1, ofRandomf() / 5));
-			mesh.addColor(ofFloatColor(0, ofRandom(0.7, 1.0), ofRandom(0.5, 1.0))); // pass in HSB
+//			mesh.addColor(ofFloatColor(0, ofRandom(0.7, 1.0), ofRandom(0.5, 1.0))); // pass in HSB
+			mesh.addColor(ofFloatColor(floor(elevation * ELEVATION_STEPS), 0, 0));
 
 			mesh.addTexCoord(ofVec2f(x % 2, z % 2));
 		}
