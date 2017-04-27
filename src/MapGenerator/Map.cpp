@@ -141,7 +141,7 @@ void Map::Generate() {
 
 //	cout << "Populate Quadtree: ";
 //	timer.restart();
-	for (int i = 0; i < centers.size(); i++){
+	for (size_t i = 0; i < centers.size(); i++){
 		pair<Vec2,Vec2> aabb(centers[i]->GetBoundingBox());
 		m_centers_quadtree.Insert2(centers[i], AABB(aabb.first, aabb.second));
 	}
@@ -274,7 +274,7 @@ void Map::RedistributeElevations(){
 
 	sort(locations.begin(), locations.end(), &corner::SortByElevation);
 
-	for(int i = 0; i < locations.size(); i++){
+	for(size_t i = 0; i < locations.size(); i++){
 		double y = (double) i / (locations.size() - 1);
 		double x = sqrt(SCALE_FACTOR) - sqrt(SCALE_FACTOR * (1-y));
 		x = min(x, 1.0);
@@ -376,7 +376,7 @@ void Map::RedistributeMoisture(){
 
 	sort(locations.begin(), locations.end(), &corner::SortByMoisture);
 
-	for(int i = 0; i < locations.size(); i++){
+	for(size_t i = 0; i < locations.size(); i++){
 		locations[i]->moisture = (double) i / (locations.size() - 1);
 	}
 }
@@ -656,7 +656,7 @@ center * Map::GetCenterAt(Vec2 p_pos){
 	if(l_aux_centers.size() > 0){
 		double l_min_dist = Vec2(l_aux_centers[0]->position, p_pos).Length();
 		r_center = l_aux_centers[0];
-		for(int i = 1; i < l_aux_centers.size(); i++){
+		for(size_t i = 1; i < l_aux_centers.size(); i++){
 			double l_new_dist = Vec2(l_aux_centers[i]->position, p_pos).Length();
 			if(l_new_dist < l_min_dist){
 				l_min_dist = l_new_dist;

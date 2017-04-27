@@ -181,7 +181,7 @@ public:
 		//std::cout << timer.getElapsedTime().asMicroseconds() << std::endl;
 		//timer.restart();
 		vector<T> r_elements;
-		for (int i = 0; i < l_current_leaf->m_elements.size(); i++){
+		for (size_t i = 0; i < l_current_leaf->m_elements.size(); i++){
 			if(l_current_leaf->m_elements_regions[i].Contains(p_pos)){
 				r_elements.push_back(l_current_leaf->m_elements[i]);
 			}

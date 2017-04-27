@@ -110,7 +110,7 @@ pair<Vec2,Vec2> center::GetBoundingBox(){
 void center::SortCorners(){
 	corner * item = NULL;
 	int hole = 0;
-	for(int i = 1; i < corners.size(); i++){
+	for(size_t i = 1; i < corners.size(); i++){
 		item = corners[i];
 		hole = i;
 		while( hole > 0 && GoesBefore(item->position, corners[hole - 1]->position)){
@@ -328,7 +328,7 @@ center * corner::GetOpositeCenter( edge *e ) {
 }
 
 bool corner::TouchesCenter( center *c ) {
-	for(int i = 0; i < centers.size(); i++)
+	for(size_t i = 0; i < centers.size(); i++)
 		if(centers[i] == c)
 			return true;
 	return false;
