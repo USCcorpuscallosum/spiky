@@ -15,8 +15,8 @@ PoissonDiskSampling::PoissonDiskSampling(int p_width, int p_height, double p_min
 	m_min_dist		= p_min_dist;
 	m_point_count	= p_point_count;
 	m_cell_size		= m_min_dist / 1.414214;
-	m_grid_width	= ceil(m_width / m_cell_size);
-	m_grid_height	= ceil(m_height / m_cell_size);
+	m_grid_width	= static_cast<int>(ceil(m_width / m_cell_size));
+	m_grid_height	= static_cast<int>(ceil(m_height / m_cell_size));
 	m_grid = vector<vector<point *> >(m_grid_width, vector<point *>(m_grid_height, NULL));
 }
 
@@ -26,8 +26,8 @@ vector<pair<double,double> > PoissonDiskSampling::Generate(){
 
 	m_process.push_back(first_point);
 	m_sample.push_back(make_pair(first_point.x, first_point.y));
-	int first_point_x = first_point.x/m_cell_size;
-	int first_point_y = first_point.y/m_cell_size;
+	int first_point_x = static_cast<int>(first_point.x/m_cell_size);
+	int first_point_y = static_cast<int>(first_point.y/m_cell_size);
 	m_grid[first_point_x][first_point_y] = new point(first_point);
 
 	while( !m_process.empty() ){
@@ -42,8 +42,8 @@ vector<pair<double,double> > PoissonDiskSampling::Generate(){
 				//	cout << "Nuevo punto: (" << new_point_around.x << ", " << new_point_around.y << ")" << endl;
 				m_process.push_back(new_point_around);
 				m_sample.push_back(make_pair(new_point_around.x, new_point_around.y));
-				int new_point_x = new_point_around.x/m_cell_size;
-				int new_point_y = new_point_around.y/m_cell_size;
+				int new_point_x = static_cast<int>(new_point_around.x/m_cell_size);
+				int new_point_y = static_cast<int>(new_point_around.y/m_cell_size);
 				m_grid[new_point_x][new_point_y] = new point(new_point_around);
 			}
 		}
@@ -83,8 +83,8 @@ bool PoissonDiskSampling::inNeighbourhood(point p_point){
 
 vector<PoissonDiskSampling::point *> PoissonDiskSampling::getCellsAround(point p_point){
 	vector<point *> cells;
-	int x_index = p_point.x / m_cell_size;
-	int y_index = p_point.y / m_cell_size;
+	int x_index = static_cast<int>(p_point.x / m_cell_size);
+	int y_index = static_cast<int>(p_point.y / m_cell_size);
 
 	int min_x = max(0, x_index - 1);
 	int max_x = min(m_grid_width - 1, x_index + 1);

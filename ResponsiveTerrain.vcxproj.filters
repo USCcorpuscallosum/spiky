@@ -85,6 +85,16 @@
     <ClCompile Include="src\MaterialCache.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\MapGenerator\Math\libnoise\module\modulebase.cpp" />
+    <ClCompile Include="src\MapGenerator\Math\libnoise\module\perlin.cpp" />
+    <ClCompile Include="src\MapGenerator\Math\libnoise\noisegen.cpp" />
+    <ClCompile Include="src\MapGenerator\Math\LineEquation.cpp" />
+    <ClCompile Include="src\MapGenerator\Math\Vec2.cpp" />
+    <ClCompile Include="src\MapGenerator\dDelaunay.cpp" />
+    <ClCompile Include="src\MapGenerator\Map.cpp" />
+    <ClCompile Include="src\MapGenerator\PoissonDiskSampling.cpp" />
+    <ClCompile Include="src\MapGenerator\Quadtree.cpp" />
+    <ClCompile Include="src\MapGenerator\Structures.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">
@@ -662,6 +672,20 @@
     <ClInclude Include="src\MaterialCache.h">
       <Filter>src</Filter>
     </ClInclude>
+    <ClInclude Include="src\MapGenerator\Math\libnoise\module\modulebase.h" />
+    <ClInclude Include="src\MapGenerator\Math\libnoise\module\perlin.h" />
+    <ClInclude Include="src\MapGenerator\Math\libnoise\basictypes.h" />
+    <ClInclude Include="src\MapGenerator\Math\libnoise\exception.h" />
+    <ClInclude Include="src\MapGenerator\Math\libnoise\interp.h" />
+    <ClInclude Include="src\MapGenerator\Math\libnoise\noisegen.h" />
+    <ClInclude Include="src\MapGenerator\Math\libnoise\vectortable.h" />
+    <ClInclude Include="src\MapGenerator\Math\LineEquation.h" />
+    <ClInclude Include="src\MapGenerator\Math\Vec2.h" />
+    <ClInclude Include="src\MapGenerator\dDelaunay.h" />
+    <ClInclude Include="src\MapGenerator\Map.h" />
+    <ClInclude Include="src\MapGenerator\PoissonDiskSampling.h" />
+    <ClInclude Include="src\MapGenerator\Quadtree.h" />
+    <ClInclude Include="src\MapGenerator\Structures.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="icon.rc" />

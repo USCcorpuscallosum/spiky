@@ -21,8 +21,8 @@ public:
 		point(const point &p) : x(p.x), y(p.y) {};
 
 		int gridIndex(double cell_size, int map_width){
-			int x_index = x / cell_size;
-			int y_index = y / cell_size;
+			int x_index = static_cast<int>(x / cell_size);
+			int y_index = static_cast<int>(y / cell_size);
 
 			return x_index + y_index * map_width;
 		};
