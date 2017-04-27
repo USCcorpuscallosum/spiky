@@ -77,6 +77,13 @@ void ofApp::setup()
 	analysis.setPlayer(&soundPlayers[0]);
 	nowPlaying = "Playing: " + songNames[0];
 
+	// Print audio devices
+	auto deviceNames = recordPlayer.getRecordingDeviceNames();
+	ofLogNotice("ofApp") << "Found " << deviceNames.size() << " audio devices:";
+	for (size_t i = 0; i < deviceNames.size(); i++) {
+		ofLogNotice("ofApp") << ' ' << i << ": " << deviceNames[i];
+	}
+
 	galaxy.initialize(2, 1.2, 8, 10, &analysis);
 }
 
@@ -174,7 +181,7 @@ void ofApp::keyPressed(int key)
 			analysis.setPlayer(&soundPlayers[index]);
 			nowPlaying = "Playing: " + songNames[index];
 		} else if (index < 0) {
-			recordPlayer.record(LINE_IN_DEVICE_ID);
+			recordPlayer.record(AUDIO_DEVICE_NAME);
 			analysis.setPlayer(&recordPlayer);
 			nowPlaying = "Playing from phone";
 		}

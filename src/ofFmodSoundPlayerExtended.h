@@ -25,6 +25,7 @@ public:
 	virtual ~ofFmodSoundPlayerExtended();
 
 	bool load(string fileName, bool stream = false);
+	bool record(string deviceName);
 	bool record(int deviceId);
 	void unload();
 	void play();

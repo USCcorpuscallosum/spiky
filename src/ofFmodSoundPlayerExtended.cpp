@@ -161,23 +161,11 @@ bool ofFmodSoundPlayerExtended::record(int deviceId) {
 	if (result != FMOD_OK) {
 		ofLogError("ofFmodSoundPlayerExtended") << "record(): Could not get drivers";
 	}
-	ofLogNotice("ofFmodSoundPlayerExtended") << "record(): Found " << numDrivers << " drivers";
 
 	if (numDrivers == 0) {
 		ofLogError("ofFmodSoundPlayerExtended") << "record(): No recording devices found/plugged in!";
 		bLoadedOk = false;
 		return false;
-	}
-
-	// List drivers
-	for (int i = 0; i < numDrivers; i++) {
-		char name[64];
-		result = FMOD_System_GetRecordDriverInfo(sys, i, name, sizeof(name), nullptr);
-		if (result == FMOD_OK) {
-			ofLogNotice("ofFmodSoundPlayerExtended") << "record(): " << i << ": " << name << (i == deviceId ? " *" : "");
-		} else {
-			ofLogWarning("ofFmodSoundPlayerExtended") << "record(): Could not get driver info for " << i;
-		}
 	}
 
 	// Create user sound to record into, then start recording.
@@ -215,7 +203,26 @@ bool ofFmodSoundPlayerExtended::record(int deviceId) {
 	return bLoadedOk;
 }
 
+bool ofFmodSoundPlayerExtended::record(string deviceName) {
+	// init fmod, if necessary
+	initializeFmod();
+
+	auto names = getRecordingDeviceNames();
+	for (size_t id = 0; id < names.size(); id++) {
+		if (names[id].find(deviceName) != string::npos) {
+			ofLogNotice("ofFmodSoundPlayerExtended") << "record(): Recording device " << names[id];
+			return record(id);
+		}
+	}
+
+	ofLogError("ofFmodSoundPlayerExtended") << "record(): Could not find device \"" << deviceName << '"';
+	return false;
+}
+
 vector<string> ofFmodSoundPlayerExtended::getRecordingDeviceNames() {
+	// init fmod, if necessary
+	initializeFmod();
+
 	vector<string> names;
 
 	int numDrivers = 0;

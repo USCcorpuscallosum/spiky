@@ -34,7 +34,7 @@ public:
 
 	static ofApp* getInstance() { return sInstance; }
 
-	const int LINE_IN_DEVICE_ID = 1;
+	const string AUDIO_DEVICE_NAME = "USB Audio Device";
 
 private:
 	void drawUI();
