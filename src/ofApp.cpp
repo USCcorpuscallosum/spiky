@@ -73,7 +73,6 @@ void ofApp::setup()
 	for (int i = 0; i < songNames.size(); i++) {
 		soundPlayers[i].load(songNames[i]);
 	}
-	recordPlayer.record(LINE_IN_DEVICE_ID);
 
 	analysis.setPlayer(&soundPlayers[0]);
 	nowPlaying = "Playing: " + songNames[0];
@@ -175,6 +174,7 @@ void ofApp::keyPressed(int key)
 			analysis.setPlayer(&soundPlayers[index]);
 			nowPlaying = "Playing: " + songNames[index];
 		} else if (index < 0) {
+			recordPlayer.record(LINE_IN_DEVICE_ID);
 			analysis.setPlayer(&recordPlayer);
 			nowPlaying = "Playing from phone";
 		}

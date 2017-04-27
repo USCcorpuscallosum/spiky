@@ -180,16 +180,9 @@ bool ofFmodSoundPlayerExtended::record(int deviceId) {
 		}
 	}
 
-	const int LATENCY_MS = 50; // Some devices will require higher latency to avoid glitches
-	const int DRIFT_MS = 1;
+	// Create user sound to record into, then start recording.
 	int nativeRate = internalFreq;
 	int nativeChannels = 2;
-	unsigned int driftThreshold = (nativeRate * DRIFT_MS) / 1000; // The point where we start compensating for drift
-	unsigned int desiredLatency = (nativeRate * LATENCY_MS) / 1000; // User specified latency
-	unsigned int adjustedLatency = desiredLatency; // User specified latency adjusted for driver update granularity
-	int actualLatency = desiredLatency;
-
-	// Create user sound to record into, then start recording.
 	FMOD_CREATESOUNDEXINFO exinfo = {0};
 	exinfo.cbsize           = sizeof(FMOD_CREATESOUNDEXINFO);
 	exinfo.numchannels      = nativeChannels;
@@ -197,7 +190,7 @@ bool ofFmodSoundPlayerExtended::record(int deviceId) {
 	exinfo.defaultfrequency = nativeRate;
 	exinfo.length           = nativeRate * sizeof(short) * nativeChannels; // 1 second buffer, size here doesn't change latency
 
-	result = FMOD_System_CreateSound(sys, 0, FMOD_SOFTWARE | FMOD_LOOP_NORMAL | FMOD_OPENUSER, &exinfo, &sound);
+	result = FMOD_System_CreateSound(sys, 0, FMOD_HARDWARE | FMOD_LOOP_NORMAL | FMOD_OPENUSER, &exinfo, &sound);
 	if (result != FMOD_OK) {
 		ofLogError("ofFmodSoundPlayerExtended") << "record(): Could not create sound for device " << deviceId;
 		bLoadedOk = false;
@@ -210,6 +203,9 @@ bool ofFmodSoundPlayerExtended::record(int deviceId) {
 		bLoadedOk = false;
 		return false;
 	} else {
+		// For some reason calling RecordStart again and sleeping for 60ms decreases the latency...
+		result = FMOD_System_RecordStart(sys, deviceId, sound, true);
+		usleep(1000*60);
 		bLoadedOk = true;
 		FMOD_Sound_GetLength(sound, &length, FMOD_TIMEUNIT_PCM);
 		isStreaming = true;
