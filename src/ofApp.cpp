@@ -94,7 +94,8 @@ void ofApp::update()
 	galaxy.update();
 
 	// Shrink the FOV for a zoom effect on beats
-	cam.setFov(60.0 - analysis.getDecayNormalized() * (lsd ? cameraFovShrinkLSD : cameraFovShrink));
+	float newFov = 60.0 - analysis.getDecayNormalized() * (lsd ? cameraFovShrinkLsd : cameraFovShrink);
+	cam.setFov(cam.getFov() * fovEasing + newFov * (1 - fovEasing));
 
 	//End camera
 	cam.end();
@@ -210,9 +211,13 @@ void ofApp::keyPressed(int key) {
 			analysis.setPlayer(&soundPlayers[index]);
 			nowPlaying = "Playing: " + songNames[index];
 		} else if (index < 0) {
-			recordPlayer.record(AUDIO_DEVICE_NAME);
-			analysis.setPlayer(&recordPlayer);
-			nowPlaying = "Playing from phone";
+			bool success = recordPlayer.record(AUDIO_DEVICE_NAME);
+			if (success) {
+				analysis.setPlayer(&recordPlayer);
+				nowPlaying = "Playing from phone";
+			} else {
+				nowPlaying = "Cannot play from phone";
+			}
 		}
 	} else if (key == 'r') {
 		// Reload shaders and stuff

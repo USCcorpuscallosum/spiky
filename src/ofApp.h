@@ -57,7 +57,8 @@ private:
 	Background background;
 	Starfield starfield;
 
-	float cameraFovShrink = 3.0, cameraFovShrinkLSD = -10.0; // degrees
+	float cameraFovShrink = 3.0, cameraFovShrinkLsd = -10.0; // degrees
+	float fovEasing = 0.6;
 	float revolveSpeed = -0.15;
 	float revolveDistance = 120.0;
 	bool lsd = false;
