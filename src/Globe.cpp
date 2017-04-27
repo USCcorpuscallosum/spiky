@@ -1,8 +1,12 @@
 #include "Globe.h"
 #include "MusicAnalysis.h"
 
+ofxAssimpModelLoader Globe::modelLoader;
+
 Globe::Globe() {
-	modelLoader.loadModel("Sphere5.obj");
+	if (modelLoader.getMeshCount() == 0) {
+		modelLoader.loadModel("Sphere5.obj");
+	}
 	mesh = modelLoader.getMesh(0);
 
 	setupMaterial();

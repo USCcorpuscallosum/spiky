@@ -36,7 +36,6 @@ private:
 	float colorHueRange = 0.05;
 	ColorCycler colorCycler;
 
-	ofxAssimpModelLoader modelLoader;
 	ofVboMesh mesh;
 	ofCustomMaterial material;
 	bool didSetVertFrequencies = false;
@@ -44,5 +43,7 @@ private:
 	class MusicAnalysis* analysis = nullptr;
 	vector<float> ranges;
 	ofTexture spectrumTex;
+
+	static ofxAssimpModelLoader modelLoader;
 
 };
