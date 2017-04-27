@@ -10,7 +10,7 @@ Terrain::Terrain()
 	
 	width = 100;
 	length = 100;
-	skip = 5;
+	skip = 2;
 
 	colorCycler.mDuration = CYCLE_SPEED;
 
@@ -28,6 +28,9 @@ void Terrain::update()
 void Terrain::customDraw()
 {
 	material.begin();
+
+	auto& shader = material.getShader();
+	shader.setUniform1f("edgeDistance", min(width, length) * skip * 0.5);
 
 	mesh.draw();
 
@@ -54,9 +57,11 @@ void Terrain::initializeTerrain()
 	{
 		for (int x = 0; x<width; x++) 
 		{
-			mesh.addVertex(ofPoint(x - width * 0.5, 0, z - length * 0.5)); // mesh index = x + z*width
+			mesh.addVertex(ofPoint((x - width * 0.5) * skip, 0, (z - length * 0.5) * skip)); // mesh index = x + z*width
 			mesh.addNormal(ofVec3f(ofRandomf() / 5, 1, ofRandomf() / 5));
 			mesh.addColor(ofFloatColor(0, ofRandom(0.7, 1.0), ofRandom(0.5, 1.0))); // pass in HSB
+
+			mesh.addTexCoord(ofVec2f(x % 2, z % 2));
 		}
 	}
 
