@@ -183,6 +183,7 @@
     <ClCompile Include="src\Flare.cpp" />
     <ClCompile Include="src\Galaxy.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\MaterialCache.cpp" />
     <ClCompile Include="src\ofApp.cpp" />
     <ClCompile Include="src\Background.cpp" />
     <ClCompile Include="src\Globe.cpp" />
@@ -210,6 +211,7 @@
     <ClInclude Include="src\ColorCycler.h" />
     <ClInclude Include="src\Flare.h" />
     <ClInclude Include="src\Galaxy.h" />
+    <ClInclude Include="src\MaterialCache.h" />
     <ClInclude Include="src\ofApp.h" />
     <ClInclude Include="src\Background.h" />
     <ClInclude Include="src\Globe.h" />

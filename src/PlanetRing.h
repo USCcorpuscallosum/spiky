@@ -25,7 +25,7 @@ public:
 	const unsigned int RESOLUTION = 30;
 
 private:
-	void setupMaterial();
+	void setupMaterial(bool reload);
 	void buildMesh();
 
 	float mInnerRadius = 1.0, mOuterRadius = 2.0, mAmplitude = 1.0;
@@ -36,7 +36,7 @@ private:
 
 	ofVboMesh mMesh;
 	bool mIsMeshDirty = true;
-	ofCustomMaterial mMaterial;
+	ofCustomMaterial* mMaterial = nullptr;
 
 	class MusicAnalysis* mAnalysis = nullptr;
 	vector<float> mRanges;

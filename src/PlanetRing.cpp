@@ -1,8 +1,9 @@
 #include "PlanetRing.h"
 #include "MusicAnalysis.h"
+#include "MaterialCache.h"
 
 PlanetRing::PlanetRing() {
-	setupMaterial();
+	setupMaterial(false);
 }
 
 void PlanetRing::update() {
@@ -11,7 +12,7 @@ void PlanetRing::update() {
 		mIsMeshDirty = false;
 	}
 
-	mMaterial.setDiffuseColor(mColorCycler.getColor());
+	mMaterial->setDiffuseColor(mColorCycler.getColor());
 
 	// Copy spectrum to a texture for the shader to use
 	if (mAnalysis) {
@@ -22,9 +23,9 @@ void PlanetRing::update() {
 }
 
 void PlanetRing::customDraw() {
-	mMaterial.begin();
+	mMaterial->begin();
 
-	auto& shader = mMaterial.getShader();
+	auto& shader = mMaterial->getShader();
 	shader.setUniform1f("amplitude", mAmplitude);
 	shader.setUniform2f("ringSize", mRingSize);
 	shader.setUniform2f("scrollDirection", mScrollDirection);
@@ -34,19 +35,18 @@ void PlanetRing::customDraw() {
 
 	mMesh.draw();
 
-	mMaterial.end();
+	mMaterial->end();
 }
 
 void PlanetRing::debugReload() {
-	setupMaterial();
+	setupMaterial(true);
 	ofLogNotice("Ring") << "Reloaded shader";
 }
 
-void PlanetRing::setupMaterial() {
-	mMaterial = ofCustomMaterial();
-	mMaterial.load("shaders/ring/ring");
-	mMaterial.setShininess(127);
-	mMaterial.setSpecularColor(ofColor(255, 255, 255));
+void PlanetRing::setupMaterial(bool reload) {
+	mMaterial = MaterialCache::load("shaders/ring/ring", reload);
+	mMaterial->setShininess(127);
+	mMaterial->setSpecularColor(ofColor(255, 255, 255));
 }
 
 void PlanetRing::buildMesh() {

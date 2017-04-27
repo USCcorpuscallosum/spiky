@@ -1,5 +1,6 @@
 #include "Globe.h"
 #include "MusicAnalysis.h"
+#include "MaterialCache.h"
 
 ofxAssimpModelLoader Globe::modelLoader;
 
@@ -9,11 +10,11 @@ Globe::Globe() {
 	}
 	mesh = modelLoader.getMesh(0);
 
-	setupMaterial();
+	setupMaterial(false);
 }
 
 void Globe::update() {
-	material.setDiffuseColor(colorCycler.getColor());
+	material->setDiffuseColor(colorCycler.getColor());
 
 	// Copy spectrum to a texture for the shader to use
 	if (analysis) {
@@ -28,9 +29,9 @@ void Globe::update() {
 }
 
 void Globe::customDraw() {
-	material.begin();
+	material->begin();
 
-	auto& shader = material.getShader();
+	auto& shader = material->getShader();
 	shader.setUniform1f("amplitude", amplitude / radius); // amplitude is relative to scale
 	shader.setUniform1f("colorHueRange", colorHueRange);
 	shader.setUniform1i("bins", static_cast<int>(ranges.size()));
@@ -42,20 +43,19 @@ void Globe::customDraw() {
 	mesh.draw();
 	ofPopMatrix();
 
-	material.end();
+	material->end();
 }
 
 void Globe::debugReload() {
-	setupMaterial();
+	setupMaterial(true);
 	calcVertexFrequencies();
 	ofLogNotice("Globe") << "Reloaded shader";
 }
 
-void Globe::setupMaterial() {
-	material = ofCustomMaterial();
-	material.load("shaders/globe/globe");
-	material.setShininess(127);
-	material.setSpecularColor(ofColor(255, 255, 255));
+void Globe::setupMaterial(bool reload) {
+	material = MaterialCache::load("shaders/globe/globe", reload);
+	material->setShininess(127);
+	material->setSpecularColor(ofColor(255, 255, 255));
 }
 
 /** Figure out the frequency to use for each vert in the range 0..1 */
@@ -69,7 +69,7 @@ void Globe::calcVertexFrequencies() {
 	}
 
 	// Link the frequencies to the mesh
-	auto& shader = material.getShader();
+	auto& shader = material->getShader();
 	GLint freqAttrib = shader.getAttributeLocation("frequency");
 	mesh.getVbo().setAttributeData(freqAttrib, vertFrequency.data(), 1, static_cast<int>(mesh.getNumVertices()), GL_STATIC_DRAW, sizeof(float));
 }

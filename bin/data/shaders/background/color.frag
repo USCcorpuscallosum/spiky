@@ -33,11 +33,7 @@ void main()
 	{
 		// Get triadic colors
 		vec3 color = rgb2hsv(terrainColor.rgb);
-		vec3 color2 = color;
-		color.x = fract(color.x + 0.333);
-		color2.x = fract(color.x + 0.333);
-		color = hsv2rgb(color);
-		color2 = hsv2rgb(color2);
+		color.x += 0.333;
 
 		float t = distance(outTexcoord, vec2(0.5, 0.5)) * 2; // 0..1 from center to edge
 		t *= DistanceMult; // less emphasis on distance
@@ -46,7 +42,9 @@ void main()
 
 		t = int(t * PosterizeSteps) / float(PosterizeSteps); // posterize
 
-		color = mix(color, color2, t); // lerp between the colors
+		color.x += t * 0.333;  // move forward in hues
+		color.x = fract(color.x);
+		color = hsv2rgb(color);
 
 		outputColor = vec4(color, 1.0);
 	}

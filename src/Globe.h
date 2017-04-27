@@ -27,7 +27,7 @@ public:
 	const float CYCLE_SPEED = 0.1;
 
 private:
-	void setupMaterial();
+	void setupMaterial(bool reload);
 	void calcVertexFrequencies();
 
 	float radius = .8;
@@ -37,7 +37,7 @@ private:
 	ColorCycler colorCycler;
 
 	ofVboMesh mesh;
-	ofCustomMaterial material;
+	ofCustomMaterial* material = nullptr;
 	bool didSetVertFrequencies = false;
 
 	class MusicAnalysis* analysis = nullptr;
