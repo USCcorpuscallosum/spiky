@@ -94,7 +94,7 @@ void ofApp::update()
 	galaxy.update();
 
 	// Shrink the FOV for a zoom effect on beats
-	cam.setFov(60.0 - analysis.getDecayNormalized() * cameraFovShrink);
+	cam.setFov(60.0 - analysis.getDecayNormalized() * (lsd ? cameraFovShrinkLSD : cameraFovShrink));
 
 	//End camera
 	cam.end();
@@ -202,8 +202,7 @@ void ofApp::keyPressed(int key) {
 			analysis.play();
 		else
 			analysis.pause();
-	}
-	else if ('0' <= key && key <= '9') {
+	} else if ('0' <= key && key <= '9') {
 		// 1..9 = play song, 0 = play line in
 		int index = key - '0';
 		index--;
@@ -215,13 +214,17 @@ void ofApp::keyPressed(int key) {
 			analysis.setPlayer(&recordPlayer);
 			nowPlaying = "Playing from phone";
 		}
-	}
-	else if (key == 'r') {
+	} else if (key == 'r') {
 		// Reload shaders and stuff
 		background.debugReload();
 		terrain.debugReload();
 		flare.debugReload();
 		galaxy.debugReload();
+	} else if (key == 'l') {
+		lsd = !lsd;
+		background.setLSD(lsd);
+		terrain.setLSD(lsd);
+		starfield.setLSD(lsd);
 	}
 }
 

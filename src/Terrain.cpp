@@ -29,6 +29,7 @@ void Terrain::customDraw()
 
 	auto& shader = material.getShader();
 	shader.setUniform1f("edgeDistance", min(width, length) * skip * 0.5);
+	shader.setUniform1i("mode", mode);
 
 	mesh.draw();
 

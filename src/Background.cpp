@@ -6,6 +6,8 @@ Background::Background() {
 
 	// Create the quad that the shader will be applied on
 	mPlane.set(2, 2, 2, 2);
+
+	mColorCycler.mDuration = 15.0;
 }
 
 void Background::update() {
@@ -17,7 +19,8 @@ void Background::draw() {
 
 	float volume = mAnalysis->getDecayNormalized();
 
-	mShader.setUniform4f("terrainColor", ofColor(0, 40, 110)); // TODO: change from constant color
+	mShader.setUniform1i("mode", mMode);
+	mShader.setUniform4f("terrainColor", mColorCycler.getColor());
 	mShader.setUniform1f("time", ofGetElapsedTimef());
 	mShader.setUniform1f("volume", volume);
 	mPlane.draw();

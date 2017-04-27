@@ -13,6 +13,7 @@ public:
 	void customDraw() override;
 
 	void debugReload();
+	void setLSD(bool on) { mode = on ? 1 : 0; };
 
 	void setMusicAnalysis(class MusicAnalysis* analysis) { musicAnalysis = analysis; }
 
@@ -31,6 +32,7 @@ private:
 	ColorCycler colorCycler;
 
 	ofCustomMaterial material;
+	int mode = 0;
 
 	float length;
 	float width;

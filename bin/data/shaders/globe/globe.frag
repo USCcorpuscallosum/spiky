@@ -7,17 +7,16 @@ uniform float colorHueRange;
 in vec4 vWorldPosition;
 in float vFrequency;
 
+const float WireframeWidth = 0.03;
+
 void main()
 {
-	const float wireframeWidth = 0.03;
-//	const float colorHueRange = 0.05;
-
 	float vol = getVolume(vFrequency, spectrum);
 
 	// Wireframe
-//	if (outtexcoord.x < wireframeWidth || outtexcoord.x > 1 - wireframeWidth ||
-//		outtexcoord.y < wireframeWidth || outtexcoord.y > 1 - wireframeWidth)
-////		abs(outtexcoord.x - outtexcoord.y) < wireframeWidth
+//	if (outtexcoord.x < WireframeWidth || outtexcoord.x > 1 - WireframeWidth ||
+//		outtexcoord.y < WireframeWidth || outtexcoord.y > 1 - WireframeWidth)
+////		abs(outtexcoord.x - outtexcoord.y) < WireframeWidth
 //	{
 //		vol = 1;
 //	}

@@ -7,6 +7,8 @@ public:
 	void update();
 	void customDraw() override;
 
+	void setLSD(bool on) { mLsd = on; }
+
 	int getStarCount() const { return mStarCount; }
 	void setStarCount(int starCount) { mStarCount = starCount; }
 	float getRadius() const { return mRadius; }
@@ -22,6 +24,7 @@ private:
 	int mStarCount = 150;
 	float mRadius = 50.0, mStarRadius = 0.6;
 	float mLightThreshold = 0.9;
+	bool mLsd = false;
 
 	ofVboMesh mMesh;
 

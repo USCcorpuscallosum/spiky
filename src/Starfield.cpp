@@ -8,7 +8,12 @@ void Starfield::update() {
 }
 
 void Starfield::customDraw() {
-	ofSetColor(255);
+	if (mLsd) {
+		ofSetColor(ofFloatColor::fromHsb(fmod(ofGetElapsedTimef() * 0.5, 1), 1, 1));
+	} else {
+		ofSetColor(255);
+	}
+
 	if (mAnalysis->getDecayNormalized() > mLightThreshold)
 		mMesh.draw(); // fill
 	else

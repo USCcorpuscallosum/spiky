@@ -9,13 +9,14 @@ uniform float fadeWidth;
 in vec4 vWorldPosition;
 in float vFrequency;
 
+const float BaseAlpha = 0.2;
+const float Brightness = 1.5;
+// const vec2 ringSize = vec2(10, 20);
+// const vec2 scrollDirection = vec2(0.5, -3.0); // sideways, inward
+// const float fadeWidth = 0.2;
+
 void main()
 {
-//	const vec2 ringSize = vec2(10, 20);
-//	const vec2 scrollDirection = vec2(0.5, -3.0); // sideways, inward
-//	const float fadeWidth = 0.2;
-	const float baseAlpha = 0.2;
-	const float brightness = 1.5;
 
 	float vol = getVolume(vFrequency, spectrum);
 
@@ -23,13 +24,13 @@ void main()
 	mirroredUV.x = min(mirroredUV.x, 1.0 - mirroredUV.x); // mirror x over 0.5
 
 	float t = noise(mirroredUV * ringSize + scrollDirection * global_time);
-	t *= brightness;
+	t *= Brightness;
 
 	vec3 emissiveColor = rgb2hsv(mat_diffuse.rgb);
 	emissiveColor.x = fract(emissiveColor.x + 0.333 * (1 - mirroredUV.y)); // go forward in the color spectrum outward on the ring
 	emissiveColor = hsv2rgb(emissiveColor);
 
-	vec4 emissive = vec4(emissiveColor, mix(baseAlpha, 1.0, t));
+	vec4 emissive = vec4(emissiveColor, mix(BaseAlpha, 1.0, t));
 
 	// Fade to edges
 	emissive.a *= min(

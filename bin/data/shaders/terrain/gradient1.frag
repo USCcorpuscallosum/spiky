@@ -2,42 +2,49 @@
 #pragma include "../util.glsl"
 
 uniform float edgeDistance;
+uniform int mode;
 
 in vec4 vWorldPosition;
 in vec4 vColor;
 
+const float FadeWidth = 0.5; // multiple of edgeDistance
+const float WireframeWidth = 0.03;
+
 void main()
 {
-	const float fadeWidth = 0.5; // multiple of edgeDistance
-	const float wireframeWidth = 0.03;
-
-	// Fade out over range (edgeDistance - fadeWidth)..edgeDistance using distance from center
+	// Fade out over range (edgeDistance - FadeWidth)..edgeDistance using distance from center
 	float a = length(vWorldPosition.xz);
 	a /= edgeDistance;
 	a = 1 - a;
-	a /= fadeWidth;
+	a /= FadeWidth;
 	a = clamp01(a);
 
 	if (a == 0) discard;
 
-	// Color from diffuse
-	vec3 color = mat_diffuse.rgb + vec3(0.1) * vWorldPosition.y;
+	vec3 color;
+	if (mode == 0)
+	{
+		// Color from diffuse
+		color = mat_diffuse.rgb + vec3(0.1) * vWorldPosition.y;
 
-	// Hue from diffuse and sat/val from the vertex
-//	vec3 color = mat_diffuse.rgb;
-//	color = rgb2hsv(color);
-//	color.yz = vColor.yz; // copy the vertex sat/val to the color
-//	color.z += 0.2 * vWorldPosition.y; // increase value with y height
-//	color = hsv2rgb(color);
-
-	// LSD RAINBOW!!! 🌈
-//	vec3 color = vec3(vWorldPosition.y * 0.1, 1, 1);
-//	color = hsv2rgb(color);
+		// Hue from diffuse and sat/val from the vertex
+		// color = mat_diffuse.rgb;
+		// color = rgb2hsv(color);
+		// color.yz = vColor.yz; // copy the vertex sat/val to the color
+		// color.z += 0.2 * vWorldPosition.y; // increase value with y height
+		// color = hsv2rgb(color);
+	}
+	else
+	{
+		// LSD RAINBOW!!! 🌈
+		color = vec3(vWorldPosition.y * 0.1, 1, 1);
+		color = hsv2rgb(color);
+	}
 
 	// Inverse color on wireframe
-//	if (outtexcoord.x < wireframeWidth || outtexcoord.x > 1 - wireframeWidth ||
-//		outtexcoord.y < wireframeWidth || outtexcoord.y > 1 - wireframeWidth)
-////		abs(outtexcoord.x - outtexcoord.y) < wireframeWidth
+//	if (outtexcoord.x < WireframeWidth || outtexcoord.x > 1 - WireframeWidth ||
+//		outtexcoord.y < WireframeWidth || outtexcoord.y > 1 - WireframeWidth)
+////		abs(outtexcoord.x - outtexcoord.y) < WireframeWidth
 //	{
 //		color = vec3(1) - color;
 //	}
