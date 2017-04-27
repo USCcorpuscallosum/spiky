@@ -15,7 +15,7 @@ Terrain::Terrain()
 
 	setupMaterial();
 
-	map = new Map(100, 100, 4, ofGetUnixTime());
+	map = new Map(width, length, 4, ofGetUnixTime());
 	map->Generate();
 	initializeTerrain();
 }
@@ -144,14 +144,13 @@ void Terrain::calculateNewPosForIndex(int index, float newHeight)
 {
 	//Change the x, y, and z values of the base vert over time
 	ofVec3f randomVec = ofVec3f(ofRandomf() / 5, ofRandomf(), ofRandomf() / 5).normalize();
-	ofVec3f newBasePos = baseMesh.getVertex(index);
-	newBasePos += (randomVec * ofGetLastFrameTime() * randomPosScalar) + (newBasePos.y / 30000);
-	baseMesh.setVertex(index, newBasePos);
+	ofVec3f basePos = baseMesh.getVertex(index);
+	basePos += (randomVec * ofGetLastFrameTime() * randomPosScalar) + (basePos.y / 30000);
+	//baseMesh.setVertex(index, newBasePos);
 
 	//Change the depth in the direction of the normal vector
 	ofVec3f normalVec = mesh.getNormal(index).normalize();
-	ofVec3f baseVert = baseMesh.getVertex(index);
-	ofVec3f newPos = baseVert + newHeight * normalVec;
+	ofVec3f newPos = basePos + newHeight * normalVec;
 
 	//Set the new position to that of the vertex
 	mesh.setVertex(index, newPos);
