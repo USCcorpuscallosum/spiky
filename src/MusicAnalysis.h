@@ -22,7 +22,11 @@ public:
 		float volume;
 		float maxVolume;
 
-		Range() {
+		Range()
+			: minFreq(0)
+			, maxFreq(0)
+			, volume(0)
+			, maxVolume(0) {
 		}
 
 		Range(float min_, float max_)
@@ -80,8 +84,8 @@ private:
 	map<RangeType, Range> ranges;
 	vector<float> spectrum;
 	vector<float> hpcp;
-	float rms, power, pitchFreq, hfc, strongDecay;
-	float strongDecayNorm;
-	bool onBeat;
+	float rms = 0, power = 0, pitchFreq = 0, hfc = 0, strongDecay = 0;
+	float strongDecayNorm = 0;
+	bool onBeat = false;
 	
 };

@@ -76,6 +76,12 @@
     <ClCompile Include="src\Starfield.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\Galaxy.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Orbital.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">
@@ -642,6 +648,12 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="src\Starfield.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Galaxy.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Orbital.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>

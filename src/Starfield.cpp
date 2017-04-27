@@ -1,11 +1,10 @@
 #include "Starfield.h"
 #include "MusicAnalysis.h"
 
-Starfield::Starfield() {
-	buildMesh();
-}
-
 void Starfield::update() {
+	if (mMesh.getNumVertices() == 0) {
+		buildMesh();
+	}
 }
 
 void Starfield::customDraw() {
@@ -35,6 +34,7 @@ void Starfield::buildMesh() {
 	ofIndexType offset = 0;
 	for (int i = 0; i < mStarCount; i++) {
 		ofVec3f center = randomInsideUnitSphere() * mRadius;
+		//center.y = abs(center.y); // make hemisphere above y = 0
 
 		ofVec3f normal = ofVec3f(ofRandomf(), ofRandomf(), ofRandomf());
 		normal.normalize();
@@ -42,12 +42,12 @@ void Starfield::buildMesh() {
 		rotToNormal.makeRotationMatrix(ofVec3f(0, 0, 1), normal);
 
 		float angle = ofRandom(0, TWO_PI);
-		for (int i = 0; i < 3; i++) {
+		for (int vert = 0; vert < 3; vert++) {
 			ofVec3f pos = ofVec3f(cos(angle) * mStarRadius, sin(angle) * mStarRadius, 0);
 			pos = rotToNormal * pos;
 			mMesh.addVertex(center + pos);
 			mMesh.addIndex(offset);
-			switch (i) {
+			switch (vert) {
 				case 0: mMesh.addTexCoord(ofVec2f(0, 0)); break;
 				case 1: mMesh.addTexCoord(ofVec2f(1, 0)); break;
 				case 2: mMesh.addTexCoord(ofVec2f(1, 1)); break;

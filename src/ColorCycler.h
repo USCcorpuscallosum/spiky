@@ -31,7 +31,6 @@ public:
 	RepeatType mRepeat = Loop;
 
 private:
-	float mHue = -1;
 	uint64_t mLastFrameNum = -1;
 	ofColor mColor;
 

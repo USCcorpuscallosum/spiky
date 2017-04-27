@@ -1,7 +1,5 @@
 #include "Terrain.h"
 #include <ofMain.h>
-#include <iostream>
-#include <cmath>
 #include "MusicAnalysis.h"
 
 Terrain::Terrain()

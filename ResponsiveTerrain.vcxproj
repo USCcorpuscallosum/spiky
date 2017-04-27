@@ -181,6 +181,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\Flare.cpp" />
+    <ClCompile Include="src\Galaxy.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\ofApp.cpp" />
     <ClCompile Include="src\Background.cpp" />
@@ -188,6 +189,7 @@
     <ClCompile Include="src\MusicAnalysis.cpp" />
     <ClCompile Include="src\ofCustomMaterial.cpp" />
     <ClCompile Include="src\ofFmodSoundPlayerExtended.cpp" />
+    <ClCompile Include="src\Orbital.cpp" />
     <ClCompile Include="src\PlanetRing.cpp" />
     <ClCompile Include="src\Starfield.cpp" />
     <ClCompile Include="src\Terrain.cpp" />
@@ -207,12 +209,14 @@
   <ItemGroup>
     <ClInclude Include="src\ColorCycler.h" />
     <ClInclude Include="src\Flare.h" />
+    <ClInclude Include="src\Galaxy.h" />
     <ClInclude Include="src\ofApp.h" />
     <ClInclude Include="src\Background.h" />
     <ClInclude Include="src\Globe.h" />
     <ClInclude Include="src\MusicAnalysis.h" />
     <ClInclude Include="src\ofCustomMaterial.h" />
     <ClInclude Include="src\ofFmodSoundPlayerExtended.h" />
+    <ClInclude Include="src\Orbital.h" />
     <ClInclude Include="src\PlanetRing.h" />
     <ClInclude Include="src\Starfield.h" />
     <ClInclude Include="src\Terrain.h" />

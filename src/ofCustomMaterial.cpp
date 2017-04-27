@@ -1,5 +1,4 @@
 #include "ofCustomMaterial.h"
-#include "ofConstants.h"
 #include "ofGLUtils.h"
 #include "ofLight.h"
 #include "ofGLProgrammableRenderer.h"
@@ -150,13 +149,10 @@ const ofShader & ofCustomMaterial::getShader(int textureTarget, ofGLProgrammable
 	switch(textureTarget){
 	case OF_NO_TEXTURE:
 		return shaderNoTexture;
-		break;
 	case GL_TEXTURE_2D:
 		return shaderTexture2D;
-		break;
 	default:
 		return shaderTextureRect;
-		break;
 	}
 }
 

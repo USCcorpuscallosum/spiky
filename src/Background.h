@@ -1,7 +1,6 @@
 #pragma once
 
 #include <ofMain.h>
-#include "ofCustomMaterial.h"
 
 /*
   Control backgroud color based on information from the music and the terrain

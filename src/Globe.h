@@ -8,7 +8,7 @@
 class Globe : public ofNode {
 public:
 	Globe();
-	void update();
+	virtual void update();
 	void customDraw() override;
 
 	void debugReload();
@@ -21,11 +21,10 @@ public:
 	void setAmplitude(float amplitude_) { amplitude = amplitude_; }
 
 	ColorCycler& getColorCycler() { return colorCycler; }
+	class MusicAnalysis* getMusicAnalysis() const { return analysis; }
 	void setMusicAnalysis(class MusicAnalysis* analysis_) { analysis = analysis_; }
 
 	const float CYCLE_SPEED = 0.1;
-
-	class MusicAnalysis* analysis = nullptr;
 
 private:
 	void setupMaterial();
@@ -42,6 +41,7 @@ private:
 	ofCustomMaterial material;
 	bool didSetVertFrequencies = false;
 
+	class MusicAnalysis* analysis = nullptr;
 	vector<float> ranges;
 	ofTexture spectrumTex;
 

@@ -1,6 +1,6 @@
 #include "ofFmodSoundPlayerExtended.h"
 #include "ofUtils.h"
-
+#include <thread>
 
 static bool bFmodInitialized_ = false;
 static unsigned int buffersize = 1024;
@@ -193,7 +193,7 @@ bool ofFmodSoundPlayerExtended::record(int deviceId) {
 	} else {
 		// For some reason calling RecordStart again and sleeping for 60ms decreases the latency...
 		result = FMOD_System_RecordStart(sys, deviceId, sound, true);
-		usleep(1000*60);
+		this_thread::sleep_for(chrono::milliseconds(60));
 		bLoadedOk = true;
 		FMOD_Sound_GetLength(sound, &length, FMOD_TIMEUNIT_PCM);
 		isStreaming = true;
@@ -227,10 +227,13 @@ vector<string> ofFmodSoundPlayerExtended::getRecordingDeviceNames() {
 
 	int numDrivers = 0;
 	FMOD_RESULT result = FMOD_System_GetRecordNumDrivers(sys, &numDrivers);
+	if (result != FMOD_OK) {
+		ofLogError("ofFmodSoundPlayerExtended") << "getRecordingDeviceNames(): Could not get drivers";
+	}
 
 	for (int i = 0; i < numDrivers; i++) {
-		char name[64];
-		result = FMOD_System_GetRecordDriverInfo(sys, i, name, sizeof(name), nullptr);
+		char name[64] = {0};
+		FMOD_System_GetRecordDriverInfo(sys, i, name, sizeof(name), nullptr);
 		names.emplace_back(name);
 	}
 

@@ -39,6 +39,9 @@ public:
 private:
 	void drawUI();
 
+	static Galaxy::OrbitalDef buildGalaxy();
+	static Galaxy::OrbitalDef buildGalaxyLevel(int level, int maxLevel);
+
 	ofCamera cam;
 	ofLight light;
 	ofTrueTypeFont font;
@@ -49,16 +52,14 @@ private:
 	MusicAnalysis analysis;
 	string nowPlaying;
 
-	Globe globe;
-	PlanetRing ring;
 	Flare flare;
 	Terrain terrain;
 	Background background;
 	Starfield starfield;
 
-	float cameraFovShrink = 2.0; // degrees
+	float cameraFovShrink = 3.0; // degrees
 	float revolveSpeed = -0.15;
-	float revolveDistance = 70.0;
+	float revolveDistance = 120.0;
 
 	static ofApp* sInstance;
 

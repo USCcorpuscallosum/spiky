@@ -4,10 +4,11 @@
 
 class Starfield : public ofNode {
 public:
-	Starfield();
 	void update();
 	void customDraw() override;
 
+	int getStarCount() const { return mStarCount; }
+	void setStarCount(int starCount) { mStarCount = starCount; }
 	float getRadius() const { return mRadius; }
 	void setRadius(float radius) { mRadius = radius; }
 	float getStarRadius() const { return mStarRadius; }

@@ -30,37 +30,24 @@ void ofApp::setup()
 	background.setMusicAnalysis(&analysis);
 
 	// Setup starfield
+	starfield.setStarCount(250);
+	starfield.setRadius(100.0);
 	starfield.setMusicAnalysis(&analysis);
 
 	// Setup terrain
-	terrain.setPosition(ofVec3f(0, -20, 0));
+	terrain.setPosition(ofVec3f(0, -40, 0));
 	terrain.setMusicAnalysis(&analysis);
-
-	// Setup globe
-	globe.setMusicAnalysis(&analysis);
-	globe.setRadius(10.0);
-	globe.setAmplitude(5.0);
-	auto& globeColor = globe.getColorCycler();
-	globeColor.mStartHue = 0.0;
-	globeColor.mEndHue = 1.0;
-	globeColor.mDuration = 10.0;
-
-	// Setup ring
-	ring.setMusicAnalysis(&analysis);
-	ring.setInnerRadius(12);
-	ring.setOuterRadius(25);
-	ring.setAmplitude(4);
-	auto& ringColor = ring.getColorCycler();
-	ringColor.mStartHue = 0.0;
-	ringColor.mEndHue = 1.0;
-	ringColor.mRepeat = ColorCycler::PingPong;
-	ringColor.mDuration = 3.0;
 
 	// Setup flare
 	flare.setMusicAnalysis(&analysis);
-	flare.setInnerRadius(globe.getRadius());
-	flare.setOuterRadius(globe.getRadius() + 7.0);
+	flare.setInnerRadius(10.0);
+	flare.setOuterRadius(flare.getInnerRadius() + 15.0);
 	flare.setOpacity(0.8);
+
+	// Build the galaxy
+	auto galaxyDef = buildGalaxy();
+	galaxy.initialize(galaxyDef, &analysis);
+//	galaxy.initialize(2, 1.2, 30, 10, &analysis);
 
 	// Load music and play
 	songNames.push_back("bensound-dubstep.mp3");
@@ -72,6 +59,7 @@ void ofApp::setup()
 	soundPlayers.resize(songNames.size());
 	for (int i = 0; i < songNames.size(); i++) {
 		soundPlayers[i].load(songNames[i]);
+		soundPlayers[i].setLoop(true);
 	}
 
 	analysis.setPlayer(&soundPlayers[0]);
@@ -83,8 +71,6 @@ void ofApp::setup()
 	for (size_t i = 0; i < deviceNames.size(); i++) {
 		ofLogNotice("ofApp") << ' ' << i << ": " << deviceNames[i];
 	}
-
-	galaxy.initialize(2, 1.2, 8, 10, &analysis);
 }
 
 //--------------------------------------------------------------
@@ -104,10 +90,8 @@ void ofApp::update()
 
 	starfield.update();
 	terrain.update();
-	globe.update();
-	ring.setOrientation(ofVec3f(0, ofGetElapsedTimef() * 25.0, 10.0));
-	ring.update();
 	flare.update();
+	galaxy.update();
 
 	// Shrink the FOV for a zoom effect on beats
 	cam.setFov(60.0 - analysis.getDecayNormalized() * cameraFovShrink);
@@ -130,12 +114,8 @@ void ofApp::draw()
 
 	starfield.draw();
 	terrain.draw();
-	globe.draw();
 	flare.draw();
-	ring.draw();
-
-	//Update galaxy
-	galaxy.mainUpdate();
+	galaxy.draw();
 
 	ofDisableLighting();
 	cam.end();
@@ -161,19 +141,69 @@ void ofApp::drawUI() {
 	ofEnableDepthTest();
 }
 
+Galaxy::OrbitalDef ofApp::buildGalaxy() {
+	const int maxLevel = 2, numPlanets = 5, numMoons = 3;
+
+	Galaxy::OrbitalDef sun;
+	sun.radius = 10.0;
+	sun.amplitude = 5.0;
+	sun.color = ofColor(255, 213, 0);
+
+	for (int p = 0; p < numPlanets; p++) {
+		Galaxy::OrbitalDef planet;
+		planet.orbitRadius = 40 + p * 30;
+		planet.orbitInterval = 10 + 5 * p;
+		if (ofRandomf() > 0) planet.orbitInterval *= -1; // backwards
+		planet.orbitAngle = ofRandom(-5.0, 5.0);
+		planet.radius = 6.0;
+		planet.amplitude = 3.0;
+		planet.color = ofFloatColor::fromHsb(ofRandom(1.0), 1, 1);
+		planet.seed = ofRandom(1.0);
+
+		for (int m = 0; m < numMoons; m++) {
+			planet.children.emplace_back(buildGalaxyLevel(2, maxLevel));
+		}
+
+		sun.children.emplace_back(planet);
+	}
+
+	return sun;
+}
+
+Galaxy::OrbitalDef ofApp::buildGalaxyLevel(int level, int maxLevel) {
+	const int numOfOrbitals = 2;
+	const float radiusScale = 1.2, orbitRadiusScale = 30, orbitIntervalScale = 10;
+
+	float levelMultiplier = pow(maxLevel + 1 - level, 2);
+
+	Galaxy::OrbitalDef orb;
+	orb.orbitRadius = levelMultiplier * orbitRadiusScale * ofRandom(.8f, 1.2f);
+	orb.orbitInterval = (1 / levelMultiplier) * orbitIntervalScale * ofRandom(.8f, 1.2f);
+	orb.orbitAngle = ofRandom(-15.0, 15.0);
+	orb.radius = levelMultiplier * radiusScale * ofRandom(.8f, 1.2f) * .5;
+	orb.amplitude = orb.radius * 0.5;
+	orb.color = ofFloatColor::fromHsb(ofRandom(1.0), 1, 1);
+	orb.seed = ofRandom(1.0);
+
+	if (level < maxLevel) {
+		for (int i = 0; i < numOfOrbitals; i++) {
+			orb.children.emplace_back(buildGalaxyLevel(level + 1, maxLevel));
+		}
+	}
+
+	return orb;
+}
+
 //--------------------------------------------------------------
-void ofApp::keyPressed(int key) 
-{
-	if (key == ' ')
-	{
+void ofApp::keyPressed(int key) {
+	if (key == ' ') {
 		// Toggle play
 		if (analysis.isPaused())
 			analysis.play();
 		else
 			analysis.pause();
 	}
-	else if ('0' <= key && key <= '9')
-	{
+	else if ('0' <= key && key <= '9') {
 		// 1..9 = play song, 0 = play line in
 		int index = key - '0';
 		index--;
@@ -186,14 +216,12 @@ void ofApp::keyPressed(int key)
 			nowPlaying = "Playing from phone";
 		}
 	}
-	else if (key == 'r')
-	{
+	else if (key == 'r') {
 		// Reload shaders and stuff
 		background.debugReload();
 		terrain.debugReload();
-		globe.debugReload();
-		ring.debugReload();
 		flare.debugReload();
+		galaxy.debugReload();
 	}
 }
 

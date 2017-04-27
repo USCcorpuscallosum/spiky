@@ -1,12 +1,47 @@
 #include "Orbital.h"
+#include "Galaxy.h"
 #include <cmath>
-#include <iostream>
 
-Orbital::Orbital(Orbital* parent, int level, int maxLevel, float radiusScalar, float rotationScalar, float speedScalar, MusicAnalysis* analysis)
+Orbital::Orbital(const Galaxy::OrbitalDef& def, int level, MusicAnalysis* analysis)
+{
+	this->level = level;
+	setMusicAnalysis(analysis);
+
+	rotRadius = def.orbitRadius;
+	speed = 360.0 / def.orbitInterval;
+	orbitAngle = def.orbitAngle;
+	setRadius(def.radius);
+	setAmplitude(def.amplitude);
+	angle = ofRandom(0, 360);
+
+	// Set color
+	auto& color = getColorCycler();
+	float h, s, b;
+	def.color.getHsb(h, s, b);
+	color.mStartHue = color.mEndHue = h;
+	color.mSaturation = s;
+	color.mBrightness = b;
+
+	// Setup ring
+	ring.setParent(*this);
+	ring.setMusicAnalysis(analysis);
+	ring.setAmplitude(2);
+	auto& ringColor = ring.getColorCycler();
+	ringColor.mStartHue = 0.0;
+	ringColor.mEndHue = 1.0;
+	ringColor.mRepeat = ColorCycler::PingPong;
+	ringColor.mDuration = 3.0;
+
+	ring.setInnerRadius(getRadius() + .1);
+	ring.setOuterRadius(ring.getInnerRadius() + (1.0 / level) * 5);
+}
+
+Orbital::Orbital(int level, int maxLevel, float radiusScalar, float rotationScalar, float speedScalar, MusicAnalysis* analysis)
 {
 	setMusicAnalysis(analysis);
 
 	// Setup ring
+	ring.setParent(*this);
 	ring.setMusicAnalysis(analysis);
 	ring.setAmplitude(2);
 	auto& ringColor = ring.getColorCycler();
@@ -18,7 +53,6 @@ Orbital::Orbital(Orbital* parent, int level, int maxLevel, float radiusScalar, f
 	ring.setInnerRadius(getRadius() + .1);
 	ring.setOuterRadius(ring.getInnerRadius() + ((float)1 / level) * 5);
 
-	this->parent = parent;
 	this->level = level;
 	this->maxLevel = maxLevel;
 
@@ -37,16 +71,32 @@ Orbital::Orbital(Orbital* parent, int level, int maxLevel, float radiusScalar, f
 	if (level < maxLevel) createOrbitals();
 }
 
-void Orbital::mainUpdate()
+void Orbital::update()
 {
+	Globe::update();
 	setOrbitalPos();
-	update();
-	draw();
 
-	ring.setPosition(getPosition());
 	ring.setOrientation(ofVec3f(0, ofGetElapsedTimef() * 25.0, 10.0));
 	ring.update();
+
+	for (size_t i = 0; i < children.size(); i++)
+	{
+		children[i]->update();
+	}
+}
+
+void Orbital::draw() const
+{
+	ofPushMatrix();
+	ofRotate(orbitAngle);
+	Globe::draw();
 	ring.draw();
+	ofPopMatrix();
+}
+
+void Orbital::customDraw()
+{
+	Globe::customDraw();
 
 	for (int i = 0; i < children.size(); i++)
 	{
@@ -68,7 +118,7 @@ void Orbital::mainUpdate()
 		p.draw();
 		ofPopMatrix();
 
-		children[i]->mainUpdate();
+		children[i]->draw();
 	}
 }
 
@@ -76,8 +126,8 @@ void Orbital::setOrbitalPos()
 {
 	if (parent != NULL)
 	{
-		ofVec3f parentPos = parent->getPosition();
-		angle += speed;
+//		ofVec3f parentPos = parent->getPosition();
+		angle += speed * ofGetLastFrameTime();
 
 		float x = sin(ofDegToRad(angle));
 		float y = cos(ofDegToRad(angle));
@@ -85,8 +135,9 @@ void Orbital::setOrbitalPos()
 
 		ofVec3f offset = rotRadius * turnVec;
 		//ofVec3f offset(50, 50, 0);
-		ofVec3f newPos = parentPos + offset;
-		setPosition(newPos);
+//		ofVec3f newPos = parentPos + offset;
+//		setPosition(newPos);
+		setPosition(offset);
 	}
 }
 
@@ -94,8 +145,8 @@ void Orbital::createOrbitals()
 {
 	for (int i = 0; i < numOfChildren; i++)
 	{
-		Orbital* orb = new Orbital(this, level+1, maxLevel, radiusScale, rotationScale, speedScale, analysis);
+		Orbital* orb = new Orbital(level+1, maxLevel, radiusScale, rotationScale, speedScale, getMusicAnalysis());
+		orb->setParent(*this);
 		children.push_back(orb);
-		orb->setMusicAnalysis(analysis);
 	}
 }
