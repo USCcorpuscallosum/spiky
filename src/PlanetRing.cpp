@@ -12,8 +12,6 @@ void PlanetRing::update() {
 		mIsMeshDirty = false;
 	}
 
-	mMaterial->setDiffuseColor(mColorCycler.getColor());
-
 	// Copy spectrum to a texture for the shader to use
 	if (mAnalysis) {
 		mRanges = mAnalysis->getHPCP();
@@ -24,6 +22,7 @@ void PlanetRing::update() {
 
 void PlanetRing::customDraw() {
 	mMaterial->begin();
+	mMaterial->setDiffuseColor(mColorCycler.getColor());
 
 	auto& shader = mMaterial->getShader();
 	shader.setUniform1f("amplitude", mAmplitude);

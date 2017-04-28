@@ -10,10 +10,6 @@ Flare::Flare() {
 }
 
 void Flare::update() {
-	ofFloatColor color = mColorCycler.getColor();
-	color.a = mOpacity;
-	mMaterial.setDiffuseColor(color);
-
 	setScale(mOuterRadius);
 
 	// Billboard
@@ -25,6 +21,11 @@ void Flare::customDraw() {
 	float volume = mAnalysis ? mAnalysis->getDecayNormalized() : 0;
 
 	mMaterial.begin();
+
+	ofFloatColor color = mColorCycler.getColor();
+	color.a = mOpacity;
+	mMaterial.setDiffuseColor(color);
+
 	auto& shader = mMaterial.getShader();
 	shader.setUniform1f("volume", volume);
 	shader.setUniform1f("centerRadius", mInnerRadius / mOuterRadius);

@@ -14,8 +14,6 @@ Globe::Globe() {
 }
 
 void Globe::update() {
-	material->setDiffuseColor(colorCycler.getColor());
-
 	// Copy spectrum to a texture for the shader to use
 	if (analysis) {
 		ranges = analysis->getHPCP();
@@ -30,6 +28,7 @@ void Globe::update() {
 
 void Globe::customDraw() {
 	material->begin();
+	material->setDiffuseColor(colorCycler.getColor());
 
 	auto& shader = material->getShader();
 	shader.setUniform1f("amplitude", amplitude / radius); // amplitude is relative to scale

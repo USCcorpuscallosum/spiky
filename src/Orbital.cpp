@@ -16,21 +16,15 @@ Orbital::Orbital(const Galaxy::OrbitalDef& def, int level, MusicAnalysis* analys
 
 	// Set color
 	auto& color = getColorCycler();
-	float h, s, b;
-	def.color.getHsb(h, s, b);
-	color.mStartHue = color.mEndHue = h;
-	color.mSaturation = s;
-	color.mBrightness = b;
+	color.setConstantColor(def.color);
 
 	// Setup ring
 	ring.setParent(*this);
 	ring.setMusicAnalysis(analysis);
 	ring.setAmplitude(2);
 	auto& ringColor = ring.getColorCycler();
-	ringColor.mStartHue = 0.0;
-	ringColor.mEndHue = 1.0;
-	ringColor.mRepeat = ColorCycler::PingPong;
-	ringColor.mDuration = 3.0;
+	ringColor.setRainbow(1, 1);
+	ringColor.setDuration(3.0);
 
 	ring.setInnerRadius(getRadius() + .1);
 	ring.setOuterRadius(ring.getInnerRadius() + (1.0 / level) * 5);
@@ -45,13 +39,11 @@ Orbital::Orbital(int level, int maxLevel, float radiusScalar, float rotationScal
 	ring.setMusicAnalysis(analysis);
 	ring.setAmplitude(2);
 	auto& ringColor = ring.getColorCycler();
-	ringColor.mStartHue = 0.0;
-	ringColor.mEndHue = 1.0;
-	ringColor.mRepeat = ColorCycler::PingPong;
-	ringColor.mDuration = 3.0;
+	ringColor.setRainbow(1, 1);
+	ringColor.setDuration(3.0);
 	
 	ring.setInnerRadius(getRadius() + .1);
-	ring.setOuterRadius(ring.getInnerRadius() + ((float)1 / level) * 5);
+	ring.setOuterRadius(ring.getInnerRadius() + (1.0 / level) * 5);
 
 	this->level = level;
 	this->maxLevel = maxLevel;

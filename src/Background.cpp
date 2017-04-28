@@ -7,7 +7,8 @@ Background::Background() {
 	// Create the quad that the shader will be applied on
 	mPlane.set(2, 2, 2, 2);
 
-	mColorCycler.mDuration = 15.0;
+	mColorCycler.setRainbow(1, 1);
+	mColorCycler.setDuration(15.0);
 }
 
 void Background::update() {

@@ -11,7 +11,8 @@ Terrain::Terrain()
 	length = 100;
 	skip = 2;
 
-	colorCycler.mDuration = CYCLE_SPEED;
+	colorCycler.setRainbow(1, 1);
+	colorCycler.setDuration(CYCLE_SPEED);
 
 	setupMaterial();
 
@@ -27,14 +28,13 @@ Terrain::~Terrain()
 
 void Terrain::update()
 {
-	material.setDiffuseColor(colorCycler.getColor());
-
 	updateHeight();
 }
 
 void Terrain::customDraw()
 {
 	material.begin();
+	material.setDiffuseColor(colorCycler.getColor());
 
 	auto& shader = material.getShader();
 	shader.setUniform1f("edgeDistance", min(width, length) * skip * 0.5);
