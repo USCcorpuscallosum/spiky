@@ -2067,6 +2067,43 @@
 				<key>sourceTree</key>
 				<string>SOURCE_ROOT</string>
 			</dict>
+			<key>72B4071E23F3F36D2C7B87D8</key>
+			<dict>
+				<key>explicitFileType</key>
+				<string>sourcecode.c.h</string>
+				<key>fileEncoding</key>
+				<string>30</string>
+				<key>isa</key>
+				<string>PBXFileReference</string>
+				<key>name</key>
+				<string>ofxAudioDecoder.h</string>
+				<key>path</key>
+				<string>../../../addons/ofxAudioAnalyzer/src/ofxAudioDecoder.h</string>
+				<key>sourceTree</key>
+				<string>SOURCE_ROOT</string>
+			</dict>
+			<key>4B312892D8D38E2445D4101C</key>
+			<dict>
+				<key>fileRef</key>
+				<string>1512D29500C812E00684D9FC</string>
+				<key>isa</key>
+				<string>PBXBuildFile</string>
+			</dict>
+			<key>1512D29500C812E00684D9FC</key>
+			<dict>
+				<key>explicitFileType</key>
+				<string>sourcecode.cpp.cpp</string>
+				<key>fileEncoding</key>
+				<string>30</string>
+				<key>isa</key>
+				<string>PBXFileReference</string>
+				<key>name</key>
+				<string>ofxAudioDecoder.cpp</string>
+				<key>path</key>
+				<string>../../../addons/ofxAudioAnalyzer/src/ofxAudioDecoder.cpp</string>
+				<key>sourceTree</key>
+				<string>SOURCE_ROOT</string>
+			</dict>
 			<key>EB9348D36433DDC4820EED80</key>
 			<dict>
 				<key>explicitFileType</key>
@@ -2267,10 +2304,143 @@
 				<key>sourceTree</key>
 				<string>SOURCE_ROOT</string>
 			</dict>
+			<key>98355E578D9CCEE106FBC6EC</key>
+			<dict>
+				<key>fileRef</key>
+				<string>685B7F94AF6DEF04EB1C9E20</string>
+				<key>isa</key>
+				<string>PBXBuildFile</string>
+			</dict>
+			<key>685B7F94AF6DEF04EB1C9E20</key>
+			<dict>
+				<key>explicitFileType</key>
+				<string>sourcecode.cpp.cpp</string>
+				<key>fileEncoding</key>
+				<string>30</string>
+				<key>isa</key>
+				<string>PBXFileReference</string>
+				<key>name</key>
+				<string>ofSoundPlayerExtended.cpp</string>
+				<key>path</key>
+				<string>../../../addons/ofxAudioAnalyzer/src/ofSoundPlayerExtended.cpp</string>
+				<key>sourceTree</key>
+				<string>SOURCE_ROOT</string>
+			</dict>
+			<key>FCD73F5A2DFB305CAB7AD43F</key>
+			<dict>
+				<key>explicitFileType</key>
+				<string>sourcecode.c.h</string>
+				<key>fileEncoding</key>
+				<string>30</string>
+				<key>isa</key>
+				<string>PBXFileReference</string>
+				<key>name</key>
+				<string>CAStreamBasicDescription.h</string>
+				<key>path</key>
+				<string>../../../addons/ofxAudioAnalyzer/src/CAStreamBasicDescription.h</string>
+				<key>sourceTree</key>
+				<string>SOURCE_ROOT</string>
+			</dict>
+			<key>819948B3E542818EF0CA8E3D</key>
+			<dict>
+				<key>explicitFileType</key>
+				<string>sourcecode.c.h</string>
+				<key>fileEncoding</key>
+				<string>30</string>
+				<key>isa</key>
+				<string>PBXFileReference</string>
+				<key>name</key>
+				<string>CADebugMacros.h</string>
+				<key>path</key>
+				<string>../../../addons/ofxAudioAnalyzer/src/CADebugMacros.h</string>
+				<key>sourceTree</key>
+				<string>SOURCE_ROOT</string>
+			</dict>
+			<key>14642ADF5283CA46F5383D31</key>
+			<dict>
+				<key>explicitFileType</key>
+				<string>sourcecode.c.h</string>
+				<key>fileEncoding</key>
+				<string>30</string>
+				<key>isa</key>
+				<string>PBXFileReference</string>
+				<key>name</key>
+				<string>audiodecodercoreaudio.h</string>
+				<key>path</key>
+				<string>../../../addons/ofxAudioAnalyzer/src/audiodecodercoreaudio.h</string>
+				<key>sourceTree</key>
+				<string>SOURCE_ROOT</string>
+			</dict>
+			<key>5FE66B49E9E9FADDC9485EBC</key>
+			<dict>
+				<key>fileRef</key>
+				<string>D7F5D4DEDB8EDD52F44DEF13</string>
+				<key>isa</key>
+				<string>PBXBuildFile</string>
+			</dict>
+			<key>D7F5D4DEDB8EDD52F44DEF13</key>
+			<dict>
+				<key>explicitFileType</key>
+				<string>sourcecode.cpp.cpp</string>
+				<key>fileEncoding</key>
+				<string>30</string>
+				<key>isa</key>
+				<string>PBXFileReference</string>
+				<key>name</key>
+				<string>audiodecodercoreaudio.cpp</string>
+				<key>path</key>
+				<string>../../../addons/ofxAudioAnalyzer/src/audiodecodercoreaudio.cpp</string>
+				<key>sourceTree</key>
+				<string>SOURCE_ROOT</string>
+			</dict>
+			<key>521730826D6DA5BB578FE670</key>
+			<dict>
+				<key>explicitFileType</key>
+				<string>sourcecode.c.h</string>
+				<key>fileEncoding</key>
+				<string>30</string>
+				<key>isa</key>
+				<string>PBXFileReference</string>
+				<key>name</key>
+				<string>audiodecoderbase.h</string>
+				<key>path</key>
+				<string>../../../addons/ofxAudioAnalyzer/src/audiodecoderbase.h</string>
+				<key>sourceTree</key>
+				<string>SOURCE_ROOT</string>
+			</dict>
+			<key>7B936B0424E2429D5989BEF5</key>
+			<dict>
+				<key>fileRef</key>
+				<string>2C20C2831D1E92F3792F1935</string>
+				<key>isa</key>
+				<string>PBXBuildFile</string>
+			</dict>
+			<key>2C20C2831D1E92F3792F1935</key>
+			<dict>
+				<key>explicitFileType</key>
+				<string>sourcecode.cpp.cpp</string>
+				<key>fileEncoding</key>
+				<string>30</string>
+				<key>isa</key>
+				<string>PBXFileReference</string>
+				<key>name</key>
+				<string>audiodecoderbase.cpp</string>
+				<key>path</key>
+				<string>../../../addons/ofxAudioAnalyzer/src/audiodecoderbase.cpp</string>
+				<key>sourceTree</key>
+				<string>SOURCE_ROOT</string>
+			</dict>
 			<key>4EDBECDFC0C3B15FFD842D4E</key>
 			<dict>
 				<key>children</key>
 				<array>
+					<string>03725B22D4A979AF463B36F9</string>
+					<string>2C20C2831D1E92F3792F1935</string>
+					<string>521730826D6DA5BB578FE670</string>
+					<string>D7F5D4DEDB8EDD52F44DEF13</string>
+					<string>14642ADF5283CA46F5383D31</string>
+					<string>819948B3E542818EF0CA8E3D</string>
+					<string>FCD73F5A2DFB305CAB7AD43F</string>
 					<string>685B7F94AF6DEF04EB1C9E20</string>
 					<string>A9A9AA55C3C956F310DE98D3</string>
 					<string>A935124E81A59FCB777FC5CE</string>
@@ -2283,6 +2453,8 @@
 					<string>BEB92A26BD251A86DC76F34B</string>
 					<string>269A6B21604528DFF6870885</string>
 					<string>EB9348D36433DDC4820EED80</string>
+					<string>1512D29500C812E00684D9FC</string>
+					<string>72B4071E23F3F36D2C7B87D8</string>
 				</array>
 				<key>isa</key>
 				<string>PBXGroup</string>
@@ -2306,25 +2478,18 @@
 				<key>sourceTree</key>
 				<string>&lt;group&gt;</string>
 			</dict>
-			<key>98355E578D9CCEE106FBC6EC</key>
-			<dict>
-				<key>fileRef</key>
-				<string>685B7F94AF6DEF04EB1C9E20</string>
-				<key>isa</key>
-				<string>PBXBuildFile</string>
-			</dict>
-			<key>685B7F94AF6DEF04EB1C9E20</key>
+			<key>03725B22D4A979AF463B36F9</key>
 			<dict>
 				<key>explicitFileType</key>
-				<string>sourcecode.cpp.cpp</string>
+				<string>sourcecode.c.h</string>
 				<key>fileEncoding</key>
 				<string>30</string>
 				<key>isa</key>
 				<string>PBXFileReference</string>
 				<key>name</key>
-				<string>ofSoundPlayerExtended.cpp</string>
+				<string>audiodecoder.h</string>
 				<key>path</key>
-				<string>../../../addons/ofxAudioAnalyzer/src/ofSoundPlayerExtended.cpp</string>
+				<string>../../../addons/ofxAudioAnalyzer/src/audiodecoder.h</string>
 				<key>sourceTree</key>
 				<string>SOURCE_ROOT</string>
 			</dict>
@@ -3277,6 +3442,43 @@
 				<key>sourceTree</key>
 				<string>SOURCE_ROOT</string>
 			</dict>
+			<key>8AC9CC30379F312ABB079269</key>
+			<dict>
+				<key>explicitFileType</key>
+				<string>sourcecode.c.h</string>
+				<key>fileEncoding</key>
+				<string>30</string>
+				<key>isa</key>
+				<string>PBXFileReference</string>
+				<key>name</key>
+				<string>Orbital.h</string>
+				<key>path</key>
+				<string>src/Orbital.h</string>
+				<key>sourceTree</key>
+				<string>SOURCE_ROOT</string>
+			</dict>
+			<key>9EA350D184E35A3BCA7B7E89</key>
+			<dict>
+				<key>fileRef</key>
+				<string>0FFF82B211D5036FAD74B356</string>
+				<key>isa</key>
+				<string>PBXBuildFile</string>
+			</dict>
+			<key>0FFF82B211D5036FAD74B356</key>
+			<dict>
+				<key>explicitFileType</key>
+				<string>sourcecode.cpp.cpp</string>
+				<key>fileEncoding</key>
+				<string>30</string>
+				<key>isa</key>
+				<string>PBXFileReference</string>
+				<key>name</key>
+				<string>Orbital.cpp</string>
+				<key>path</key>
+				<string>src/Orbital.cpp</string>
+				<key>sourceTree</key>
+				<string>SOURCE_ROOT</string>
+			</dict>
 			<key>ADDEB360DA83A0EC3A7FCEBB</key>
 			<dict>
 				<key>explicitFileType</key>
@@ -3388,6 +3590,43 @@
 				<key>sourceTree</key>
 				<string>SOURCE_ROOT</string>
 			</dict>
+			<key>3F5DE81C29B1B14B307CCE05</key>
+			<dict>
+				<key>explicitFileType</key>
+				<string>sourcecode.c.h</string>
+				<key>fileEncoding</key>
+				<string>30</string>
+				<key>isa</key>
+				<string>PBXFileReference</string>
+				<key>name</key>
+				<string>MaterialCache.h</string>
+				<key>path</key>
+				<string>src/MaterialCache.h</string>
+				<key>sourceTree</key>
+				<string>SOURCE_ROOT</string>
+			</dict>
+			<key>FEE5140B672DE3F993DBE2ED</key>
+			<dict>
+				<key>fileRef</key>
+				<string>206EE5A786AD1F4383EA6DAE</string>
+				<key>isa</key>
+				<string>PBXBuildFile</string>
+			</dict>
+			<key>206EE5A786AD1F4383EA6DAE</key>
+			<dict>
+				<key>explicitFileType</key>
+				<string>sourcecode.cpp.cpp</string>
+				<key>fileEncoding</key>
+				<string>30</string>
+				<key>isa</key>
+				<string>PBXFileReference</string>
+				<key>name</key>
+				<string>MaterialCache.cpp</string>
+				<key>path</key>
+				<string>src/MaterialCache.cpp</string>
+				<key>sourceTree</key>
+				<string>SOURCE_ROOT</string>
+			</dict>
 			<key>DAB4093D29FE70FD6E1A95A7</key>
 			<dict>
 				<key>explicitFileType</key>
@@ -3422,6 +3661,43 @@
 				<string>Globe.cpp</string>
 				<key>path</key>
 				<string>src/Globe.cpp</string>
+				<key>sourceTree</key>
+				<string>SOURCE_ROOT</string>
+			</dict>
+			<key>FF73EFE2B42CD7966AED55F0</key>
+			<dict>
+				<key>explicitFileType</key>
+				<string>sourcecode.c.h</string>
+				<key>fileEncoding</key>
+				<string>30</string>
+				<key>isa</key>
+				<string>PBXFileReference</string>
+				<key>name</key>
+				<string>Galaxy.h</string>
+				<key>path</key>
+				<string>src/Galaxy.h</string>
+				<key>sourceTree</key>
+				<string>SOURCE_ROOT</string>
+			</dict>
+			<key>781E806E3F95309E1E29FC01</key>
+			<dict>
+				<key>fileRef</key>
+				<string>15DE20C5E0D11C15EE8EA870</string>
+				<key>isa</key>
+				<string>PBXBuildFile</string>
+			</dict>
+			<key>15DE20C5E0D11C15EE8EA870</key>
+			<dict>
+				<key>explicitFileType</key>
+				<string>sourcecode.cpp.cpp</string>
+				<key>fileEncoding</key>
+				<string>30</string>
+				<key>isa</key>
+				<string>PBXFileReference</string>
+				<key>name</key>
+				<string>Galaxy.cpp</string>
+				<key>path</key>
+				<string>src/Galaxy.cpp</string>
 				<key>sourceTree</key>
 				<string>SOURCE_ROOT</string>
 			</dict>
@@ -3880,10 +4156,13 @@
 					<string>E4B69E210A3A1BDC003C02F2</string>
 					<string>1D6897B825ABE75483AA595E</string>
 					<string>7EC63C6F460C9B36633861A7</string>
+					<string>781E806E3F95309E1E29FC01</string>
 					<string>70AC7B402118D44A6026A285</string>
+					<string>FEE5140B672DE3F993DBE2ED</string>
 					<string>8916A7452AE68BB2CC62706A</string>
 					<string>050FE0F16F0B7ECEEB830A69</string>
 					<string>286E5EDF0F244EDCC7136992</string>
+					<string>9EA350D184E35A3BCA7B7E89</string>
 					<string>CAFB116DDD0EDA5FBBCC9FE8</string>
 					<string>8AB0DBB7CD787D3B7FB43A54</string>
 					<string>DAEC29C210C57FA7732E2E11</string>
@@ -3891,12 +4170,15 @@
 					<string>483FA4F6D5FA6422C559B1F5</string>
 					<string>8DED5056525646FA71980866</string>
 					<string>B8846EF8E504895A4A9EFEC0</string>
+					<string>7B936B0424E2429D5989BEF5</string>
+					<string>5FE66B49E9E9FADDC9485EBC</string>
 					<string>98355E578D9CCEE106FBC6EC</string>
 					<string>6E22DD7AA6893113E1F2DF07</string>
 					<string>866AC116016D40F86DCB4510</string>
 					<string>1D397CC89DDD782F892B7483</string>
 					<string>3CA17DE70B38CA2592D51E7D</string>
 					<string>2302BCF25C1D2BBFE43ADCE6</string>
+					<string>4B312892D8D38E2445D4101C</string>
 					<string>856AA354D08AB4B323081444</string>
 					<string>5CBB2AB3A60F65431D7B555D</string>
 					<string>B266578FC55D23BFEBC042E7</string>
@@ -4168,14 +4450,20 @@
 					<string>288E755E15D2409756FD51B7</string>
 					<string>6333C0C818069531C6774DAD</string>
 					<string>752472DDD5A612866E007C6C</string>
+					<string>15DE20C5E0D11C15EE8EA870</string>
+					<string>FF73EFE2B42CD7966AED55F0</string>
 					<string>9737E14E8D502468B6515D4A</string>
 					<string>DAB4093D29FE70FD6E1A95A7</string>
+					<string>206EE5A786AD1F4383EA6DAE</string>
+					<string>3F5DE81C29B1B14B307CCE05</string>
 					<string>07B91101214FBFC083AE33C1</string>
 					<string>44E83580FD9D16E10693EEC5</string>
 					<string>9A326B3501774919A13B195C</string>
 					<string>AFFB88FD6047B0AEABC9B12A</string>
 					<string>E046BBBF1C04E3E6B277F894</string>
 					<string>ADDEB360DA83A0EC3A7FCEBB</string>
+					<string>0FFF82B211D5036FAD74B356</string>
+					<string>8AC9CC30379F312ABB079269</string>
 					<string>0F067D022963B58BFDF1B27D</string>
 					<string>4FB877A167FAAAD8733F8996</string>
 					<string>C00E1FD5A0BDA848ECAE7136</string>
