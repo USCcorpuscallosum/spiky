@@ -40,7 +40,7 @@ private:
 	void drawUI();
 
 	static Galaxy::OrbitalDef buildGalaxy();
-	static Galaxy::OrbitalDef buildGalaxyLevel(int level, int maxLevel);
+	static Galaxy::OrbitalDef buildGalaxyLevel(int level, int maxLevel, ofFloatColor baseColor);
 
 	ofCamera cam;
 	ofLight light;

@@ -15,7 +15,11 @@ public:
 		float radius;
 		float amplitude;
 		ofFloatColor color;
+		bool colorCycle;
 		float seed;
+
+		bool hasRing;
+		float ringWidth;
 
 		/** Planets which orbit around us */
 		std::vector<OrbitalDef> children;

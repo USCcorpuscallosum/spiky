@@ -1,5 +1,6 @@
 #include "Orbital.h"
 #include "Galaxy.h"
+#include "PlanetRing.h"
 #include <cmath>
 
 Orbital::Orbital(const Galaxy::OrbitalDef& def, int level, MusicAnalysis* analysis)
@@ -16,18 +17,25 @@ Orbital::Orbital(const Galaxy::OrbitalDef& def, int level, MusicAnalysis* analys
 
 	// Set color
 	auto& color = getColorCycler();
-	color.setConstantColor(def.color);
+	if (def.colorCycle)
+		color.setRainbow(1, 1);
+	else
+		color.setConstantColor(def.color);
 
 	// Setup ring
-	ring.setParent(*this);
-	ring.setMusicAnalysis(analysis);
-	ring.setAmplitude(2);
-	auto& ringColor = ring.getColorCycler();
-	ringColor.setRainbow(1, 1);
-	ringColor.setDuration(3.0);
+	if (def.hasRing)
+	{
+		ring = new PlanetRing();
+		ring->setParent(*this);
+		ring->setMusicAnalysis(analysis);
+		ring->setAmplitude(2);
+		auto& ringColor = ring->getColorCycler();
+		ringColor.setRainbow(1, 1);
+		ringColor.setDuration(4.0);
 
-	ring.setInnerRadius(getRadius() + .1);
-	ring.setOuterRadius(ring.getInnerRadius() + (1.0 / level) * 5);
+		ring->setInnerRadius(getRadius());
+		ring->setOuterRadius(ring->getInnerRadius() + def.ringWidth);
+	}
 }
 
 Orbital::Orbital(int level, int maxLevel, float radiusScalar, float rotationScalar, float speedScalar, MusicAnalysis* analysis)
@@ -35,15 +43,16 @@ Orbital::Orbital(int level, int maxLevel, float radiusScalar, float rotationScal
 	setMusicAnalysis(analysis);
 
 	// Setup ring
-	ring.setParent(*this);
-	ring.setMusicAnalysis(analysis);
-	ring.setAmplitude(2);
-	auto& ringColor = ring.getColorCycler();
+	ring = new PlanetRing();
+	ring->setParent(*this);
+	ring->setMusicAnalysis(analysis);
+	ring->setAmplitude(2);
+	auto& ringColor = ring->getColorCycler();
 	ringColor.setRainbow(1, 1);
 	ringColor.setDuration(3.0);
 	
-	ring.setInnerRadius(getRadius() + .1);
-	ring.setOuterRadius(ring.getInnerRadius() + (1.0 / level) * 5);
+	ring->setInnerRadius(getRadius() + .1);
+	ring->setOuterRadius(ring->getInnerRadius() + (1.0 / level) * 5);
 
 	this->level = level;
 	this->maxLevel = maxLevel;
@@ -63,13 +72,21 @@ Orbital::Orbital(int level, int maxLevel, float radiusScalar, float rotationScal
 	if (level < maxLevel) createOrbitals();
 }
 
+Orbital::~Orbital()
+{
+	delete ring;
+}
+
 void Orbital::update()
 {
 	Globe::update();
 	setOrbitalPos();
 
-	ring.setOrientation(ofVec3f(0, ofGetElapsedTimef() * 25.0, 10.0));
-	ring.update();
+	if (ring)
+	{
+		ring->setOrientation(ofVec3f(0, ofGetElapsedTimef() * 25.0, 10.0));
+		ring->update();
+	}
 
 	for (size_t i = 0; i < children.size(); i++)
 	{
@@ -82,7 +99,7 @@ void Orbital::draw() const
 	ofPushMatrix();
 	ofRotate(orbitAngle);
 	Globe::draw();
-	ring.draw();
+	if (ring) ring->draw();
 	ofPopMatrix();
 }
 
@@ -116,7 +133,7 @@ void Orbital::customDraw()
 
 void Orbital::setOrbitalPos()
 {
-	if (parent != NULL)
+	if (parent != nullptr)
 	{
 //		ofVec3f parentPos = parent->getPosition();
 		angle += speed * ofGetLastFrameTime();

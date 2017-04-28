@@ -145,13 +145,14 @@ void ofApp::drawUI() {
 Galaxy::OrbitalDef ofApp::buildGalaxy() {
 	const int maxLevel = 2, numPlanets = 5, numMoons = 3;
 
-	Galaxy::OrbitalDef sun;
+	Galaxy::OrbitalDef sun = {0};
 	sun.radius = 10.0;
 	sun.amplitude = 5.0;
 	sun.color = ofColor(255, 213, 0);
+	sun.colorCycle = true;
 
 	for (int p = 0; p < numPlanets; p++) {
-		Galaxy::OrbitalDef planet;
+		Galaxy::OrbitalDef planet = {0};
 		planet.orbitRadius = 40 + p * 30;
 		planet.orbitInterval = 10 + 5 * p;
 		if (ofRandomf() > 0) planet.orbitInterval *= -1; // backwards
@@ -160,9 +161,11 @@ Galaxy::OrbitalDef ofApp::buildGalaxy() {
 		planet.amplitude = 3.0;
 		planet.color = ofFloatColor::fromHsb(ofRandom(1.0), 1, 1);
 		planet.seed = ofRandom(1.0);
+		planet.hasRing = true;
+		planet.ringWidth = ofRandom(6, 10);
 
 		for (int m = 0; m < numMoons; m++) {
-			planet.children.emplace_back(buildGalaxyLevel(2, maxLevel));
+			planet.children.emplace_back(buildGalaxyLevel(2, maxLevel, planet.color));
 		}
 
 		sun.children.emplace_back(planet);
@@ -171,24 +174,35 @@ Galaxy::OrbitalDef ofApp::buildGalaxy() {
 	return sun;
 }
 
-Galaxy::OrbitalDef ofApp::buildGalaxyLevel(int level, int maxLevel) {
-	const int numOfOrbitals = 2;
-	const float radiusScale = 1.2, orbitRadiusScale = 30, orbitIntervalScale = 10;
+Galaxy::OrbitalDef ofApp::buildGalaxyLevel(int level, int maxLevel, ofFloatColor baseColor) {
+	const int numOfOrbitals = 10;
+	const float radiusScale = 4, orbitRadiusScale = 20, orbitIntervalScale = 10;
 
 	float levelMultiplier = pow(maxLevel + 1 - level, 2);
 
-	Galaxy::OrbitalDef orb;
+	Galaxy::OrbitalDef orb = {0};
 	orb.orbitRadius = levelMultiplier * orbitRadiusScale * ofRandom(.8f, 1.2f);
 	orb.orbitInterval = (1 / levelMultiplier) * orbitIntervalScale * ofRandom(.8f, 1.2f);
 	orb.orbitAngle = ofRandom(-15.0, 15.0);
 	orb.radius = levelMultiplier * radiusScale * ofRandom(.8f, 1.2f) * .5;
 	orb.amplitude = orb.radius * 0.5;
-	orb.color = ofFloatColor::fromHsb(ofRandom(1.0), 1, 1);
 	orb.seed = ofRandom(1.0);
+
+	// Derive subplanet color
+	float h, s, b;
+	baseColor.getHsb(h, s, b);
+	h += ofRandom(-0.1, 0.1);
+	h = fmod(h, 1);
+	orb.color = ofFloatColor::fromHsb(h, 1, 1);
+
+	orb.hasRing = true;// level <= 1;
+	if (orb.hasRing) {
+		orb.ringWidth = (1.0 / level) * 5;
+	}
 
 	if (level < maxLevel) {
 		for (int i = 0; i < numOfOrbitals; i++) {
-			orb.children.emplace_back(buildGalaxyLevel(level + 1, maxLevel));
+			orb.children.emplace_back(buildGalaxyLevel(level + 1, maxLevel, orb.color));
 		}
 	}
 
