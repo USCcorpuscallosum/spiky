@@ -22,9 +22,11 @@ public:
 	static ofApp* getInstance() { return sInstance; }
 
 	const string AUDIO_DEVICE_NAME = "USB Audio Device";
+	const int AUDIO_DEVICE_ALT_ID = 1;
 
 private:
 	void drawUI() const;
+	bool startRecording();
 
 	static Galaxy::OrbitalDef buildGalaxy();
 	static Galaxy::OrbitalDef buildGalaxyLevel(int level, int maxLevel, ofFloatColor baseColor);

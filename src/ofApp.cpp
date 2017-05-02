@@ -139,6 +139,19 @@ void ofApp::drawUI() const {
 	ofEnableDepthTest();
 }
 
+bool ofApp::startRecording() {
+	bool success = recordPlayer.record(AUDIO_DEVICE_NAME);
+	if (success) return true;
+
+	success = recordPlayer.record(AUDIO_DEVICE_ALT_ID);
+	if (success) return true;
+
+	success = recordPlayer.record(0);
+	if (success) return true;
+
+	return false;
+}
+
 Galaxy::OrbitalDef ofApp::buildGalaxy() {
 	const int maxLevel = 2, numPlanets = 5, numMoons = 3;
 
@@ -225,7 +238,7 @@ void ofApp::keyPressed(int key) {
 			analysis.setPlayer(&soundPlayers[index]);
 			nowPlaying = "Playing: " + songNames[index];
 		} else if (index < 0) {
-			bool success = recordPlayer.record(AUDIO_DEVICE_NAME);
+			bool success = startRecording();
 			if (success) {
 				analysis.setPlayer(&recordPlayer);
 				nowPlaying = "Playing from phone";
