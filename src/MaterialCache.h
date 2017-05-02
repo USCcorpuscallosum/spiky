@@ -1,7 +1,6 @@
 #pragma once
 
 #include "ofCustomMaterial.h"
-#include <map>
 
 class MaterialCache {
 public:

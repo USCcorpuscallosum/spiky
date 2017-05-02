@@ -8,8 +8,7 @@ ofApp::ofApp() {
 }
 
 //--------------------------------------------------------------
-void ofApp::setup()
-{
+void ofApp::setup() {
 	ofSetVerticalSync(true);
 	ofEnableDepthTest();
 //	ofSetBackgroundAuto(false); // don't clear the color buffer each frame
@@ -74,8 +73,7 @@ void ofApp::setup()
 }
 
 //--------------------------------------------------------------
-void ofApp::update()
-{
+void ofApp::update() {
 	//Start Camera
 	cam.begin();
 	
@@ -102,8 +100,7 @@ void ofApp::update()
 }
 
 //--------------------------------------------------------------
-void ofApp::draw()
-{
+void ofApp::draw() {
 	// Only clear the depth buffer each frame
 //	glClear(GL_DEPTH_BUFFER_BIT);
 
@@ -124,7 +121,7 @@ void ofApp::draw()
 	drawUI();
 }
 
-void ofApp::drawUI() {
+void ofApp::drawUI() const {
 	ofDisableDepthTest();
 
 	// Draw now playing
@@ -211,6 +208,9 @@ Galaxy::OrbitalDef ofApp::buildGalaxyLevel(int level, int maxLevel, ofFloatColor
 
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key) {
+	// Convert to lower case
+	if (key >= 'A' && key <= 'Z') key += 'a' - 'A';
+
 	if (key == ' ') {
 		// Toggle play
 		if (analysis.isPaused())
@@ -244,56 +244,7 @@ void ofApp::keyPressed(int key) {
 		background.setLSD(lsd);
 		terrain.setLSD(lsd);
 		starfield.setLSD(lsd);
+	} else if (key == 'f') {
+		ofToggleFullscreen();
 	}
-}
-
-//--------------------------------------------------------------
-void ofApp::keyReleased(int key) {
-
-}
-
-//--------------------------------------------------------------
-void ofApp::mouseMoved(int x, int y ) {
-
-}
-
-//--------------------------------------------------------------
-void ofApp::mouseDragged(int x, int y, int button) {
-
-}
-
-//--------------------------------------------------------------
-void ofApp::mousePressed(int x, int y, int button) 
-{
-	
-}
-
-//--------------------------------------------------------------
-void ofApp::mouseReleased(int x, int y, int button) {
-
-}
-
-//--------------------------------------------------------------
-void ofApp::mouseEntered(int x, int y) {
-
-}
-
-//--------------------------------------------------------------
-void ofApp::mouseExited(int x, int y) {
-
-}
-
-//--------------------------------------------------------------
-void ofApp::windowResized(int w, int h) {
-
-}
-
-//--------------------------------------------------------------
-void ofApp::dragEvent(ofDragInfo dragInfo) { 
-
-}
-
-//--------------------------------------------------------------
-void ofApp::gotMessage(ofMessage msg) {
-
 }

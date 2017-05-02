@@ -9,7 +9,6 @@
 class Background {
 public:
 	Background();
-	void update();
 	void draw();
 
 	void debugReload();

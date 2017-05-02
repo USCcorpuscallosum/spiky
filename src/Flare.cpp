@@ -20,11 +20,11 @@ void Flare::update() {
 void Flare::customDraw() {
 	float volume = mAnalysis ? mAnalysis->getDecayNormalized() : 0;
 
-	mMaterial.begin();
-
 	ofFloatColor color = mColorCycler.getColor();
 	color.a = mOpacity;
 	mMaterial.setDiffuseColor(color);
+
+	mMaterial.begin();
 
 	auto& shader = mMaterial.getShader();
 	shader.setUniform1f("volume", volume);

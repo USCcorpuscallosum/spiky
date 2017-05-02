@@ -33,8 +33,9 @@ void Terrain::update()
 
 void Terrain::customDraw()
 {
-	material.begin();
 	material.setDiffuseColor(colorCycler.getColor());
+
+	material.begin();
 
 	auto& shader = material.getShader();
 	shader.setUniform1f("edgeDistance", min(width, length) * skip * 0.5);

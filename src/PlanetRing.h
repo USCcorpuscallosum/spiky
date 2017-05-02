@@ -12,11 +12,11 @@ public:
 	
 	void debugReload();
 
-	float getInnerRadius() { return mInnerRadius; }
+	float getInnerRadius() const { return mInnerRadius; }
 	void setInnerRadius(float radius) { mInnerRadius = radius; mIsMeshDirty = true; }
-	float getOuterRadius() { return mOuterRadius; }
+	float getOuterRadius() const { return mOuterRadius; }
 	void setOuterRadius(float radius) { mOuterRadius = radius; mIsMeshDirty = true; }
-	float getAmplitude() { return mAmplitude; }
+	float getAmplitude() const { return mAmplitude; }
 	void setAmplitude(float amplitude) { mAmplitude = amplitude; mIsMeshDirty = true; }
 
 	ColorCycler& getColorCycler() { return mColorCycler; }

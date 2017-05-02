@@ -44,7 +44,7 @@ public:
 	void setPlayer(ofFmodSoundPlayerExtended* player);
 	void play();
 	void pause();
-	bool isPaused();
+	bool isPaused() const;
 
 	void update();
 	Range& getRange(RangeType type) { return ranges[type]; }
@@ -75,7 +75,7 @@ public:
 	const int BUFFER_SIZE = 1024; // 512 bins
 
 private:
-	void getRangeVolume(Range &range, vector<float> &spectrum);
+	void getRangeVolume(Range &range, vector<float> &spectrum) const;
 
 	ofFmodSoundPlayerExtended* currentPlayer = nullptr;
 	ofxAudioAnalyzer analyzer;

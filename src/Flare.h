@@ -12,9 +12,9 @@ public:
 
 	void debugReload();
 
-	float getInnerRadius() { return mInnerRadius; }
+	float getInnerRadius() const { return mInnerRadius; }
 	void setInnerRadius(float radius) { mInnerRadius = radius; }
-	float getOuterRadius() { return mOuterRadius; }
+	float getOuterRadius() const { return mOuterRadius; }
 	void setOuterRadius(float radius) { mOuterRadius = radius; }
 	float getOpacity() const { return mOpacity; }
 	void setOpacity(float opacity) { mOpacity = opacity; }

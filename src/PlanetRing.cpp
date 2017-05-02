@@ -21,8 +21,9 @@ void PlanetRing::update() {
 }
 
 void PlanetRing::customDraw() {
-	mMaterial->begin();
 	mMaterial->setDiffuseColor(mColorCycler.getColor());
+
+	mMaterial->begin();
 
 	auto& shader = mMaterial->getShader();
 	shader.setUniform1f("amplitude", mAmplitude);

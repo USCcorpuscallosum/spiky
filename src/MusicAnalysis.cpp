@@ -34,7 +34,7 @@ void MusicAnalysis::pause() {
 	}
 }
 
-bool MusicAnalysis::isPaused() {
+bool MusicAnalysis::isPaused() const {
 	return currentPlayer && currentPlayer->isPaused();
 }
 
@@ -71,7 +71,7 @@ void MusicAnalysis::update() {
 	}
 }
 
-void MusicAnalysis::getRangeVolume(Range &range, vector<float> &spectrum) {
+void MusicAnalysis::getRangeVolume(Range &range, vector<float> &spectrum) const {
 	// Calculate the start and end bins in the spectrum
 	int startIndex = static_cast<int>(range.minFreq / SAMPLE_RATE * spectrum.size());
 	int endIndex = static_cast<int>(range.maxFreq / SAMPLE_RATE * spectrum.size());

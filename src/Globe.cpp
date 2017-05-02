@@ -27,8 +27,9 @@ void Globe::update() {
 }
 
 void Globe::customDraw() {
-	material->begin();
 	material->setDiffuseColor(colorCycler.getColor());
+
+	material->begin();
 
 	auto& shader = material->getShader();
 	shader.setUniform1f("amplitude", amplitude / radius); // amplitude is relative to scale

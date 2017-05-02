@@ -11,9 +11,6 @@ Background::Background() {
 	mColorCycler.setDuration(15.0);
 }
 
-void Background::update() {
-}
-
 void Background::draw() {
 	mShader.begin();
 	ofDisableDepthTest(); // treat this as the background, not another solid object

@@ -13,11 +13,11 @@ public:
 
 	void debugReload();
 
-	float getRadius() { return radius; }
+	float getRadius() const { return radius; }
 	void setRadius(float radius_) { radius = radius_; }
-	ofVec3f getCenter() { return center; }
+	ofVec3f getCenter() const { return center; }
 	void setCenter(ofVec3f center_) { center = center_; }
-	float getAmplitude() { return amplitude; }
+	float getAmplitude() const { return amplitude; }
 	void setAmplitude(float amplitude_) { amplitude = amplitude_; }
 
 	ColorCycler& getColorCycler() { return colorCycler; }

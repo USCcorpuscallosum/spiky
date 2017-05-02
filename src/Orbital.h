@@ -13,7 +13,7 @@ public:
 	void draw() const override;
 	void customDraw() override;
 
-	int getLevel() { return level; }
+	int getLevel() const { return level; }
 
 private:
 	void setOrbitalPos();
