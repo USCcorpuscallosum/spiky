@@ -1,10 +1,11 @@
 #version 150
 #pragma include "../util.glsl"
 
-uniform vec4 terrainColor;
 uniform int mode;
+uniform vec4 color;
 uniform float time;
 uniform float volume;
+uniform float aspectRatio;
 
 in vec2 outTexcoord;
 
@@ -20,6 +21,9 @@ const int PosterizeSteps = 6;
 
 void main()
 {
+	vec2 scaledTexcoord = outTexcoord;
+	scaledTexcoord.x *= aspectRatio;
+	scaledTexcoord.x -= (aspectRatio - 1) * 0.5;
 
 	if (mode == 0)
 	{
@@ -27,17 +31,17 @@ void main()
 		outputColor = vec4(0, 0.16, 0.43, 1.0);
 
 		// Add vertical linear gradient from 0.5 to 1
-		outputColor.rgb += GradientColorAdd * max(0, (outTexcoord.y - 0.5) * 2);
+		outputColor.rgb += GradientColorAdd * max(0, (scaledTexcoord.y - 0.5) * 2);
 	}
 	else
 	{
 		// Get triadic colors
-		vec3 color = rgb2hsv(terrainColor.rgb);
+		vec3 color = rgb2hsv(color.rgb);
 		color.x += 0.333;
 
-		float t = distance(outTexcoord, vec2(0.5, 0.5)) * 2; // 0..1 from center to edge
+		float t = distance(scaledTexcoord, vec2(0.5, 0.5)) * 2; // 0..1 from center to edge
 		t *= DistanceMult; // less emphasis on distance
-		t += noise(outTexcoord * NoiseSize + time * NoiseSpeed) * NoiseMult; // add random noise which moves
+		t += noise(scaledTexcoord * NoiseSize + time * NoiseSpeed) * NoiseMult; // add random noise which moves
 		t += volume * VolumeMult;
 
 		t = int(t * PosterizeSteps) / float(PosterizeSteps); // posterize

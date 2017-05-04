@@ -18,9 +18,10 @@ void Background::draw() {
 	float volume = mAnalysis->getDecayNormalized();
 
 	mShader.setUniform1i("mode", mMode);
-	mShader.setUniform4f("terrainColor", mColorCycler.getColor());
+	mShader.setUniform4f("color", mColorCycler.getColor());
 	mShader.setUniform1f("time", ofGetElapsedTimef());
 	mShader.setUniform1f("volume", volume);
+	mShader.setUniform1f("aspectRatio", static_cast<float>(ofGetWidth()) / ofGetHeight());
 	mPlane.draw();
 
 	ofEnableDepthTest(); // reset
