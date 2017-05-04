@@ -28,5 +28,5 @@ Then, [download ofxAudioAnalyzer](https://github.com/leozimmerman/ofxAudioAnalyz
 If you need to regenerate the VS project with the projectGenerator, there are a couple changes that need to be made afterwards:
 
 1. Exclude all .cpp files from the `ofxAudioAnalyzer` addon.
-2. Add the `ResponsiveTerrain.props` property sheet to all targets (see [Working with Project Properties](https://msdn.microsoft.com/en-us/library/669zx6zc.aspx#Build configurations)).
-3. Add `ResponsiveTerrain.Debug.props` and `ResponsiveTerrain.Release.props` to the two Debug and two Release configurations respectively.
+2. Add the `Spiky.props` property sheet to all targets (see [Working with Project Properties](https://msdn.microsoft.com/en-us/library/669zx6zc.aspx#Build configurations)).
+3. Add `Spiky.Debug.props` and `Spiky.Release.props` to the two Debug and two Release configurations respectively.
